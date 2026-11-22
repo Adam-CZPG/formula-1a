@@ -176,6 +176,28 @@ const winEmTex=ctex(128,256,(g,w,h)=>{g.fillStyle='#000';g.fillRect(0,0,w,h);for
 const garageTex=ctex(512,128,(g,w,h)=>{g.fillStyle='#d9dde3';g.fillRect(0,0,w,h);for(let i=0;i<6;i++){g.fillStyle='#2a2e36';g.fillRect(8+i*84,30,70,98);g.fillStyle='rgba(255,255,255,.08)';for(let k=0;k<10;k++)g.fillRect(8+i*84,34+k*9,70,2);
   g.fillStyle=['#e10600','#1e5bff','#ff8000','#00a86b','#c3c9cf','#ff4fa0'][i];g.fillRect(8+i*84,8,70,14);}});
 const numTexCache={};
+const numTex2Cache={};
+function numTex2(n){if(numTex2Cache[n])return numTex2Cache[n];return numTex2Cache[n]=ctex(128,128,(g)=>{g.clearRect(0,0,128,128);
+  g.font='italic 900 104px system-ui,Arial';g.textAlign='center';g.textBaseline='middle';g.lineWidth=7;g.strokeStyle='rgba(0,0,0,.55)';g.strokeText(String(n),64,70);g.fillStyle='#fff';g.fillText(String(n),64,70);});}
+function liveryShader(m,liv){
+  m.userData.sec=new THREE.Color(liv.s);m.userData.acc=new THREE.Color(liv.a===liv.p?0x111111:liv.a);
+  m.onBeforeCompile=sh=>{sh.uniforms.uSec={value:m.userData.sec};sh.uniforms.uAcc={value:m.userData.acc};
+    sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vLP;').replace('#include <begin_vertex>','#include <begin_vertex>\nvLP=position;');
+    sh.fragmentShader=sh.fragmentShader.replace('#include <common>',`#include <common>
+varying vec3 vLP;uniform vec3 uSec,uAcc;
+float bnd(float s,float a,float b){float e=0.012;return smoothstep(a-e,a+e,s)-smoothstep(b-e,b+e,s);}`)
+    .replace('#include <color_fragment>',`#include <color_fragment>
+{float side=smoothstep(0.18,0.42,abs(vLP.x));float s=vLP.z+mix(0.25,1.25,side)*abs(vLP.y-0.55)+1.05*abs(vLP.x);
+ float wh=bnd(s,0.32,0.6)+bnd(s,-0.62,-0.38);
+ float bk=bnd(s,0.6,0.8)+bnd(s,-0.38,-0.16)+bnd(s,-1.32,-1.18);
+ bk=max(bk,(1.-smoothstep(0.30,0.33,vLP.y))*step(0.22,abs(vLP.x)));   // pastki qism qora
+ bk=max(bk,step(2.55,vLP.z)*step(vLP.y,0.33));                          // burun osti
+ wh=max(wh,bnd(vLP.z,2.62,2.86)*step(0.04,abs(vLP.x)));                 // burun uchidagi oq
+ if(vLP.z<-1.76&&vLP.y>0.6){float s2=vLP.z+0.8*vLP.y;wh=bnd(s2,-1.45,-1.3);bk=bnd(s2,-1.3,-1.18)+step(vLP.y,0.7);}   // orqa qanot plitalari
+ diffuseColor.rgb=mix(diffuseColor.rgb,uSec,clamp(wh,0.,1.)*(1.-clamp(bk,0.,1.)));
+ diffuseColor.rgb=mix(diffuseColor.rgb,uAcc,clamp(bk,0.,1.));}`);};
+  m.customProgramCacheKey=()=>'livery1';
+}
 function numTex(n){if(numTexCache[n])return numTexCache[n];return numTexCache[n]=ctex(128,128,(g)=>{g.fillStyle='#fff';g.beginPath();g.arc(64,64,58,0,7);g.fill();
   g.fillStyle='#111';g.font='italic 900 70px system-ui,Arial';g.textAlign='center';g.textBaseline='middle';g.fillText(String(n),64,70);});}
 const STD=o=>new THREE.MeshStandardMaterial(o);
@@ -605,6 +627,9 @@ function makeCarMesh(liv,num,ghost){
   const mats=[],cast=!ghost;
   const M=(o,phys)=>{const m=phys?new THREE.MeshPhysicalMaterial(o):new THREE.MeshStandardMaterial(o);if(ghost){m.transparent=true;m.opacity=0.3;m.depthWrite=false;}mats.push(m);return m;};
   const paint=M({color:liv.p,metalness:0.5,roughness:0.27,clearcoat:1,clearcoatRoughness:0.04},true);
+  // ChatGPT maketi bo'yicha livreya: oldinga qaragan oq-qora chevronlar, qora pastki qism
+  const livery=M({color:liv.p,metalness:0.5,roughness:0.27,clearcoat:1,clearcoatRoughness:0.04},true);
+  liveryShader(livery,liv);
   const paint2=M({color:liv.s,metalness:0.4,roughness:0.3,clearcoat:1,clearcoatRoughness:0.06},true);
   const acc=M({color:liv.a,metalness:0.4,roughness:0.35});
   const carbon=M({color:0xffffff,map:carbonTex,metalness:0.5,roughness:0.33});
@@ -625,8 +650,7 @@ function makeCarMesh(liv,num,ghost){
   // burun + monokok
   const mono=loft([{z:3.0,y:0.285,w:0.1,h:0.07,n:2},{z:2.7,y:0.31,w:0.2,h:0.13},{z:2.2,y:0.36,w:0.3,h:0.22},{z:1.6,y:0.43,w:0.44,h:0.32},
     {z:1.05,y:0.5,w:0.6,h:0.42,n:2.6},{z:0.55,y:0.52,w:0.72,h:0.46,n:3},{z:0.0,y:0.5,w:0.8,h:0.46,n:3.2},{z:-0.35,y:0.48,w:0.76,h:0.42,n:3}],{sub:6});
-  mk(mono,paint);
-  const stripe=mono.clone();stripe.scale(0.3,1.013,1.001);mk(stripe,paint2);
+  mk(mono,livery);
   // kokpit
   mk(loft([{z:0.64,y:0.742,w:0.34,h:0.02},{z:0.32,y:0.752,w:0.46,h:0.03},{z:-0.04,y:0.742,w:0.42,h:0.03}],{sub:4}),black);
   for(const sg of[-1,1]){const pad=mk(new THREE.BoxGeometry(0.06,0.09,0.32),paint2);pad.position.set(sg*0.2,0.78,0.05);}
@@ -638,23 +662,25 @@ function makeCarMesh(liv,num,ghost){
   const hs=mk(new THREE.TorusGeometry(0.155,0.012,6,24,Math.PI),acc);hs.position.set(0,0.86,0.12);hs.rotation.set(0,Math.PI/2,0);
   // havo qabul qilgich va dvigatel qopqog'i
   mk(loft([{z:0.2,y:0.93,w:0.26,h:0.22,n:2.2},{z:0.0,y:0.92,w:0.34,h:0.3},{z:-0.4,y:0.84,w:0.46,h:0.5,n:2.6},{z:-0.95,y:0.7,w:0.5,h:0.56,n:2.8},
-    {z:-1.5,y:0.58,w:0.38,h:0.4},{z:-2.0,y:0.47,w:0.2,h:0.22},{z:-2.22,y:0.44,w:0.12,h:0.13}],{sub:6}),paint);
+    {z:-1.5,y:0.58,w:0.38,h:0.4},{z:-2.0,y:0.47,w:0.2,h:0.22},{z:-2.22,y:0.44,w:0.12,h:0.13}],{sub:6}),livery);
   const intake=mk(new THREE.CircleGeometry(1,24),black);intake.scale.set(0.1,0.08,1);intake.position.set(0,0.94,0.203);
-  const tcam=mk(new THREE.BoxGeometry(0.12,0.045,0.07),acc);tcam.position.set(0,1.065,0.06);
+  const tst=mk(new THREE.BoxGeometry(0.03,0.09,0.04),black);tst.position.set(0,1.11,-0.02);   // kamera ustuni
+  const tcam=mk(new THREE.CylinderGeometry(0.045,0.045,0.17,14),black);tcam.rotation.x=Math.PI/2;tcam.position.set(0,1.17,-0.02);
+  const tcl=mk(new THREE.CircleGeometry(0.03,12),gloss);tcl.position.set(0,1.17,0.066);
   mk(plateGeo([[-0.1,1.02],[-1.72,0.93],[-1.72,0.8],[-0.45,0.9]],0.012),paint2);
   // yon pontonlar (pastki kesik va pastga tushuvchi shakl)
   for(const sg of[-1,1]){
     mk(loft([{z:0.8,x:sg*0.6,y:0.5,w:0.3,h:0.28,n:3},{z:0.52,x:sg*0.63,y:0.47,w:0.44,h:0.38,n:3},{z:-0.1,x:sg*0.6,y:0.44,w:0.42,h:0.36,n:2.8},
-      {z:-0.8,x:sg*0.5,y:0.37,w:0.3,h:0.28,n:2.5},{z:-1.5,x:sg*0.36,y:0.3,w:0.13,h:0.15,n:2.3}],{sub:6}),paint);
+      {z:-0.8,x:sg*0.5,y:0.37,w:0.3,h:0.28,n:2.5},{z:-1.5,x:sg*0.36,y:0.3,w:0.13,h:0.15,n:2.3}],{sub:6}),livery);
     const inl=mk(new THREE.CircleGeometry(1,24),black);inl.scale.set(0.125,0.115,1);inl.position.set(sg*0.6,0.5,0.803);
     decal(spTex('sp_1a'),0.6,0.27,sg*0.842,0.47,0.12,sg*Math.PI/2);
-    decal(numTex(num),0.26,0.26,sg*0.258,0.73,-0.95,sg*Math.PI/2);
+    decal(numTex2(num),0.34,0.34,sg*0.262,0.72,-1.0,sg*Math.PI/2);
     // oynalar
     rod(body,V3(sg*0.36,0.62,0.52),V3(sg*0.48,0.79,0.6),0.012,carbon,cast);
     const mh=mk(new THREE.SphereGeometry(1,16,10),paint);mh.scale.set(0.12,0.05,0.05);mh.position.set(sg*0.52,0.8,0.62);
     const mg=mk(new THREE.PlaneGeometry(0.2,0.075),gloss);mg.position.set(sg*0.52,0.8,0.567);mg.rotation.y=Math.PI;
   }
-  decal(numTex(num),0.2,0.2,0,0.535,2.0,0,-Math.PI/2+0.13);
+  decal(numTex2(num),0.22,0.22,0,0.505,2.05,0,-Math.PI/2+0.17);
   // halo
   const hc=new THREE.CatmullRomCurve3([V3(-0.3,0.74,-0.12),V3(-0.31,0.93,0.02),V3(-0.24,0.99,0.2),V3(0,1.0,0.32),V3(0.24,0.99,0.2),V3(0.31,0.93,0.02),V3(0.3,0.74,-0.12)]);
   mk(new THREE.TubeGeometry(hc,48,0.03,10,false),carbon);
@@ -666,11 +692,11 @@ function makeCarMesh(liv,num,ghost){
     for(const sg of[-1,1]){const e=mk(foilGeo(ch,0.02,0.8,0.05),mat,fwing);e.position.set(sg*0.55,y,z);e.rotation.set(aoa,0,-sg*0.1);}});
   for(const sg of[-1,1]){const ep=mk(plateGeo([[3.08,0.05],[2.42,0.05],[2.42,0.24],[2.52,0.34],[2.8,0.36],[3.08,0.2]],0.02),acc,fwing);ep.position.x=sg*0.965;}
   // orqa qanot + DRS + beam wing
-  for(const sg of[-1,1]){const ep=mk(plateGeo([[-1.78,0.6],[-1.78,1.07],[-1.95,1.16],[-2.28,1.12],[-2.35,0.95],[-2.24,0.6]],0.022),paint);ep.position.x=sg*0.53;
+  for(const sg of[-1,1]){const ep=mk(plateGeo([[-1.78,0.6],[-1.78,1.07],[-1.95,1.16],[-2.28,1.12],[-2.35,0.95],[-2.24,0.6]],0.022),livery);ep.position.x=sg*0.53;
     decal(spTex(SP_KEYS[(num*7)%SP_KEYS.length]),0.4,0.18,sg*0.545,0.97,-2.07,sg*Math.PI/2);}
-  const rw=mk(foilGeo(0.36,0.04,1.04,0.08),carbon);rw.position.set(0,0.94,-2.06);rw.rotation.x=0.18;
+  const rw=mk(foilGeo(0.36,0.04,1.04,0.08),paint);rw.position.set(0,0.94,-2.06);rw.rotation.x=0.18;
   const drs=new THREE.Group();drs.position.set(0,1.04,-1.92);body.add(drs);
-  const fl=mk(foilGeo(0.25,0.03,1.02,0.05),paint2,drs);fl.position.set(0,0,-0.125);drs.rotation.x=0.5;
+  const fl=mk(foilGeo(0.25,0.03,1.02,0.05),paint,drs);fl.position.set(0,0,-0.125);drs.rotation.x=0.5;
   for(const [y,z] of[[0.43,-2.1],[0.5,-2.0]]){const bw=mk(foilGeo(0.16,0.018,0.84,0.05),carbon);bw.position.set(0,y,z);bw.rotation.x=0.3;}
   mk(plateGeo([[-1.88,0.5],[-1.97,0.95],[-2.05,0.95],[-2.03,0.5]],0.028),carbon);
   const brakeMat=M({color:0x220000,emissive:0xff0000,emissiveIntensity:0.3});
