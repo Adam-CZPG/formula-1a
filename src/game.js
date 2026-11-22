@@ -198,6 +198,52 @@ float bnd(float s,float a,float b){float e=0.012;return smoothstep(a-e,a+e,s)-sm
  diffuseColor.rgb=mix(diffuseColor.rgb,uAcc,clamp(bk,0.,1.));}`);};
   m.customProgramCacheKey=()=>'livery1';
 }
+// ---------- maket proyeksiyasi: kuzovni maket proporsiyasiga cho'zish + maket teksturasi ----------
+const ZK=[[-2.4,-2.78],[-1.38,-2.2],[1.62,2.0],[3.1,3.12]];
+function zseg(z){let i=0;while(i<ZK.length-2&&z>ZK[i+1][0])i++;return i;}
+function zmap(z){const i=zseg(z),a=ZK[i],b=ZK[i+1];return a[1]+(z-a[0])*(b[1]-a[1])/(b[0]-a[0]);}
+function zder(z){const i=zseg(z),a=ZK[i],b=ZK[i+1];return (b[1]-a[1])/(b[0]-a[0]);}
+let bpTex=null;
+function projMat(liv,ghost){
+  if(!bpTex)bpTex=imgTex(ASSET.car_bp);
+  const m=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:0.15,roughness:0.38,clearcoat:0.55,clearcoatRoughness:0.12});
+  if(ghost){m.transparent=true;m.opacity=0.3;m.depthWrite=false;}
+  const pc=new THREE.Color(liv.p),hsl={};pc.getHSL(hsl);
+  const swap=(hsl.s>0.3&&(hsl.h<0.03||hsl.h>0.97))?0:1;
+  m.onBeforeCompile=sh=>{sh.uniforms.uBP={value:bpTex};sh.uniforms.uPrim={value:pc};sh.uniforms.uSwap={value:swap};
+    sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vLP;varying vec3 vLN;').replace('#include <begin_vertex>','#include <begin_vertex>\nvLP=position;vLN=normal;');
+    sh.fragmentShader=sh.fragmentShader.replace('#include <common>',`#include <common>
+varying vec3 vLP;varying vec3 vLN;uniform sampler2D uBP;uniform vec3 uPrim;uniform float uSwap;
+vec3 bp(vec2 px){return texture2D(uBP,vec2(px.x/1536.,1.-px.y/1024.)).rgb;}`)
+    .replace('#include <map_fragment>',`
+{vec3 n=normalize(vLN);vec3 w=pow(abs(n),vec3(4.))+1e-4;
+ vec3 cS=bp(vec2(200.+(2.0-vLP.z)*181.,350.-vLP.y*180.));
+ vec3 cT=bp(vec2(205.+(2.0-vLP.z)*167.,642.+vLP.x*180.));
+ vec3 cF=n.z>0.?bp(vec2(1300.+vLP.x*211.,372.-vLP.y*211.)):bp(vec2(1305.-vLP.x*211.,780.-vLP.y*211.));
+ vec3 c=(cS*w.x+cT*w.y+cF*w.z)/(w.x+w.y+w.z);
+ float red=smoothstep(0.06,0.25,c.r-max(c.g,c.b));
+ c=mix(c,uPrim*clamp(c.r/0.62,0.,1.3),red*uSwap);
+ diffuseColor.rgb=c;}`);};
+  m.customProgramCacheKey=()=>'bp1';return m;
+}
+function bakeCar(g,drs,pivots,liv,ghost,mats){
+  g.updateMatrixWorld(true);
+  const skip=new Set();pivots.forEach(p=>p.traverse(o=>skip.add(o)));drs.traverse(o=>skip.add(o));
+  const P=projMat(liv,ghost);mats.push(P);
+  const projSrc=new Set(mats.filter(m=>m.isMeshPhysicalMaterial||m.map===carbonTex||(m.color&&!m.map&&!m.emissiveIntensity&&m.roughness<0.5&&m.metalness>=0.35&&m.metalness<0.6)));
+  const bake=(m,M)=>{let geo=m.geometry.clone().applyMatrix4(M);const p=geo.attributes.position,nr=geo.attributes.normal;
+    for(let i=0;i<p.count;i++){const z=p.getZ(i);if(nr){const d=zder(z);const nx=nr.getX(i),ny=nr.getY(i),nz=nr.getZ(i)/d,l=Math.hypot(nx,ny,nz)||1;nr.setXYZ(i,nx/l,ny/l,nz/l);}p.setZ(i,zmap(z));}
+    m.geometry=geo;m.position.set(0,0,0);m.quaternion.identity();m.scale.set(1,1,1);m.updateMatrix();};
+  const list=[];g.traverse(o=>{if(o.isMesh&&!skip.has(o))list.push(o);});
+  for(const m of list){
+    const keep=m.geometry.type==='TubeGeometry'||(m.geometry.type==='CylinderGeometry'&&m.geometry.parameters.radiusTop<0.02)||m.material.transparent&&m.material.map;
+    bake(m,m.matrixWorld.clone());
+    if(!keep&&(m.material.map===carbonTex||m.material.isMeshPhysicalMaterial&&m.material!==P&&m.material.color.getHex()===liv.p||m.material.color&&[liv.p,liv.s,liv.a].includes(m.material.color.getHex())&&!m.material.emissiveIntensity))m.material=P;
+  }
+  // DRS: o'z bo'laklari joyida, faqat o'qi suriladi
+  drs.position.z=zmap(drs.position.z);
+  for(const p of pivots)p.position.z=zmap(p.position.z);
+}
 function numTex(n){if(numTexCache[n])return numTexCache[n];return numTexCache[n]=ctex(128,128,(g)=>{g.fillStyle='#fff';g.beginPath();g.arc(64,64,58,0,7);g.fill();
   g.fillStyle='#111';g.font='italic 900 70px system-ui,Arial';g.textAlign='center';g.textBaseline='middle';g.fillText(String(n),64,70);});}
 const STD=o=>new THREE.MeshStandardMaterial(o);
@@ -673,14 +719,13 @@ function makeCarMesh(liv,num,ghost){
     mk(loft([{z:0.8,x:sg*0.6,y:0.5,w:0.3,h:0.28,n:3},{z:0.52,x:sg*0.63,y:0.47,w:0.44,h:0.38,n:3},{z:-0.1,x:sg*0.6,y:0.44,w:0.42,h:0.36,n:2.8},
       {z:-0.8,x:sg*0.5,y:0.37,w:0.3,h:0.28,n:2.5},{z:-1.5,x:sg*0.36,y:0.3,w:0.13,h:0.15,n:2.3}],{sub:6}),livery);
     const inl=mk(new THREE.CircleGeometry(1,24),black);inl.scale.set(0.125,0.115,1);inl.position.set(sg*0.6,0.5,0.803);
-    decal(spTex('sp_1a'),0.6,0.27,sg*0.842,0.47,0.12,sg*Math.PI/2);
-    decal(numTex2(num),0.34,0.34,sg*0.262,0.72,-1.0,sg*Math.PI/2);
+    decal(numTex2(num),0.24,0.32,sg*0.665,0.43,-0.71,sg*Math.PI/2);
     // oynalar
     rod(body,V3(sg*0.36,0.62,0.52),V3(sg*0.48,0.79,0.6),0.012,carbon,cast);
     const mh=mk(new THREE.SphereGeometry(1,16,10),paint);mh.scale.set(0.12,0.05,0.05);mh.position.set(sg*0.52,0.8,0.62);
     const mg=mk(new THREE.PlaneGeometry(0.2,0.075),gloss);mg.position.set(sg*0.52,0.8,0.567);mg.rotation.y=Math.PI;
   }
-  decal(numTex2(num),0.22,0.22,0,0.505,2.05,0,-Math.PI/2+0.17);
+  decal(numTex2(num),0.2,0.19,0,0.605,1.62,0,-Math.PI/2+0.12);
   // halo
   const hc=new THREE.CatmullRomCurve3([V3(-0.3,0.74,-0.12),V3(-0.31,0.93,0.02),V3(-0.24,0.99,0.2),V3(0,1.0,0.32),V3(0.24,0.99,0.2),V3(0.31,0.93,0.02),V3(0.3,0.74,-0.12)]);
   mk(new THREE.TubeGeometry(hc,48,0.03,10,false),carbon);
@@ -693,7 +738,7 @@ function makeCarMesh(liv,num,ghost){
   for(const sg of[-1,1]){const ep=mk(plateGeo([[3.08,0.05],[2.42,0.05],[2.42,0.24],[2.52,0.34],[2.8,0.36],[3.08,0.2]],0.02),acc,fwing);ep.position.x=sg*0.965;}
   // orqa qanot + DRS + beam wing
   for(const sg of[-1,1]){const ep=mk(plateGeo([[-1.78,0.6],[-1.78,1.07],[-1.95,1.16],[-2.28,1.12],[-2.35,0.95],[-2.24,0.6]],0.022),livery);ep.position.x=sg*0.53;
-    decal(spTex(SP_KEYS[(num*7)%SP_KEYS.length]),0.4,0.18,sg*0.545,0.97,-2.07,sg*Math.PI/2);}
+    }
   const rw=mk(foilGeo(0.36,0.04,1.04,0.08),paint);rw.position.set(0,0.94,-2.06);rw.rotation.x=0.18;
   const drs=new THREE.Group();drs.position.set(0,1.04,-1.92);body.add(drs);
   const fl=mk(foilGeo(0.25,0.03,1.02,0.05),paint,drs);fl.position.set(0,0,-0.125);drs.rotation.x=0.5;
@@ -733,6 +778,7 @@ function makeCarMesh(liv,num,ghost){
   }
   if(!ghost){const blob=new THREE.Mesh(new THREE.PlaneGeometry(2.5,5.6).rotateX(-Math.PI/2),new THREE.MeshBasicMaterial({map:shadowTex,transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-5}));
     blob.position.y=0.045;g.add(blob);}
+  bakeCar(g,drs,wheels.map(w=>w.pivot),liv,ghost,mats);
   return {g,body,wheels,fwing,drs,brakeMat,discMat,mats};
 }
 
@@ -1260,7 +1306,7 @@ function updateCamera(dt,now){
   if(sp>3&&c.vLong>0){const vh=Math.atan2(c.vx,c.vz);target=c.th+wrapA(vh-c.th)*0.35;}
   camYaw+=wrapA(target-camYaw)*(1-Math.exp(-dt*6));
   const fx=Math.sin(camYaw),fz=Math.cos(camYaw),yaw=camYaw+dragYaw,ox=Math.sin(yaw),oz=Math.cos(yaw);
-  if(camMode<2){const M=camMode===0?{d:5.7,h:1.85,l:0.95}:{d:9.5,h:3.4,l:1.15};const d=M.d+sp*0.012,R=Math.hypot(d,M.h);
+  if(camMode<2){const M=camMode===0?{d:6.6,h:1.95,l:0.95}:{d:10.5,h:3.5,l:1.15};const d=M.d+sp*0.012,R=Math.hypot(d,M.h);
     const el=clamp(Math.atan2(M.h,d)+dragPitch,0.03,1.35);
     camera.position.set(c.x-ox*R*Math.cos(el),Math.max(0.35,R*Math.sin(el)),c.z-oz*R*Math.cos(el));
     const ahead=5*Math.max(0,Math.cos(dragYaw));tmpV.set(c.x+fx*ahead,M.l,c.z+fz*ahead);}
@@ -1290,13 +1336,13 @@ function updateCars(dt,now){
     const s=Math.sin(car.th),c=Math.cos(car.th),sp=car.speed;
     const skidding=!car.onGrass&&sp>4&&(Math.abs(car.slipR)>0.13||(car.spin&&sp<30)||Math.abs(car.slipF)>0.2);
     for(const side of[1,-1]){const key=side>0?'skidL':'skidR';
-      const wx=car.x-s*1.38+c*0.86*side,wz=car.z-c*1.38-s*0.86*side;
+      const wx=car.x-s*2.2+c*0.86*side,wz=car.z-c*2.2-s*0.86*side;
       if(skidding&&!rain){const l=car[key];if(l){if(Math.hypot(wx-l[0],wz-l[1])>0.6){addSkid(l[0],l[1],wx,wz,0.36);car[key]=[wx,wz];}}else car[key]=[wx,wz];}else car[key]=null;
       if(doEmit){
         if(skidding&&!rain&&sp>7&&(Math.abs(car.slipR)>0.17||car.spin))emit(wx,0.3,wz,car.vx*0.15,0.8,car.vz*0.15,0.78,0.78,0.8,0.8,3.2,1.2,0.32);
         if(car.onGrass&&sp>6)emit(wx,0.3,wz,car.vx*0.2+(Math.random()-0.5),1+Math.random(),car.vz*0.2,0.5,0.42,0.3,1.0,3,1.0,0.45);
       }}
-    if(doEmit&&rain&&sp>14){const bx=car.x-s*2.4,bz=car.z-c*2.4;emit(bx+(Math.random()-0.5)*1.4,0.4,bz,car.vx*0.55,0.9,car.vz*0.55,0.55,0.6,0.65,0.9,4.5,0.6,Math.min(car===player?0.14:0.3,sp/150));}
+    if(doEmit&&rain&&sp>14){const bx=car.x-s*3.0,bz=car.z-c*3.0;emit(bx+(Math.random()-0.5)*1.4,0.4,bz,car.vx*0.55,0.9,car.vz*0.55,0.55,0.6,0.65,0.9,4.5,0.6,Math.min(car===player?0.14:0.3,sp/150));}
   }
   // arvoh
   if(ghostMesh){let vis=false;

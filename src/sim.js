@@ -124,7 +124,7 @@ function collideWall(car){
   car.onGrass=Math.abs(lat)>HALF_W+CURB_W+0.4;
   const s=Math.sin(car.th),c=Math.cos(car.th);
   const rel=Math.abs(s*LX[i]+c*LZ[i]);
-  const lim=WALL_D-1.0-rel*1.5;
+  const lim=WALL_D-1.0-rel*2.1;
   if(Math.abs(lat)<=lim)return 0;
   const sg=Math.sign(lat),nx=-sg*LX[i],nz=-sg*LZ[i];
   const pen=Math.abs(lat)-lim; car.x+=nx*pen; car.z+=nz*pen;
@@ -136,7 +136,7 @@ function collideWall(car){
   return -vn;
 }
 
-function carCircles(c){const s=Math.sin(c.th),co=Math.cos(c.th);return [[c.x+s*1.45,c.z+co*1.45],[c.x-s*1.3,c.z-co*1.3]];}
+function carCircles(c){const s=Math.sin(c.th),co=Math.cos(c.th);return [[c.x+s*1.95,c.z+co*1.95],[c.x-s*1.8,c.z-co*1.8]];}
 function collideCars(A,B){
   const dx0=A.x-B.x,dz0=A.z-B.z; if(dx0*dx0+dz0*dz0>49)return 0;
   const R=1.1,ca=carCircles(A),cb=carCircles(B); let imp=0;
