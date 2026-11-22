@@ -291,7 +291,7 @@ function grandstand(i0,side,len){
 }
 const SPONSORS=[['1a RACING','#e10600','#fff'],['TURBO','#111','#ffd23f'],['APEX','#1e5bff','#fff'],['GRIP','#00a86b','#fff'],['NITRO','#ff8a00','#111'],['PIT LANE','#f5f5f5','#e10600'],['VELOCE','#6a1bff','#fff'],['SPEED','#111','#2ee66b']];
 function billboards(n){
-  const mats=SPONSORS.map(sp=>STD({map:textTex(sp[0],sp[1],sp[2]),roughness:0.6,side:THREE.DoubleSide,emissive:0xffffff,emissiveIntensity:0}));
+  const mats=SP_KEYS.map((k,i)=>STD({map:boardTex(k,['#101114','#f4f4f4','#1b1f2a','#e10600','#101114','#f4f4f4'][i]),roughness:0.6,side:THREE.DoubleSide,emissive:0xffffff,emissiveIntensity:0}));
   mats.forEach(m=>{m.emissiveMap=m.map;});billMats=mats;
   for(let k=0;k<n;k++){
     const i=Math.floor((k+0.5)*N/n),side=k%2?1:-1,p=atIdx(i,side*(WALL_D+3),2.4);
@@ -588,6 +588,12 @@ function coverTex(col){
     g.fillStyle='#c9ccd1';g.beginPath();g.arc(128,128,20,0,7);g.fill();g.fillStyle='#55595f';g.beginPath();g.arc(128,128,9,0,7);g.fill();
     g.fillStyle=k;for(let i=0;i<5;i++){const a=i/5*6.283;g.beginPath();g.arc(128+Math.cos(a)*34,128+Math.sin(a)*34,5,0,7);g.fill();}});
 }
+const SP_KEYS=['sp_turbo','sp_apex','sp_grip','sp_nitro','sp_veloce','sp_1a'],spCache2={};
+function imgTex(src,cb){const im=new Image();const t=new THREE.Texture(im);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=maxAniso;im.onload=()=>{if(cb)cb(t,im);else t.needsUpdate=true;};im.src=src;return t;}
+function spTex(k){if(spCache2[k])return spCache2[k];return spCache2[k]=imgTex(ASSET[k]);}
+function boardTex(k,bg){const cv=document.createElement('canvas');cv.width=512;cv.height=136;const g=cv.getContext('2d');g.fillStyle=bg;g.fillRect(0,0,512,136);
+  const t=new THREE.CanvasTexture(cv);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=maxAniso;t.userData.own=true;
+  const im=new Image();im.onload=()=>{const s=Math.min(470/im.width,116/im.height),w=im.width*s,h=im.height*s;g.drawImage(im,(512-w)/2,(136-h)/2,w,h);t.needsUpdate=true;};im.src=ASSET[k];return t;}
 function sponsorTex(txt,col){
   const k=txt+col;if(spCache[k])return spCache[k];
   return spCache[k]=ctex(512,128,(g)=>{g.clearRect(0,0,512,128);g.font='italic 900 76px system-ui,Arial';g.textAlign='center';g.textBaseline='middle';
@@ -641,7 +647,7 @@ function makeCarMesh(liv,num,ghost){
     mk(loft([{z:0.8,x:sg*0.6,y:0.5,w:0.3,h:0.28,n:3},{z:0.52,x:sg*0.63,y:0.47,w:0.44,h:0.38,n:3},{z:-0.1,x:sg*0.6,y:0.44,w:0.42,h:0.36,n:2.8},
       {z:-0.8,x:sg*0.5,y:0.37,w:0.3,h:0.28,n:2.5},{z:-1.5,x:sg*0.36,y:0.3,w:0.13,h:0.15,n:2.3}],{sub:6}),paint);
     const inl=mk(new THREE.CircleGeometry(1,24),black);inl.scale.set(0.125,0.115,1);inl.position.set(sg*0.6,0.5,0.803);
-    decal(sponsorTex('1a RACING',hex(liv.s)),0.6,0.15,sg*0.842,0.47,0.12,sg*Math.PI/2);
+    decal(spTex('sp_1a'),0.6,0.27,sg*0.842,0.47,0.12,sg*Math.PI/2);
     decal(numTex(num),0.26,0.26,sg*0.258,0.73,-0.95,sg*Math.PI/2);
     // oynalar
     rod(body,V3(sg*0.36,0.62,0.52),V3(sg*0.48,0.79,0.6),0.012,carbon,cast);
@@ -661,7 +667,7 @@ function makeCarMesh(liv,num,ghost){
   for(const sg of[-1,1]){const ep=mk(plateGeo([[3.08,0.05],[2.42,0.05],[2.42,0.24],[2.52,0.34],[2.8,0.36],[3.08,0.2]],0.02),acc,fwing);ep.position.x=sg*0.965;}
   // orqa qanot + DRS + beam wing
   for(const sg of[-1,1]){const ep=mk(plateGeo([[-1.78,0.6],[-1.78,1.07],[-1.95,1.16],[-2.28,1.12],[-2.35,0.95],[-2.24,0.6]],0.022),paint);ep.position.x=sg*0.53;
-    decal(sponsorTex('1a',hex(liv.s)),0.36,0.16,sg*0.545,0.97,-2.07,sg*Math.PI/2);}
+    decal(spTex(SP_KEYS[(num*7)%SP_KEYS.length]),0.4,0.18,sg*0.545,0.97,-2.07,sg*Math.PI/2);}
   const rw=mk(foilGeo(0.36,0.04,1.04,0.08),carbon);rw.position.set(0,0.94,-2.06);rw.rotation.x=0.18;
   const drs=new THREE.Group();drs.position.set(0,1.04,-1.92);body.add(drs);
   const fl=mk(foilGeo(0.25,0.03,1.02,0.05),paint2,drs);fl.position.set(0,0,-0.125);drs.rotation.x=0.5;
@@ -1158,7 +1164,7 @@ function drawTrackPreview(cv,def){
 function buildMenu(){
   const tc=$('#trackCards');tc.innerHTML='';
   TRACKS.forEach((t,i)=>{const d=document.createElement('button');d.className='tcard ui';d.dataset.i=i;
-    d.innerHTML=`<canvas width="200" height="140"></canvas><b>${t.name}</b><small id="tsub${i}"></small><small class="rec" id="rec${i}"></small>`;
+    d.innerHTML=`<div class="tthumb" style="background-image:url(${ASSET['tr_'+i]})"><canvas width="200" height="140"></canvas></div><b>${t.name}</b><small id="tsub${i}"></small><small class="rec" id="rec${i}"></small>`;
     tc.appendChild(d);drawTrackPreview(d.querySelector('canvas'),t);
     d.addEventListener('click',()=>{S.track=i;saveS();if(S.mode==='champ'){S.mode='race';saveS();champ=null;buildCars();}loadTrackAndWorld(i);refreshUI();});});
   const lv=$('#livs');lv.innerHTML='';
@@ -1347,7 +1353,7 @@ function updateHUD(dt){
     const rec=store.get('f1a_best_'+curTrackIdx(),null);
     hud.best.textContent=fmt(isFinite(player.best)?player.best:(S.mode==='tt'?rec:null));
     if(S.mode==='tt'){const d=ghostDelta();if(d==null){hud.delta.textContent='—';hud.delta.className='';}else{hud.delta.textContent=(d>=0?'+':'−')+Math.abs(d).toFixed(2);hud.delta.className=d<0?'neg':'posv';}}
-    $('#hTyre').innerHTML=`<i style="border-color:${TYRES[player.tyre||'M'].col}"></i>${Math.round((1-player.wear)*100)}%`;
+    {const ty=player.tyre||'M',w=Math.round((1-player.wear)*100);if(hud.tyK!==ty+w){hud.tyK=ty+w;$('#hTyre').innerHTML=`<img class="ico" src="${ASSET['ty_'+ty]}" alt="">${w}%`;}}
     const pitOn=player.pitReq||player.pitT>0;$('#bgPit').classList.toggle('hidden',!pitOn);$('#bgPit').classList.add('pit');$('#bPit').classList.toggle('act',pitOn);
     const i=player.idx,wrong=state==='race'&&sp>3&&(Math.sin(player.th)*TX[i]+Math.cos(player.th)*TZ[i])<-0.3;
     hud.warn.style.display=wrong?'block':'none';

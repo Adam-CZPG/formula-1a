@@ -30,10 +30,11 @@ for k,b in cells.items():out['pl_'+k]=save(face(g.crop(b)),'pl_'+k,80)
 out['pl_p1']=save(src('bcb8982d').convert('RGB').crop((190,10,1064,884)).resize((200,200),Image.LANCZOS),'pl_p1',80)
 # 5) garaj foni
 bg=src('4bdcd115').convert('RGB').resize((1280,720),Image.LANCZOS);out['bg_garage']=save(bg,'bg_garage',72)
-# src/assets.js
-lines=['// Avtomatik yaratilgan: tools/make_assets.py (assets/*.webp)','const ASSET={']
-tot=0
-for k in sorted(out):
-    b=open(out[k],'rb').read();tot+=len(b);lines.append(f"  {k}:'data:image/webp;base64,{base64.b64encode(b).decode()}',")
+# src/assets.js — assets/ papkasidagi barcha WebP fayllar
+import glob
+lines=['// Avtomatik yaratilgan: tools/make_assets.py (assets/*.webp)','const ASSET={'];tot=0
+for f in sorted(glob.glob(os.path.join(A,'*.webp'))):
+    k=os.path.splitext(os.path.basename(f))[0];b=open(f,'rb').read();tot+=len(b)
+    lines.append(f"  {k}:'data:image/webp;base64,{base64.b64encode(b).decode()}',")
 lines.append('};');open(os.path.join(R,'src','assets.js'),'w').write('\n'.join(lines)+'\n')
-print(len(out),'asset, jami',round(tot/1024),'KB')
+print(len(lines)-3,'asset, jami',round(tot/1024),'KB')

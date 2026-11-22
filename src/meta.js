@@ -108,11 +108,11 @@ function teamScore(){const s=playerStats();return Math.round((s.pow*0.35+s.aero*
 function fmtN(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
 
 // ---------- emoji o'rniga rasm ikonkalar ----------
-const ICON_MAP={'🪙':'ic_coin','🏆':'ic_trophy','⭐':'ic_xp'},ICON_RE=/🪙|🏆|⭐/;
+const ICON_MAP={'🪙':'ic_coin','🏆':'ic_trophy','⭐':'ic_xp','🃏':'sh_card'},ICON_RE=/🪙|🏆|⭐|🃏/;
 function iconify(root){
   const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),list=[];let n;
   while(n=w.nextNode())if(ICON_RE.test(n.nodeValue))list.push(n);
-  for(const node of list){const parts=node.nodeValue.split(/(🪙|🏆|⭐)/),f=document.createDocumentFragment();
+  for(const node of list){const parts=node.nodeValue.split(/(🪙|🏆|⭐|🃏)/),f=document.createDocumentFragment();
     for(const p of parts){if(ICON_MAP[p]){const im=document.createElement('img');im.className='ico';im.alt='';im.src=ASSET[ICON_MAP[p]];f.appendChild(im);}else if(p)f.appendChild(document.createTextNode(p));}
     node.parentNode.replaceChild(f,node);}
 }
@@ -146,7 +146,7 @@ function renderLeague(){
 }
 function renderModes(){
   const M=[['race','🏁','m_race','m_race_d'],['duel','⚔️','m_duel','m_duel_d'],['tt','⏱','m_tt','m_tt_d'],['champ','🏆','m_champ','m_champ_d']];
-  $('#modes').innerHTML=M.map(([id,ic,a,b])=>`<button class="mcard ui ${S.mode===id?'on':''}" data-mode="${id}"><span>${ic}</span><b>${t(a)}</b><small>${t(b)}</small></button>`).join('');
+  $('#modes').innerHTML=M.map(([id,ic,a,b])=>`<button class="mcard ui ${S.mode===id?'on':''}" data-mode="${id}"><img class="mdimg" src="${ASSET['md_'+id]}" alt=""><b>${t(a)}</b><small>${t(b)}</small></button>`).join('');
   $$('#modes .mcard').forEach(b=>b.addEventListener('click',()=>{if(S.mode===b.dataset.mode)return;S.mode=b.dataset.mode;saveS();onSet('mode');refreshUI();}));
 }
 let garageCar=null;
@@ -165,7 +165,7 @@ function renderGarage(){
   else if(PR.car===c.id){b.textContent=t('selected');b.className='buy ui done';}
   else{b.textContent=t('select');b.className='buy ui sel';}
   $('#parts').innerHTML=PARTS.map(pt=>{const lv=p[pt.id],mx=lv>=5,cost=UP_COST[lv],need=UP_CARDS[lv],have=PR.cards[pt.id];
-    return `<div class="part"><div class="pic">${pt.ic}</div><div class="ptx"><b>${t(pt.k)}</b><div class="pips">${[0,1,2,3,4].map(i=>`<i class="${i<lv?'on':''}"></i>`).join('')}</div>
+    return `<div class="part"><img class="picimg" src="${ASSET['pt_'+pt.id]}" alt=""><div class="ptx"><b>${t(pt.k)}</b><div class="pips">${[0,1,2,3,4].map(i=>`<i class="${i<lv?'on':''}"></i>`).join('')}</div>
       <small>${mx?t('maxed'):`🃏 ${have}/${need} ${t('cards')}`}</small></div>
       <button class="pbtn ui ${mx?'done':''}" data-part="${pt.id}" ${mx?'disabled':''}>${mx?t('maxed'):`⬆ 🪙 ${fmtN(cost)}`}</button></div>`;}).join('');
   $$('#parts .pbtn').forEach(bt=>bt.addEventListener('click',()=>{const id=bt.dataset.part,lv=PR.parts[id];if(lv>=5)return;
@@ -177,9 +177,9 @@ function renderShop(){
   const today=new Date().toDateString(),got=PR.daily===today,amt=150+Math.min(6,PR.streak)*50;
   const freeLeft=Math.max(0,PR.freeCrate-Date.now());
   $('#shopBox').innerHTML=`
-   <div class="scard"><img class="sicimg" src="${ASSET.ic_coin}" alt=""><div class="stx"><b>${t('shop_daily')}</b><small>${t('shop_daily_d')} · +${got?amt:150+Math.min(6,PR.streak+1)*50} 🪙</small></div>
+   <div class="scard"><img class="sicimg" src="${ASSET.sh_daily}" alt=""><div class="stx"><b>${t('shop_daily')}</b><small>${t('shop_daily_d')} · +${got?amt:150+Math.min(6,PR.streak+1)*50} 🪙</small></div>
      <button class="sbtn ui ${got?'done':''}" id="bDaily">${got?t('claimed'):t('claim')}</button></div>
-   <div class="scard"><div class="sic">📺</div><div class="stx"><b>${t('shop_free')}</b><small>${t('shop_free_d')}</small></div>
+   <div class="scard"><img class="sicimg" src="${ASSET.sh_ad}" alt=""><div class="stx"><b>${t('shop_free')}</b><small>${t('shop_free_d')}</small></div>
      <button class="sbtn ui ${freeLeft?'done':''}" id="bFree">${freeLeft?`${t('wait')} ${Math.ceil(freeLeft/60000)}m`:t('watch_ad')}</button></div>
    <div class="lbl">${t('crates')}</div>
    ${CRATES.map((c,i)=>`<div class="scard crate"><img class="sicimg" src="${ASSET[c.img]}" alt=""><div class="stx"><b>${t(c.k)}</b><small>🃏 ${c.cards[0]}–${c.cards[1]} · 🪙 ${c.coins[0]}–${c.coins[1]}</small>
@@ -195,7 +195,7 @@ function openCrate(c){
   PR.coins+=coins;let pil=null;
   if(Math.random()<c.pilot){const locked=PILOTS.filter(p=>!PR.pilots[p.id]);if(locked.length){pil=locked[rint(0,locked.length-1)];PR.pilots[pil.id]=1;}}
   saveP();updateTopbar();
-  const items=[`<div class="ritem"><img class="rbig" src="${ASSET.ic_coin}"><b>+${coins}</b></div>`].concat(Object.keys(got).map(id=>{const pt=PARTS.find(p=>p.id===id);return `<div class="ritem"><span>${pt.ic}</span><b>+${got[id]}</b><small>${t(pt.k)}</small></div>`;}));
+  const items=[`<div class="ritem"><img class="rbig" src="${ASSET.ic_coin}"><b>+${coins}</b></div>`].concat(Object.keys(got).map(id=>{const pt=PARTS.find(p=>p.id===id);return `<div class="ritem"><img class="rbig" src="${ASSET['pt_'+pt.id]}"><b>+${got[id]}</b><small>${t(pt.k)}</small></div>`;}));
   if(pil)items.push(`<div class="ritem gold"><img class="face" src="${ASSET['pl_'+pil.id]}"><b>${pil.name}</b><small>${t('pilot_new')}</small></div>`);
   $('#crateItems').innerHTML=items.join('');$('#crateIc').innerHTML=`<img src="${ASSET[c.img]}" alt="">`;
   const ov=$('#crate');ov.classList.remove('hidden');ov.classList.remove('opened');void ov.offsetWidth;ov.classList.add('opened');
@@ -222,7 +222,7 @@ function showPrerace(){
   const wet=S.weather==='rain';chosenTyre=wet?'W':(chosenTyre==='W'?'M':chosenTyre);
   const laps=raceLaps();
   $('#preInfo').textContent=`${TRACKS[curTrackIdx()].name} · ${t('m_'+S.mode)}${laps<1e6?' · '+t('laps_n',{n:laps}):''} · ${t('team_score')}: ${teamScore()}`;
-  $('#tyres').innerHTML=Object.keys(TYRES).map(k=>{const ty=TYRES[k];return `<button class="tybtn ui ${k===chosenTyre?'on':''}" data-ty="${k}"><i style="border-color:${ty.col}">${k}</i><b>${t(ty.k)}</b><small>${t(ty.d)}</small></button>`;}).join('');
+  $('#tyres').innerHTML=Object.keys(TYRES).map(k=>{const ty=TYRES[k];return `<button class="tybtn ui ${k===chosenTyre?'on':''}" data-ty="${k}"><img class="tyimg" src="${ASSET['ty_'+k]}" alt="${k}"><b>${t(ty.k)}</b><small>${t(ty.d)}</small></button>`;}).join('');
   $$('.tybtn').forEach(b=>b.addEventListener('click',()=>{chosenTyre=b.dataset.ty;$$('.tybtn').forEach(x=>x.classList.toggle('on',x===b));}));
   $('#prerace').classList.remove('hidden');
 }

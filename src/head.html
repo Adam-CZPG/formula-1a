@@ -241,6 +241,13 @@ img.pav{width:58px;height:58px;border-radius:14px;object-fit:cover;box-shadow:0 
 .ritem img.face{width:56px;height:56px;border-radius:12px;object-fit:cover;display:block;margin:0 auto 4px}
 @media (orientation:portrait){.logoimg{height:34px}}
 @media (max-height:440px){.logoimg{height:36px}img.lgic{width:50px;height:50px}}
+.picimg{width:44px;height:44px;object-fit:contain;flex:none;filter:drop-shadow(0 3px 5px rgba(0,0,0,.45))}
+.mdimg{width:40px;height:40px;object-fit:contain;display:block;margin:0 auto;filter:drop-shadow(0 3px 5px rgba(0,0,0,.45))}
+.tyimg{width:54px;height:54px;object-fit:contain;display:block;margin:0 auto 6px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.45))}
+.tthumb{position:relative;border-radius:8px;overflow:hidden;background-size:cover;background-position:center}
+.tthumb canvas{position:absolute;right:3px;bottom:3px;width:42%!important;aspect-ratio:1.4;background:rgba(0,0,0,.45)!important;border-radius:6px}
+.tthumb::before{content:"";display:block;padding-top:62%}
+@media (max-height:440px){.mdimg{width:30px;height:30px}.tyimg{width:42px;height:42px}}
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
