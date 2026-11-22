@@ -47,6 +47,8 @@ src/meta.js       — tillar, progress, do‘kon, pilotlar, reklama moduli
 src/init.js       — ishga tushirish va asosiy sikl
 build.sh          — src/ dan index.html yig‘adi
 tests/            — fizika va ИИ simulyatsiya testi
+assets/           — grafik assetlar (WebP), src/assets.js ga joylanadi
+tools/make_assets.py — ChatGPT rasmlarini qirqib, siqib, assets.js yaratadi
 ```
 
 ## Ishlab chiqish

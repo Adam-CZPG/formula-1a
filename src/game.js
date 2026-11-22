@@ -951,7 +951,7 @@ function startRace(){
   for(const c of cars)c.tyre=c===player?chosenTyre:(runRain?'W':'M');lastPos=null;posT=0;lastReward=null;
   raceTime=0;cdT=0;litPrev=0;goDelay=0.6+Math.random()*0.9;steerRamp=0;finT=-1;finAwarded=false;
   ghostData=S.mode==='tt'?store.get('f1a_ghost_'+ti,null):null;ghostRec=[];ghostAcc=0;ghostPtr=0;
-  state='countdown';document.body.classList.remove('inmenu');
+  state='countdown';document.body.classList.remove('inmenu');setShowroom(false);
   ['#menu','#finish','#pause','#prerace'].forEach(s=>$(s).classList.add('hidden'));
   $('#lights').style.display='flex';
   $('#pDelta').classList.toggle('hidden',S.mode!=='tt');$('#pPos').classList.toggle('hidden',S.mode==='tt');
@@ -959,11 +959,26 @@ function startRace(){
   else if(S.mode==='champ')setTimeout(()=>radio(t('r_champ',{a:champ.round+1,b:TRACKS[ti].name})),600);
   else if(S.mode==='tt'&&ghostData)setTimeout(()=>radio(t('r_ghost')),600);
 }
+// ---------- menyu: garaj studiyasi (fon rasmi) ----------
+let garageBg=null,shCatch=null,showroomOn=false;
+function fitBg(){if(!garageBg||!garageBg.image)return;const ia=garageBg.image.width/garageBg.image.height,ca=innerWidth/innerHeight;
+  if(ca<ia){garageBg.repeat.set(ca/ia,1);garageBg.offset.set((1-ca/ia)*0.62,0);}else{garageBg.repeat.set(1,ia/ca);garageBg.offset.set(0,(1-ia/ca)*0.5);}}
+function setShowroom(on){
+  if(!garageBg){garageBg=new THREE.TextureLoader().load(ASSET.bg_garage,()=>fitBg());garageBg.colorSpace=THREE.SRGBColorSpace;
+    shCatch=new THREE.Mesh(new THREE.PlaneGeometry(30,30).rotateX(-Math.PI/2),new THREE.ShadowMaterial({opacity:0.6}));shCatch.receiveShadow=true;scene.add(shCatch);}
+  showroomOn=on;scene.background=on?garageBg:null;scene.backgroundIntensity=1.25;
+  if(world)world.visible=!on;sky.visible=!on;shCatch.visible=on;if(on){stars.visible=false;rainLines.visible=false;}else applyEnv();
+  for(const c of cars)c.mesh.g.visible=!on||c===player;
+  if(on&&player){shCatch.position.set(player.x,0.01,player.z);}
+  fitBg();
+}
+function showroomTick(){if(!showroomOn)return;if(world)world.visible=false;sky.visible=false;stars.visible=false;rainLines.visible=false;
+  scene.background=garageBg;for(const c of cars)c.mesh.g.visible=c===player;if(player)shCatch.position.set(player.x,0.01,player.z);}
 function goMenu(){
   runRain=S.weather==='rain';state='menu';document.body.classList.add('inmenu');['#finish','#pause'].forEach(s=>$(s).classList.add('hidden'));$('#menu').classList.remove('hidden');
   $('#lights').style.display='none';
   if(TRACK_DEF!==TRACKS[curTrackIdx()])loadTrackAndWorld(curTrackIdx());
-  applyEnv();buildCars();placeGrid();refreshUI();
+  applyEnv();buildCars();placeGrid();refreshUI();setShowroom(true);
 }
 function togglePause(){
   if(state==='paused'){state=prevState;$('#pause').classList.add('hidden');last=performance.now();return;}
@@ -1172,7 +1187,7 @@ function buildCarsIfAIClash(){if(state==='menu'){buildCars();placeGrid();}}
 function onSet(k){
   if(k==='mode'){if(S.mode!=='champ')champ=null;if(TRACK_DEF!==TRACKS[curTrackIdx()])loadTrackAndWorld(curTrackIdx());buildCars();placeGrid();}
   else if(k==='opp'){buildCars();placeGrid();}
-  else if(k==='tod'||k==='weather')applyEnv();
+  else if(k==='tod'||k==='weather'){applyEnv();if(state==='menu')setShowroom(true);}
   else if(k==='quality'){applyQuality();loadTrackAndWorld(curTrackIdx());}
   else if(k==='btn')document.documentElement.style.setProperty('--btn',S.btn);
   else if(k==='tilt'){document.body.classList.toggle('tilt',S.tilt);if(S.tilt)enableTilt();}
@@ -1201,12 +1216,12 @@ function updateCamera(dt,now){
   if(!dragActive){dragIdle+=dt;if(state!=='menu'&&dragIdle>1.6){dragYaw=wrapA(dragYaw);const k=1-Math.exp(-dt*2.2);dragYaw-=dragYaw*k;dragPitch-=dragPitch*k;}}
   if(state==='menu'){
     if(!dragActive&&dragIdle>2.5)menuA+=dt*0.18;
-    const a=menuA+dragYaw,r=menuTab==='garage'?6.2:9;
-    const el=clamp((menuTab==='garage'?0.28:0.33)+dragPitch,0.04,1.3);
-    camera.position.set(c.x+Math.sin(a)*r*Math.cos(el),0.7+r*Math.sin(el),c.z+Math.cos(a)*r*Math.cos(el));
-    camera.lookAt(c.x,0.7,c.z);
+    const a=menuA+dragYaw,r=(menuTab==='garage'?6.2:9)*(innerWidth<innerHeight?1.45:1);
+    const el=clamp((showroomOn?0.1:(menuTab==='garage'?0.28:0.33))+dragPitch,0.03,1.3);
+    camera.position.set(c.x+Math.sin(a)*r*Math.cos(el),0.55+r*Math.sin(el),c.z+Math.cos(a)*r*Math.cos(el));
+    camera.lookAt(c.x,showroomOn?0.45:0.7,c.z);
     const W=innerWidth,H=innerHeight;
-    if(W>H)camera.setViewOffset(W,H,-W*0.2,0,W,H);else camera.setViewOffset(W,H,0,H*0.2,W,H);
+    if(W>H)camera.setViewOffset(W,H,-W*0.21,-H*(showroomOn?0.16:0),W,H);else camera.setViewOffset(W,H,0,H*0.24,W,H);
     camYaw=c.th;camera.fov=55;camera.updateProjectionMatrix();return;}
   if(camera.view&&camera.view.enabled)camera.clearViewOffset();
   let target=c.th;

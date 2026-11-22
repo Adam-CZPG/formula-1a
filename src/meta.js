@@ -92,7 +92,7 @@ const LEAGUES=[{k:'lg1',min:0,ai:0.86,rw:1,col:'#cd7f32',ic:'🥉'},{k:'lg2',min
   {k:'lg4',min:800,ai:0.962,rw:2,col:'#7fe3ff',ic:'💎'},{k:'lg5',min:1400,ai:0.985,rw:2.6,col:'#ff5ad1',ic:'👑'}];
 const TYRES={S:{k:'ty_s',d:'ty_s_d',col:'#ff3b3b',grip:1.05,wear:0.045},M:{k:'ty_m',d:'ty_m_d',col:'#ffd23f',grip:1,wear:0.028},H:{k:'ty_h',d:'ty_h_d',col:'#f2f2f2',grip:0.955,wear:0.016},W:{k:'ty_w',d:'ty_w_d',col:'#2e8bff',grip:0.93,wear:0.03}};
 const LIV_PRICE=[0,0,1500,2500,2000,2000,3000,4000];
-const CRATES=[{k:'cr1',price:400,cards:[3,5],coins:[80,250],pilot:0,ic:'📦'},{k:'cr2',price:1500,cards:[8,12],coins:[250,700],pilot:0.15,ic:'🎁'}];
+const CRATES=[{k:'cr1',price:400,cards:[3,5],coins:[80,250],pilot:0,img:'ic_crate1'},{k:'cr2',price:1500,cards:[8,12],coins:[250,700],pilot:0.15,img:'ic_crate2'}];
 const PDEF={coins:600,xp:0,level:1,trophies:0,car:'c1',cars:{c1:1},parts:{eng:0,aero:0,tyre:0,brake:0},cards:{eng:0,aero:0,tyre:0,brake:0},livs:{0:1,1:1},
   pilot:'p1',pilots:{p1:1},daily:'',streak:0,freeCrate:0,races:0,wins:0};
 const PR=Object.assign({},PDEF,store.get('f1a_prof',{}));
@@ -107,8 +107,22 @@ function playerStats(){const c=carDef(),p=PR.parts,pl=pilotDef();
 function teamScore(){const s=playerStats();return Math.round((s.pow*0.35+s.aero*0.25+s.grip*0.25+s.brk*0.15)*1000);}
 function fmtN(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
 
+// ---------- emoji o'rniga rasm ikonkalar ----------
+const ICON_MAP={'🪙':'ic_coin','🏆':'ic_trophy','⭐':'ic_xp'},ICON_RE=/🪙|🏆|⭐/;
+function iconify(root){
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),list=[];let n;
+  while(n=w.nextNode())if(ICON_RE.test(n.nodeValue))list.push(n);
+  for(const node of list){const parts=node.nodeValue.split(/(🪙|🏆|⭐)/),f=document.createDocumentFragment();
+    for(const p of parts){if(ICON_MAP[p]){const im=document.createElement('img');im.className='ico';im.alt='';im.src=ASSET[ICON_MAP[p]];f.appendChild(im);}else if(p)f.appendChild(document.createTextNode(p));}
+    node.parentNode.replaceChild(f,node);}
+}
+const iconObs=new MutationObserver(ms=>{for(const mu of ms){if(mu.type==='characterData'){if(mu.target.parentNode&&ICON_RE.test(mu.target.nodeValue))iconify(mu.target.parentNode);}
+  else for(const a of mu.addedNodes){if(a.nodeType===1)iconify(a);else if(a.nodeType===3&&a.parentNode&&ICON_RE.test(a.nodeValue))iconify(a.parentNode);}}});
+['#menu','#finish','#crate','#prerace','#toast'].forEach(s=>{const e=$(s);iconify(e);iconObs.observe(e,{childList:true,subtree:true,characterData:true});});
+$$('[data-a]').forEach(e=>e.src=ASSET[e.dataset.a]);
+
 // ---------- bildirishnoma ----------
-function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800);}
+function toast(msg){const el=$('#toast');el.textContent=msg;iconify(el);el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800);}
 function addCoins(n){PR.coins+=n;saveP();updateTopbar();}
 function spend(n){if(PR.coins<n){toast(t('no_coins'));vibrate(40);return false;}PR.coins-=n;saveP();updateTopbar();return true;}
 function addXP(n){PR.xp+=n;let up=false;while(PR.xp>=PR.level*250){PR.xp-=PR.level*250;PR.level++;PR.coins+=300;up=true;}saveP();updateTopbar();return up;}
@@ -126,7 +140,7 @@ const Ads={
 function renderLeague(){
   const i=leagueIdx(),L=LEAGUES[i],N2=LEAGUES[i+1];
   const prog=N2?(PR.trophies-L.min)/(N2.min-L.min):1;
-  $('#leagueCard').innerHTML=`<div class="lgic" style="background:${L.col}">${L.ic}</div><div class="lgtx"><b>${t(L.k)}</b>
+  $('#leagueCard').innerHTML=`<img class="lgic" src="${ASSET['b_'+L.k]}" alt=""><div class="lgtx"><b>${t(L.k)}</b>
     <small>🏆 ${fmtN(PR.trophies)} ${t('trophies')} · ${t('team_score')}: ${teamScore()}</small>
     <div class="lgbar"><i style="width:${(prog*100).toFixed(0)}%;background:${L.col}"></i></div><small>${N2?t('next_league',{n:N2.min}):t('max_league')}</small></div>`;
 }
@@ -163,12 +177,12 @@ function renderShop(){
   const today=new Date().toDateString(),got=PR.daily===today,amt=150+Math.min(6,PR.streak)*50;
   const freeLeft=Math.max(0,PR.freeCrate-Date.now());
   $('#shopBox').innerHTML=`
-   <div class="scard"><div class="sic">🎁</div><div class="stx"><b>${t('shop_daily')}</b><small>${t('shop_daily_d')} · +${got?amt:150+Math.min(6,PR.streak+1)*50} 🪙</small></div>
+   <div class="scard"><img class="sicimg" src="${ASSET.ic_coin}" alt=""><div class="stx"><b>${t('shop_daily')}</b><small>${t('shop_daily_d')} · +${got?amt:150+Math.min(6,PR.streak+1)*50} 🪙</small></div>
      <button class="sbtn ui ${got?'done':''}" id="bDaily">${got?t('claimed'):t('claim')}</button></div>
    <div class="scard"><div class="sic">📺</div><div class="stx"><b>${t('shop_free')}</b><small>${t('shop_free_d')}</small></div>
      <button class="sbtn ui ${freeLeft?'done':''}" id="bFree">${freeLeft?`${t('wait')} ${Math.ceil(freeLeft/60000)}m`:t('watch_ad')}</button></div>
    <div class="lbl">${t('crates')}</div>
-   ${CRATES.map((c,i)=>`<div class="scard crate"><div class="sic sicb">${c.ic}</div><div class="stx"><b>${t(c.k)}</b><small>🃏 ${c.cards[0]}–${c.cards[1]} · 🪙 ${c.coins[0]}–${c.coins[1]}</small>
+   ${CRATES.map((c,i)=>`<div class="scard crate"><img class="sicimg" src="${ASSET[c.img]}" alt=""><div class="stx"><b>${t(c.k)}</b><small>🃏 ${c.cards[0]}–${c.cards[1]} · 🪙 ${c.coins[0]}–${c.coins[1]}</small>
      <small class="odds">${t('cr_odds',{p:Math.round(c.pilot*100)})}</small></div><button class="sbtn ui gold" data-crate="${i}">🪙 ${fmtN(c.price)}</button></div>`).join('')}`;
   $('#bDaily').addEventListener('click',()=>{if(PR.daily===today)return;
     const y=new Date(Date.now()-864e5).toDateString();PR.streak=PR.daily===y?PR.streak+1:1;PR.daily=today;const n=150+Math.min(6,PR.streak)*50;addCoins(n);toast(t('daily_got',{n}));renderShop();});
@@ -181,9 +195,9 @@ function openCrate(c){
   PR.coins+=coins;let pil=null;
   if(Math.random()<c.pilot){const locked=PILOTS.filter(p=>!PR.pilots[p.id]);if(locked.length){pil=locked[rint(0,locked.length-1)];PR.pilots[pil.id]=1;}}
   saveP();updateTopbar();
-  const items=[`<div class="ritem"><span>🪙</span><b>+${coins}</b></div>`].concat(Object.keys(got).map(id=>{const pt=PARTS.find(p=>p.id===id);return `<div class="ritem"><span>${pt.ic}</span><b>+${got[id]}</b><small>${t(pt.k)}</small></div>`;}));
-  if(pil)items.push(`<div class="ritem gold"><span>👤</span><b>${pil.name}</b><small>${t('pilot_new')}</small></div>`);
-  $('#crateItems').innerHTML=items.join('');$('#crateIc').textContent=c.ic;
+  const items=[`<div class="ritem"><img class="rbig" src="${ASSET.ic_coin}"><b>+${coins}</b></div>`].concat(Object.keys(got).map(id=>{const pt=PARTS.find(p=>p.id===id);return `<div class="ritem"><span>${pt.ic}</span><b>+${got[id]}</b><small>${t(pt.k)}</small></div>`;}));
+  if(pil)items.push(`<div class="ritem gold"><img class="face" src="${ASSET['pl_'+pil.id]}"><b>${pil.name}</b><small>${t('pilot_new')}</small></div>`);
+  $('#crateItems').innerHTML=items.join('');$('#crateIc').innerHTML=`<img src="${ASSET[c.img]}" alt="">`;
   const ov=$('#crate');ov.classList.remove('hidden');ov.classList.remove('opened');void ov.offsetWidth;ov.classList.add('opened');
   $$('#crateItems .ritem').forEach((e,i)=>e.style.animationDelay=(0.5+i*0.18)+'s');
   vibrate([30,40,60]);if(actx){beep(660,0.1,0.15);setTimeout(()=>beep(990,0.15,0.15),150);}
@@ -191,7 +205,7 @@ function openCrate(c){
 function renderPilots(){
   const star=n=>'★'.repeat(n)+'<i>'+'★'.repeat(5-n)+'</i>';
   $('#pilotList').innerHTML=PILOTS.map(p=>{const own=!!PR.pilots[p.id],sel=PR.pilot===p.id;
-    return `<div class="pcard ${sel?'on':''}"><div class="pav" style="background:${p.col}">${p.name.split(' ').map(w=>w[0]).join('')}</div>
+    return `<div class="pcard ${sel?'on':''}"><img class="pav" src="${ASSET['pl_'+p.id]}" alt="">
       <div class="ptx2"><b>${p.name}</b><div class="pst"><span>${t('p_speed')}</span>${star(p.sp)}</div><div class="pst"><span>${t('p_corner')}</span>${star(p.cor)}</div>
       <div class="pst"><span>${t('p_rain')}</span>${star(p.rain)}</div><div class="pst"><span>${t('p_tyres')}</span>${star(p.tyr)}</div>
       <small>${t('pilot_bonus',{a:(p.sp*0.5).toFixed(1),b:(p.cor*0.4).toFixed(1),c:p.rain*2,d:p.tyr*6})}</small></div>

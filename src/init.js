@@ -3,7 +3,7 @@ applyQuality();
 loadTrackAndWorld(S.track);
 buildCars();placeGrid();
 for(const k in S)if(k==='livery'&&!PR.livs[S.livery]){PR.livs[S.livery]=1;saveP();}
-applyLang();buildMenu();refreshUI();
+applyLang();buildMenu();refreshUI();setShowroom(true);
 if(S.tilt&&!(typeof DeviceMotionEvent!=='undefined'&&typeof DeviceMotionEvent.requestPermission==='function'))enableTilt();
 let last=performance.now(),acc=0;const STEP=1/120;
 function setPR(pr){renderer.setPixelRatio(pr);renderer.setSize(innerWidth,innerHeight);composer.setPixelRatio(pr);composer.setSize(innerWidth,innerHeight);}
@@ -21,7 +21,7 @@ function loop(now){
       if(!f.classList.contains('hidden')&&(finT%0.5)<dt)updateFinTable();}
     updateCars(dt,now);updateCones(dt);updateSparks(dt);updateFlash(dt);updateParticles(dt);updateRain(dt);treeU.uTime.value=now/1000;
   }else acc=0;
-  updateCamera(dt,now);
+  showroomTick();updateCamera(dt,now);
   sky.position.copy(camera.position);stars.position.copy(camera.position);
   sun.position.set(player.x+SUN_DIR.x*150,SUN_DIR.y*150,player.z+SUN_DIR.z*150);sun.target.position.set(player.x,0,player.z);sun.target.updateMatrixWorld();
   updateHUD(dt);drawMini();updateAudio();drawSpeedLines();
@@ -29,4 +29,4 @@ function loop(now){
 }
 requestAnimationFrame(loop);
 document.addEventListener('visibilitychange',()=>{last=performance.now();acc=0;if(actx){document.hidden?actx.suspend():actx.resume();}if(document.hidden&&(state==='race'||state==='countdown'))togglePause();});
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();applyQuality();sizeSL();});
+addEventListener('resize',()=>{fitBg();camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();applyQuality();sizeSL();});
