@@ -1,0 +1,12 @@
+{
+  "name": "formula-1a",
+  "version": "1.0.0",
+  "description": "Formula 1a — brauzer uchun 3D F1 poyga o'yini (Three.js)",
+  "type": "module",
+  "scripts": {
+    "build": "sh build.sh",
+    "test": "node tests/physics-test.mjs && node tests/run.mjs",
+    "start": "npx serve ."
+  },
+  "devDependencies": { "three": "0.160.0" }
+}
