@@ -64,6 +64,7 @@ class Car{
     this.throttle=0;this.brake=0;this.long=0;this.latA=0;this.idx=idx;this.pidx=idx;this.lat=0;this.vLong=0;
     this.onGrass=false;this.slipF=0;this.slipR=0;this.spin=false;this.wheelRot=0;this.stuck=0;
     this.dragMul=1;this.dfMul=1;this.gripF=1;this.drs=false;this.drsAvail=false;this.slip=0;this.dmg=0;this.brakeT=0;
+    this.wear=0;this.limiter=0;if(this.powMul==null){this.powMul=1;this.aeroMul=1;this.gripMul=1;this.brkMul=1;this.tyreGrip=1;this.wearRate=0;}
   }
   get speed(){return Math.hypot(this.vx,this.vz);}
   step(dt){
@@ -73,15 +74,16 @@ class Car{
     const maxSt=0.42/(1+sp*0.045);
     this.steer+=(this.steerIn*maxSt-this.steer)*Math.min(1,dt*12);
     const d=this.steer,cd=Math.cos(d),sd=Math.sin(d);
-    const surf=this.onGrass?0.55:1, mu=P.mu*surf*GRIP_ENV;
-    const df=P.kdf*sp*sp*this.dfMul;
+    const surf=this.onGrass?0.55:1, mu=P.mu*surf*GRIP_ENV*this.gripMul*this.tyreGrip*(1-0.13*Math.pow(this.wear,1.5));
+    const df=P.kdf*sp*sp*this.dfMul*this.aeroMul;
     const wt=P.m*this.long*P.h/WB;
     const Nf=Math.max(300,P.m*G*P.b/WB+df*0.45-wt), Nr=Math.max(300,P.m*G*P.a/WB+df*0.55+wt);
     const vxa=Math.max(Math.abs(vL),3), dir=vL>=0?1:-1;
     const af=Math.atan2(vT+this.r*P.a,vxa)-d*dir, ar=Math.atan2(vT-this.r*P.b,vxa);
     let Fdrive=0,Fbrk=0;
-    if(this.throttle>0&&vL>-1)Fdrive=this.throttle*Math.min(P.fmax,P.power/Math.max(sp,1));
-    if(this.brake>0){ if(vL>1)Fbrk=this.brake*mu*(Nf+Nr)*0.92; else if(vL>-11)Fdrive-=this.brake*4000; }
+    if(this.throttle>0&&vL>-1)Fdrive=this.throttle*Math.min(P.fmax,P.power*this.powMul/Math.max(sp,1));
+    if(this.limiter>0&&sp>this.limiter){Fdrive=0;this.brake=Math.max(this.brake,clamp((sp-this.limiter)*0.15,0,0.6));}
+    if(this.brake>0){ if(vL>1)Fbrk=this.brake*mu*(Nf+Nr)*Math.min(1.02,0.9*this.brkMul); else if(vL>-11)Fdrive-=this.brake*4000; }
     if(this.throttle>0&&vL<-1)Fbrk=this.throttle*mu*(Nf+Nr)*0.5;
     const cap=mu*Nr; this.spin=Math.abs(Fdrive)>cap*0.9;
     const tc=cap*0.97*clamp(1-Math.abs(ar)/0.34,0.4,1);
@@ -94,7 +96,7 @@ class Car{
     let tq=P.a*(Fyf*cd+Fxf*sd)-P.b*Fyr;
     const esc=clamp((Math.abs(ar)-0.09)/0.12,0,1);
     if(esc>0&&vL>3)tq-=(this.r-vL*Math.tan(d)/WB)*P.I*3.5*esc;
-    const res=P.kdrag*this.dragMul*sp*sp+P.crr*P.m*G*Math.min(1,sp)+(this.onGrass?1100*Math.min(1,sp/4):0);
+    const res=P.kdrag*this.dragMul*(1-(this.aeroMul-1)*0.3)*sp*sp+P.crr*P.m*G*Math.min(1,sp)+(this.onGrass?1100*Math.min(1,sp/4):0);
     const rx=sp>1e-3?-res*this.vx/sp:0, rz=sp>1e-3?-res*this.vz/sp:0;
     this.vx+=(FL*s+FT*c+rx)/P.m*dt; this.vz+=(FL*c-FT*s+rz)/P.m*dt;
     this.r+=tq/P.I*dt;
@@ -109,6 +111,7 @@ class Car{
     this.long+=((FL+rx*s+rz*c)/P.m-this.long)*Math.min(1,dt*8);
     this.latA+=(FT/P.m-this.latA)*Math.min(1,dt*8);
     this.slipF=af;this.slipR=ar;this.vLong=vL;this.wheelRot+=vL/0.36*dt;
+    if(this.wearRate>0)this.wear=Math.min(1,this.wear+this.wearRate*sp*dt/1000*(1+Math.min(2,(Math.abs(ar)+Math.abs(af))*4)));
     // tormoz disk harorati (vizual)
     this.brakeT+=((Fbrk>4000&&sp>15?1:0)-this.brakeT)*Math.min(1,dt*(Fbrk>4000?1.5:0.6));
   }

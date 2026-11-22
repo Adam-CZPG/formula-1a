@@ -156,6 +156,78 @@ body.inmenu #hud,body.inmenu #mini,body.inmenu #tools,body.inmenu #speedo,body.i
   .big{padding:11px 30px;font-size:18px}
   .tcard canvas{aspect-ratio:2}
 }
+
+/* ---- hub menyu ---- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.topbar .logo{font-size:30px}
+.tbr{display:flex;align-items:center;gap:8px}
+.lvl{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border-radius:20px;padding:3px 10px 3px 3px}
+.lvl b{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#ffd23f,#ff8a00);color:#1a1000;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900}
+.xpbar{width:56px;height:6px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden}.xpbar i{display:block;height:100%;background:#ffd23f;width:0}
+.coins{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border-radius:20px;padding:5px 12px;font-weight:900}
+.tabs button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 2px}
+.tabs button span{font-size:16px}.tabs button em{font-style:normal;font-size:11px}
+.league{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.1);margin-top:4px}
+.lgic{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;flex:none;box-shadow:inset 0 -4px 0 rgba(0,0,0,.25)}
+.lgtx{flex:1;min-width:0}.lgtx b{font-size:16px;font-style:italic}.lgtx small{display:block;font-size:11px;opacity:.7;margin-top:2px}
+.lgbar{height:7px;border-radius:4px;background:rgba(255,255,255,.12);margin:6px 0 2px;overflow:hidden}.lgbar i{display:block;height:100%}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.mcard{padding:10px 6px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);text-align:center}
+.mcard span{font-size:22px;display:block}.mcard b{display:block;font-size:12px;margin-top:4px}.mcard small{display:block;font-size:9.5px;opacity:.6;margin-top:2px}
+.mcard.on{border-color:var(--acc);background:rgba(255,45,45,.16)}
+#champInfo{font-size:12px;opacity:.75;margin-top:6px}
+.carsel{display:flex;align-items:center;gap:10px;margin-top:6px}
+.arw{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.1);font-size:24px;font-weight:900}
+.cn{flex:1;text-align:center}.cn b{font-size:20px;font-style:italic;display:block}.cn small{opacity:.6;font-size:11px}
+.stats{margin-top:8px}.sbar{display:flex;align-items:center;gap:8px;font-size:11px;margin:5px 0}.sbar span{width:92px;opacity:.75;font-weight:700}
+.sbar div{flex:1;height:7px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}.sbar i{display:block;height:100%;background:linear-gradient(90deg,#ff2d2d,#ffb020)}
+.buy{width:100%;margin-top:8px;padding:11px;border-radius:12px;background:linear-gradient(135deg,#ffb020,#ff7a18);font-weight:900;font-size:15px;color:#1a0d00}
+.buy.sel{background:rgba(46,230,107,.25);color:#bfffd5}.buy.done{background:rgba(255,255,255,.08);color:#fff;opacity:.7}
+.part{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.06);margin-bottom:6px}
+.pic{font-size:22px;width:36px;text-align:center}.ptx{flex:1;min-width:0}.ptx b{font-size:13px}.ptx small{display:block;font-size:10.5px;opacity:.65}
+.pips{display:flex;gap:3px;margin:3px 0}.pips i{width:16px;height:5px;border-radius:2px;background:rgba(255,255,255,.15)}.pips i.on{background:#2ee66b}
+.pbtn{padding:8px 10px;border-radius:10px;background:linear-gradient(135deg,#ffb020,#ff7a18);color:#1a0d00;font-weight:900;font-size:12px;white-space:nowrap}
+.pbtn.done{background:rgba(255,255,255,.1);color:#fff;opacity:.7}.pbtn.sel{background:rgba(46,230,107,.25);color:#bfffd5}
+.liv{position:relative}.liv.lock{opacity:.55}.liv .lp{display:block;font-size:10px;color:#ffd23f;margin-top:2px;min-height:12px}
+.scard{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.06);margin-bottom:8px}
+.sic{font-size:26px;width:40px;text-align:center}.sic.sicb{font-size:34px}.stx{flex:1;min-width:0}.stx b{font-size:14px}.stx small{display:block;font-size:11px;opacity:.65;margin-top:2px}
+.stx .odds{font-size:9.5px;opacity:.5}
+.sbtn{padding:9px 12px;border-radius:10px;background:rgba(46,230,107,.3);color:#d6ffe4;font-weight:900;font-size:12.5px;white-space:nowrap}
+.sbtn.gold{background:linear-gradient(135deg,#ffb020,#ff7a18);color:#1a0d00}.sbtn.done{background:rgba(255,255,255,.08);color:#fff;opacity:.6}.sbtn.wide{width:100%;margin-top:10px;padding:12px}
+.pcard{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.06);margin-bottom:8px;border:1px solid transparent}
+.pcard.on{border-color:var(--acc);background:rgba(255,45,45,.12)}
+.pav{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;flex:none;box-shadow:inset 0 -3px 0 rgba(0,0,0,.3)}
+.ptx2{flex:1;min-width:0}.ptx2 b{font-size:14px}.ptx2 small{display:block;font-size:9.5px;opacity:.55;margin-top:3px}
+.pst{display:flex;font-size:10.5px;gap:6px;color:#ffd23f;letter-spacing:1px}.pst span{width:70px;color:#fff;opacity:.65;letter-spacing:0}.pst i{font-style:normal;opacity:.2}
+.logo.sm{font-size:28px}
+.preinfo{font-size:13px;opacity:.75;margin:8px 0 4px}
+.tyres{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0 12px}
+.tybtn{padding:10px 4px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.tybtn i{display:flex;width:40px;height:40px;margin:0 auto 6px;border-radius:50%;border:5px solid;background:#141416;align-items:center;justify-content:center;font-style:normal;font-weight:900}
+.tybtn b{display:block;font-size:12.5px}.tybtn small{display:block;font-size:9.5px;opacity:.6;margin-top:2px}
+.tybtn.on{border-color:var(--acc);background:rgba(255,45,45,.16)}
+.crateic{font-size:64px;margin-bottom:4px}
+#crate.opened .crateic{animation:pop .6s ease-out}
+@keyframes pop{0%{transform:scale(.3) rotate(-20deg)}60%{transform:scale(1.3) rotate(8deg)}100%{transform:scale(1)}}
+.ritems{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0}
+.ritem{min-width:84px;padding:10px;border-radius:12px;background:rgba(255,255,255,.08);opacity:0;animation:rin .4s ease-out forwards}
+.ritem span{font-size:26px;display:block}.ritem b{display:block;font-size:15px}.ritem small{display:block;font-size:10px;opacity:.65}
+.ritem.gold{background:linear-gradient(135deg,rgba(255,210,63,.35),rgba(255,122,24,.25))}
+@keyframes rin{from{opacity:0;transform:translateY(16px) scale(.8)}to{opacity:1;transform:none}}
+#adov{background:#000;z-index:30}.adcard{text-align:center}.adtag{display:inline-block;background:#ffd23f;color:#000;font-weight:900;font-size:11px;padding:3px 8px;border-radius:5px;letter-spacing:.1em}
+.adbox{font-size:90px;margin:20px 0}.adtxt{margin-top:14px;font-weight:800;font-size:16px}
+#toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:rgba(10,14,22,.92);border:1px solid rgba(255,255,255,.15);padding:10px 18px;border-radius:12px;font-weight:800;z-index:40;opacity:0;transition:.25s;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.rewards{background:rgba(255,255,255,.05);border-radius:12px;padding:10px 12px;margin-bottom:10px;text-align:left}
+.rrow{display:flex;justify-content:space-between;font-size:14px;padding:4px 0}.rrow b{color:#ffd23f}.rrow b.neg{color:#ff5050}.rrow.tot{border-top:1px solid rgba(255,255,255,.12);margin-top:4px;padding-top:7px;font-weight:900}
+.lvlup{margin-top:8px;text-align:center;font-weight:900;color:#2ee66b}
+#bPit{right:calc(20px + 104px*var(--btn) + env(safe-area-inset-right));bottom:calc(36px + 100px*var(--btn) + env(safe-area-inset-bottom));width:calc(88px*var(--btn));height:calc(44px*var(--btn));border-radius:12px;font-weight:900;font-size:14px;letter-spacing:.1em}
+#bPit.act{background:#ffd23f;color:#1a1000;border-color:#ffd23f}
+.badge.pit{opacity:1;background:#ffd23f;color:#1a1000}
+#hTyre i{font-style:normal;display:inline-block;width:16px;height:16px;border-radius:50%;border:3px solid;vertical-align:-3px;margin-right:4px}
+@media (orientation:landscape){#finish .card{max-width:820px}#finBody{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}#finBody .res{margin-top:0}#finTitle{font-size:32px;margin-bottom:8px}}
+@media (orientation:portrait){.topbar .logo{font-size:24px;white-space:nowrap}.xpbar{width:40px}.modes{grid-template-columns:repeat(2,1fr)}#bPit{right:calc(20px + 92px*var(--btn) + env(safe-area-inset-right));bottom:calc(34px + 90px*var(--btn) + env(safe-area-inset-bottom));width:calc(76px*var(--btn))}}
+@media (max-height:440px){.topbar .logo{font-size:24px}.league{padding:8px}.lgic{width:42px;height:42px;font-size:22px}.mcard{padding:7px 4px}.mcard span{font-size:18px}}
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
@@ -166,11 +238,12 @@ body.inmenu #hud,body.inmenu #mini,body.inmenu #tools,body.inmenu #speedo,body.i
 <canvas id="speedlines"></canvas>
 
 <div id="hud">
-  <div class="pill pos" id="pPos"><small>O‘RIN</small><b id="hPos">4/4</b></div>
-  <div class="pill"><small>AYLANA</small><b id="hLap">1/3</b></div>
-  <div class="pill"><small>VAQT</small><b id="hTime">0:00.000</b></div>
-  <div class="pill"><small>ENG YAXSHI</small><b id="hBest">—</b></div>
-  <div class="pill hidden" id="pDelta"><small>FARQ</small><b id="hDelta">—</b></div>
+  <div class="pill pos" id="pPos"><small data-i18n="h_pos">O‘RIN</small><b id="hPos">4/4</b></div>
+  <div class="pill"><small data-i18n="h_lap">AYLANA</small><b id="hLap">1/3</b></div>
+  <div class="pill"><small data-i18n="h_time">VAQT</small><b id="hTime">0:00.000</b></div>
+  <div class="pill"><small data-i18n="h_best">ENG YAXSHI</small><b id="hBest">—</b></div>
+  <div class="pill" id="pTyre"><small data-i18n="h_tyre">SHINA</small><b id="hTyre">M 100%</b></div>
+  <div class="pill hidden" id="pDelta"><small data-i18n="h_delta">FARQ</small><b id="hDelta">—</b></div>
 </div>
 <canvas id="mini" width="280" height="280"></canvas>
 <div id="tools" class="ui">
@@ -178,75 +251,118 @@ body.inmenu #hud,body.inmenu #mini,body.inmenu #tools,body.inmenu #speedo,body.i
   <button class="ibtn ui" id="btnReset" aria-label="Trassaga qaytarish"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5"/></svg></button>
   <button class="ibtn ui" id="btnPause" aria-label="Pauza"><svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg></button>
 </div>
-<div id="radio"><i>RADIO · MUHANDIS</i><span id="radioTxt"></span></div>
+<div id="radio"><i data-i18n="radio">RADIO</i><span id="radioTxt"></span></div>
 
 <div id="speedo">
-  <div id="spdRow"><div id="gear">N</div><div id="spd">0</div><div id="unit">KM/S</div></div>
+  <div id="spdRow"><div id="gear">N</div><div id="spd">0</div><div id="unit" data-i18n="kmh">KM/S</div></div>
   <div id="rpm"><div id="rpmF"></div></div>
-  <div id="badges"><span class="badge" id="bgDrs">DRS</span><span class="badge hidden" id="bgSlip">SLIPSTREAM</span><span class="badge hidden" id="bgDmg">QANOT ⚠</span></div>
+  <div id="badges"><span class="badge" id="bgDrs">DRS</span><span class="badge hidden" id="bgSlip">SLIPSTREAM</span><span class="badge hidden" id="bgDmg">⚠</span><span class="badge hidden" id="bgPit">PIT</span></div>
 </div>
 
 <div id="lights"><i></i><i></i><i></i><i></i><i></i></div>
 <div id="msg"></div>
-<div id="warn">⟲ NOTO‘G‘RI YO‘NALISH</div>
+<div id="warn" data-i18n="wrong">⟲</div>
 
 <div id="controls">
   <div class="tbtn" id="bLeft"><svg viewBox="0 0 24 24"><path d="M15.5 4 6.5 12l9 8z"/></svg></div>
   <div class="tbtn" id="bRight"><svg viewBox="0 0 24 24"><path d="M8.5 4l9 8-9 8z"/></svg></div>
-  <div class="tbtn" id="bBrake"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg><span>TORMOZ</span></div>
-  <div class="tbtn" id="bGas"><svg viewBox="0 0 24 24"><path d="M12 4l7 9h-4v7H9v-7H5z"/></svg><span>GAZ</span></div>
+  <div class="tbtn" id="bBrake"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg><span data-i18n="b_brake">TORMOZ</span></div>
+  <div class="tbtn" id="bGas"><svg viewBox="0 0 24 24"><path d="M12 4l7 9h-4v7H9v-7H5z"/></svg><span data-i18n="b_gas">GAZ</span></div>
   <div class="tbtn" id="bDrs">DRS</div>
+  <div class="tbtn" id="bPit">PIT</div>
 </div>
 
 <div class="overlay" id="menu">
   <div class="panel ui">
-    <div class="phead"><div class="logo">FORMULA <em>1a</em></div><div id="champInfo"></div></div>
-    <div class="tabs" id="tabs"><button data-tab="race" class="on">Poyga</button><button data-tab="garage">Garaj</button><button data-tab="set">Sozlamalar</button></div>
-    <div class="scroll ui">
-      <div class="tab on" id="tab-race">
-        <div class="lbl">Trassa</div><div class="cards" id="trackCards"></div>
-        <div class="lbl">Rejim</div>
-        <div class="seg" data-key="mode"><button data-v="race">Poyga</button><button data-v="tt">Vaqtga qarshi</button><button data-v="champ">Chempionat</button></div>
-        <div class="lbl">Kun vaqti</div>
-        <div class="seg" data-key="tod"><button data-v="day">☀ Kunduz</button><button data-v="sunset">🌇 Kechqurun</button><button data-v="night">🌙 Tun</button></div>
-        <div class="lbl">Ob-havo</div>
-        <div class="seg" data-key="weather"><button data-v="dry">Quruq</button><button data-v="rain">🌧 Yomg‘ir</button></div>
-      </div>
-      <div class="tab" id="tab-garage">
-        <div class="lbl">Livreya</div><div class="livs" id="livs"></div>
-        <div class="lbl">Asosiy rang</div><div class="cols" id="cols"></div>
-        <div class="lbl">Raqam</div>
-        <div class="numrow"><button id="numDn">−</button><b id="numV">7</b><button id="numUp">+</button></div>
-      </div>
-      <div class="tab" id="tab-set">
-        <div class="lbl">Qiyinlik</div>
-        <div class="seg" data-key="diff"><button data-v="0">Oson</button><button data-v="1">O‘rta</button><button data-v="2">Qiyin</button></div>
-        <div class="lbl">Raqiblar soni</div>
-        <div class="seg" data-key="opp"><button data-v="3">3</button><button data-v="5">5</button><button data-v="7">7</button></div>
-        <div class="lbl">Grafika sifati</div>
-        <div class="seg" data-key="quality"><button data-v="low">Past</button><button data-v="med">O‘rta</button><button data-v="high">Yuqori</button></div>
-        <div class="lbl">Tugmalar o‘lchami</div>
-        <div class="seg" data-key="btn"><button data-v="0.85">Kichik</button><button data-v="1">O‘rta</button><button data-v="1.18">Katta</button></div>
-        <div class="lbl">Boshqaruv va yordamchilar</div>
-        <button class="tog" data-key="tilt"><span>Telefonni egib boshqarish<small>Giroskop (rul tugmalari yashiriladi)</small></span><i></i></button>
-        <button class="tog" data-key="tiltInv"><span>Egishni teskari qilish</span><i></i></button>
-        <button class="tog" data-key="autoGas"><span>Avto-gaz<small>Faqat rul va tormoz kerak</small></span><i></i></button>
-        <button class="tog" data-key="brakeAssist"><span>Tormoz yordamchisi<small>Burilishdan oldin o‘zi sekinlashtiradi</small></span><i></i></button>
-        <button class="tog" data-key="line"><span>Poyga chizig‘i<small>Yashil — gaz, sariq — burilish, qizil — tormoz</small></span><i></i></button>
-        <button class="tog" data-key="vib"><span>Vibratsiya</span><i></i></button>
-        <button class="tog" data-key="sound"><span>Ovoz</span><i></i></button>
+    <div class="topbar">
+      <div class="logo">FORMULA <em>1a</em></div>
+      <div class="tbr">
+        <div class="lvl"><b id="lvlN">1</b><div class="xpbar"><i id="xpF"></i></div></div>
+        <div class="coins"><span>🪙</span><b id="coinN">0</b></div>
       </div>
     </div>
-    <div class="pfoot"><button class="big ui" id="btnStart">START</button></div>
+    <div class="tabs" id="tabs">
+      <button data-tab="race" class="on"><span>🏁</span><em data-i18n="tab_race">Poyga</em></button>
+      <button data-tab="garage"><span>🔧</span><em data-i18n="tab_garage">Garaj</em></button>
+      <button data-tab="shop"><span>🛒</span><em data-i18n="tab_shop">Do‘kon</em></button>
+      <button data-tab="pilots"><span>👤</span><em data-i18n="tab_pilots">Pilotlar</em></button>
+      <button data-tab="set"><span>⚙️</span><em data-i18n="tab_set">Sozlamalar</em></button>
+    </div>
+    <div class="scroll ui">
+      <div class="tab on" id="tab-race">
+        <div class="league" id="leagueCard"></div>
+        <div class="modes" id="modes"></div>
+        <div id="champInfo"></div>
+        <div class="lbl" data-i18n="track">Trassa</div><div class="cards" id="trackCards"></div>
+        <div class="lbl" data-i18n="tod">Kun vaqti</div>
+        <div class="seg" data-key="tod"><button data-v="day" data-i18n="day"></button><button data-v="sunset" data-i18n="sunset"></button><button data-v="night" data-i18n="night"></button></div>
+        <div class="lbl" data-i18n="weather">Ob-havo</div>
+        <div class="seg" data-key="weather"><button data-v="dry" data-i18n="dry"></button><button data-v="rain" data-i18n="rain"></button><button data-v="mix" data-i18n="mix"></button></div>
+      </div>
+      <div class="tab" id="tab-garage">
+        <div class="carsel"><button class="arw ui" id="carPrev">‹</button><div class="cn"><b id="carName"></b><small id="carTier"></small></div><button class="arw ui" id="carNext">›</button></div>
+        <div class="stats" id="carStats"></div>
+        <button class="buy ui" id="carBuy"></button>
+        <div class="lbl" data-i18n="upgrades">Kuchaytirish</div><div id="parts"></div>
+        <div class="lbl" data-i18n="livery">Livreya</div><div class="livs" id="livs"></div>
+        <div class="lbl" data-i18n="color">Asosiy rang</div><div class="cols" id="cols"></div>
+        <div class="lbl" data-i18n="number">Raqam</div>
+        <div class="numrow"><button id="numDn">−</button><b id="numV">7</b><button id="numUp">+</button></div>
+      </div>
+      <div class="tab" id="tab-shop"><div id="shopBox"></div></div>
+      <div class="tab" id="tab-pilots"><div id="pilotList"></div></div>
+      <div class="tab" id="tab-set">
+        <div class="lbl" data-i18n="lang">Til</div>
+        <div class="seg" data-key="lang"><button data-v="uz">O‘zbek</button><button data-v="ru">Русский</button><button data-v="en">English</button></div>
+        <div class="lbl" data-i18n="diff">Qiyinlik</div>
+        <div class="seg" data-key="diff"><button data-v="0" data-i18n="easy"></button><button data-v="1" data-i18n="medium"></button><button data-v="2" data-i18n="hard"></button></div>
+        <div class="lbl" data-i18n="opp">Raqiblar soni</div>
+        <div class="seg" data-key="opp"><button data-v="3">3</button><button data-v="5">5</button><button data-v="7">7</button></div>
+        <div class="lbl" data-i18n="quality">Grafika sifati</div>
+        <div class="seg" data-key="quality"><button data-v="low" data-i18n="low"></button><button data-v="med" data-i18n="mid"></button><button data-v="high" data-i18n="high"></button></div>
+        <div class="lbl" data-i18n="btnsize">Tugmalar o‘lchami</div>
+        <div class="seg" data-key="btn"><button data-v="0.85" data-i18n="small"></button><button data-v="1" data-i18n="normal"></button><button data-v="1.18" data-i18n="large"></button></div>
+        <div class="lbl" data-i18n="assists">Boshqaruv va yordamchilar</div>
+        <button class="tog" data-key="tilt"><span><span data-i18n="tilt"></span><small data-i18n="tilt_d"></small></span><i></i></button>
+        <button class="tog" data-key="tiltInv"><span data-i18n="tiltInv"></span><i></i></button>
+        <button class="tog" data-key="autoGas"><span><span data-i18n="autoGas"></span><small data-i18n="autoGas_d"></small></span><i></i></button>
+        <button class="tog" data-key="brakeAssist"><span><span data-i18n="brakeAssist"></span><small data-i18n="brakeAssist_d"></small></span><i></i></button>
+        <button class="tog" data-key="line"><span><span data-i18n="line"></span><small data-i18n="line_d"></small></span><i></i></button>
+        <button class="tog" data-key="vib"><span data-i18n="vib"></span><i></i></button>
+        <button class="tog" data-key="sound"><span data-i18n="sound"></span><i></i></button>
+      </div>
+    </div>
+    <div class="pfoot"><button class="big ui" id="btnStart" data-i18n="start">START</button></div>
   </div>
 </div>
 
+<div class="overlay dim ui hidden" id="prerace">
+  <div class="card ui">
+    <div class="logo sm" data-i18n="pre_title">Poyga oldidan</div>
+    <div class="preinfo" id="preInfo"></div>
+    <div class="lbl" data-i18n="choose_tyre">Shina tanlang</div>
+    <div class="tyres" id="tyres"></div>
+    <div class="row"><button class="sec ui" id="btnPreBack" data-i18n="back">Orqaga</button><button class="big ui" id="btnGo" data-i18n="go">BOSHLASH</button></div>
+  </div>
+</div>
+<div class="overlay dim ui hidden" id="crate">
+  <div class="card ui">
+    <div class="crateic" id="crateIc">📦</div>
+    <div class="logo sm" data-i18n="crate_title">Sandiq ochildi!</div>
+    <div class="ritems" id="crateItems"></div>
+    <div class="row"><button class="big ui" id="btnCrateOk">OK</button></div>
+  </div>
+</div>
+<div class="overlay ui hidden" id="adov">
+  <div class="card ui adcard"><div class="adtag" data-i18n="ad_test">REKLAMA</div><div class="adbox">📺</div><small data-i18n="ad_note"></small><div class="adtxt" id="adTxt"></div></div>
+</div>
+<div id="toast"></div>
 <div class="overlay dim ui hidden" id="pause">
   <div class="card ui">
-    <div class="logo">PAUZA</div>
+    <div class="logo" data-i18n="pause">PAUZA</div>
     <div class="row" style="flex-direction:column;align-items:center;margin-top:18px">
-      <button class="big ui" id="btnResume">DAVOM ETISH</button>
-      <div class="row"><button class="sec ui" id="btnRestart">Qayta boshlash</button><button class="sec ui" id="btnMenu">Bosh menyu</button></div>
+      <button class="big ui" id="btnResume" data-i18n="resume">DAVOM ETISH</button>
+      <div class="row"><button class="sec ui" id="btnRestart" data-i18n="restart"></button><button class="sec ui" id="btnMenu" data-i18n="main_menu"></button></div>
       <div class="row"><button class="sec ui" id="btnSnd2">Ovoz: yoqilgan</button></div>
     </div>
   </div>
@@ -257,6 +373,6 @@ body.inmenu #hud,body.inmenu #mini,body.inmenu #tools,body.inmenu #speedo,body.i
     <div class="logo" id="finTitle">FINISH</div>
     <div id="finBody"></div>
     <div class="row"><button class="big ui" id="btnNext">QAYTA</button></div>
-    <div class="row"><button class="sec ui" id="btnFinMenu">Bosh menyu</button></div>
+    <div class="row"><button class="sec ui" id="btnFinMenu" data-i18n="main_menu"></button></div>
   </div>
 </div>

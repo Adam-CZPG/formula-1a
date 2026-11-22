@@ -156,6 +156,78 @@ body.inmenu #hud,body.inmenu #mini,body.inmenu #tools,body.inmenu #speedo,body.i
   .big{padding:11px 30px;font-size:18px}
   .tcard canvas{aspect-ratio:2}
 }
+
+/* ---- hub menyu ---- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.topbar .logo{font-size:30px}
+.tbr{display:flex;align-items:center;gap:8px}
+.lvl{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border-radius:20px;padding:3px 10px 3px 3px}
+.lvl b{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#ffd23f,#ff8a00);color:#1a1000;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900}
+.xpbar{width:56px;height:6px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden}.xpbar i{display:block;height:100%;background:#ffd23f;width:0}
+.coins{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border-radius:20px;padding:5px 12px;font-weight:900}
+.tabs button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 2px}
+.tabs button span{font-size:16px}.tabs button em{font-style:normal;font-size:11px}
+.league{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.1);margin-top:4px}
+.lgic{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;flex:none;box-shadow:inset 0 -4px 0 rgba(0,0,0,.25)}
+.lgtx{flex:1;min-width:0}.lgtx b{font-size:16px;font-style:italic}.lgtx small{display:block;font-size:11px;opacity:.7;margin-top:2px}
+.lgbar{height:7px;border-radius:4px;background:rgba(255,255,255,.12);margin:6px 0 2px;overflow:hidden}.lgbar i{display:block;height:100%}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.mcard{padding:10px 6px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);text-align:center}
+.mcard span{font-size:22px;display:block}.mcard b{display:block;font-size:12px;margin-top:4px}.mcard small{display:block;font-size:9.5px;opacity:.6;margin-top:2px}
+.mcard.on{border-color:var(--acc);background:rgba(255,45,45,.16)}
+#champInfo{font-size:12px;opacity:.75;margin-top:6px}
+.carsel{display:flex;align-items:center;gap:10px;margin-top:6px}
+.arw{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.1);font-size:24px;font-weight:900}
+.cn{flex:1;text-align:center}.cn b{font-size:20px;font-style:italic;display:block}.cn small{opacity:.6;font-size:11px}
+.stats{margin-top:8px}.sbar{display:flex;align-items:center;gap:8px;font-size:11px;margin:5px 0}.sbar span{width:92px;opacity:.75;font-weight:700}
+.sbar div{flex:1;height:7px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}.sbar i{display:block;height:100%;background:linear-gradient(90deg,#ff2d2d,#ffb020)}
+.buy{width:100%;margin-top:8px;padding:11px;border-radius:12px;background:linear-gradient(135deg,#ffb020,#ff7a18);font-weight:900;font-size:15px;color:#1a0d00}
+.buy.sel{background:rgba(46,230,107,.25);color:#bfffd5}.buy.done{background:rgba(255,255,255,.08);color:#fff;opacity:.7}
+.part{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.06);margin-bottom:6px}
+.pic{font-size:22px;width:36px;text-align:center}.ptx{flex:1;min-width:0}.ptx b{font-size:13px}.ptx small{display:block;font-size:10.5px;opacity:.65}
+.pips{display:flex;gap:3px;margin:3px 0}.pips i{width:16px;height:5px;border-radius:2px;background:rgba(255,255,255,.15)}.pips i.on{background:#2ee66b}
+.pbtn{padding:8px 10px;border-radius:10px;background:linear-gradient(135deg,#ffb020,#ff7a18);color:#1a0d00;font-weight:900;font-size:12px;white-space:nowrap}
+.pbtn.done{background:rgba(255,255,255,.1);color:#fff;opacity:.7}.pbtn.sel{background:rgba(46,230,107,.25);color:#bfffd5}
+.liv{position:relative}.liv.lock{opacity:.55}.liv .lp{display:block;font-size:10px;color:#ffd23f;margin-top:2px;min-height:12px}
+.scard{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.06);margin-bottom:8px}
+.sic{font-size:26px;width:40px;text-align:center}.sic.sicb{font-size:34px}.stx{flex:1;min-width:0}.stx b{font-size:14px}.stx small{display:block;font-size:11px;opacity:.65;margin-top:2px}
+.stx .odds{font-size:9.5px;opacity:.5}
+.sbtn{padding:9px 12px;border-radius:10px;background:rgba(46,230,107,.3);color:#d6ffe4;font-weight:900;font-size:12.5px;white-space:nowrap}
+.sbtn.gold{background:linear-gradient(135deg,#ffb020,#ff7a18);color:#1a0d00}.sbtn.done{background:rgba(255,255,255,.08);color:#fff;opacity:.6}.sbtn.wide{width:100%;margin-top:10px;padding:12px}
+.pcard{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.06);margin-bottom:8px;border:1px solid transparent}
+.pcard.on{border-color:var(--acc);background:rgba(255,45,45,.12)}
+.pav{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;flex:none;box-shadow:inset 0 -3px 0 rgba(0,0,0,.3)}
+.ptx2{flex:1;min-width:0}.ptx2 b{font-size:14px}.ptx2 small{display:block;font-size:9.5px;opacity:.55;margin-top:3px}
+.pst{display:flex;font-size:10.5px;gap:6px;color:#ffd23f;letter-spacing:1px}.pst span{width:70px;color:#fff;opacity:.65;letter-spacing:0}.pst i{font-style:normal;opacity:.2}
+.logo.sm{font-size:28px}
+.preinfo{font-size:13px;opacity:.75;margin:8px 0 4px}
+.tyres{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0 12px}
+.tybtn{padding:10px 4px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.tybtn i{display:flex;width:40px;height:40px;margin:0 auto 6px;border-radius:50%;border:5px solid;background:#141416;align-items:center;justify-content:center;font-style:normal;font-weight:900}
+.tybtn b{display:block;font-size:12.5px}.tybtn small{display:block;font-size:9.5px;opacity:.6;margin-top:2px}
+.tybtn.on{border-color:var(--acc);background:rgba(255,45,45,.16)}
+.crateic{font-size:64px;margin-bottom:4px}
+#crate.opened .crateic{animation:pop .6s ease-out}
+@keyframes pop{0%{transform:scale(.3) rotate(-20deg)}60%{transform:scale(1.3) rotate(8deg)}100%{transform:scale(1)}}
+.ritems{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0}
+.ritem{min-width:84px;padding:10px;border-radius:12px;background:rgba(255,255,255,.08);opacity:0;animation:rin .4s ease-out forwards}
+.ritem span{font-size:26px;display:block}.ritem b{display:block;font-size:15px}.ritem small{display:block;font-size:10px;opacity:.65}
+.ritem.gold{background:linear-gradient(135deg,rgba(255,210,63,.35),rgba(255,122,24,.25))}
+@keyframes rin{from{opacity:0;transform:translateY(16px) scale(.8)}to{opacity:1;transform:none}}
+#adov{background:#000;z-index:30}.adcard{text-align:center}.adtag{display:inline-block;background:#ffd23f;color:#000;font-weight:900;font-size:11px;padding:3px 8px;border-radius:5px;letter-spacing:.1em}
+.adbox{font-size:90px;margin:20px 0}.adtxt{margin-top:14px;font-weight:800;font-size:16px}
+#toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:rgba(10,14,22,.92);border:1px solid rgba(255,255,255,.15);padding:10px 18px;border-radius:12px;font-weight:800;z-index:40;opacity:0;transition:.25s;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.rewards{background:rgba(255,255,255,.05);border-radius:12px;padding:10px 12px;margin-bottom:10px;text-align:left}
+.rrow{display:flex;justify-content:space-between;font-size:14px;padding:4px 0}.rrow b{color:#ffd23f}.rrow b.neg{color:#ff5050}.rrow.tot{border-top:1px solid rgba(255,255,255,.12);margin-top:4px;padding-top:7px;font-weight:900}
+.lvlup{margin-top:8px;text-align:center;font-weight:900;color:#2ee66b}
+#bPit{right:calc(20px + 104px*var(--btn) + env(safe-area-inset-right));bottom:calc(36px + 100px*var(--btn) + env(safe-area-inset-bottom));width:calc(88px*var(--btn));height:calc(44px*var(--btn));border-radius:12px;font-weight:900;font-size:14px;letter-spacing:.1em}
+#bPit.act{background:#ffd23f;color:#1a1000;border-color:#ffd23f}
+.badge.pit{opacity:1;background:#ffd23f;color:#1a1000}
+#hTyre i{font-style:normal;display:inline-block;width:16px;height:16px;border-radius:50%;border:3px solid;vertical-align:-3px;margin-right:4px}
+@media (orientation:landscape){#finish .card{max-width:820px}#finBody{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}#finBody .res{margin-top:0}#finTitle{font-size:32px;margin-bottom:8px}}
+@media (orientation:portrait){.topbar .logo{font-size:24px;white-space:nowrap}.xpbar{width:40px}.modes{grid-template-columns:repeat(2,1fr)}#bPit{right:calc(20px + 92px*var(--btn) + env(safe-area-inset-right));bottom:calc(34px + 90px*var(--btn) + env(safe-area-inset-bottom));width:calc(76px*var(--btn))}}
+@media (max-height:440px){.topbar .logo{font-size:24px}.league{padding:8px}.lgic{width:42px;height:42px;font-size:22px}.mcard{padding:7px 4px}.mcard span{font-size:18px}}
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
@@ -166,11 +238,12 @@ body.inmenu #hud,body.inmenu #mini,body.inmenu #tools,body.inmenu #speedo,body.i
 <canvas id="speedlines"></canvas>
 
 <div id="hud">
-  <div class="pill pos" id="pPos"><small>O‘RIN</small><b id="hPos">4/4</b></div>
-  <div class="pill"><small>AYLANA</small><b id="hLap">1/3</b></div>
-  <div class="pill"><small>VAQT</small><b id="hTime">0:00.000</b></div>
-  <div class="pill"><small>ENG YAXSHI</small><b id="hBest">—</b></div>
-  <div class="pill hidden" id="pDelta"><small>FARQ</small><b id="hDelta">—</b></div>
+  <div class="pill pos" id="pPos"><small data-i18n="h_pos">O‘RIN</small><b id="hPos">4/4</b></div>
+  <div class="pill"><small data-i18n="h_lap">AYLANA</small><b id="hLap">1/3</b></div>
+  <div class="pill"><small data-i18n="h_time">VAQT</small><b id="hTime">0:00.000</b></div>
+  <div class="pill"><small data-i18n="h_best">ENG YAXSHI</small><b id="hBest">—</b></div>
+  <div class="pill" id="pTyre"><small data-i18n="h_tyre">SHINA</small><b id="hTyre">M 100%</b></div>
+  <div class="pill hidden" id="pDelta"><small data-i18n="h_delta">FARQ</small><b id="hDelta">—</b></div>
 </div>
 <canvas id="mini" width="280" height="280"></canvas>
 <div id="tools" class="ui">
@@ -178,75 +251,118 @@ body.inmenu #hud,body.inmenu #mini,body.inmenu #tools,body.inmenu #speedo,body.i
   <button class="ibtn ui" id="btnReset" aria-label="Trassaga qaytarish"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5"/></svg></button>
   <button class="ibtn ui" id="btnPause" aria-label="Pauza"><svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg></button>
 </div>
-<div id="radio"><i>RADIO · MUHANDIS</i><span id="radioTxt"></span></div>
+<div id="radio"><i data-i18n="radio">RADIO</i><span id="radioTxt"></span></div>
 
 <div id="speedo">
-  <div id="spdRow"><div id="gear">N</div><div id="spd">0</div><div id="unit">KM/S</div></div>
+  <div id="spdRow"><div id="gear">N</div><div id="spd">0</div><div id="unit" data-i18n="kmh">KM/S</div></div>
   <div id="rpm"><div id="rpmF"></div></div>
-  <div id="badges"><span class="badge" id="bgDrs">DRS</span><span class="badge hidden" id="bgSlip">SLIPSTREAM</span><span class="badge hidden" id="bgDmg">QANOT ⚠</span></div>
+  <div id="badges"><span class="badge" id="bgDrs">DRS</span><span class="badge hidden" id="bgSlip">SLIPSTREAM</span><span class="badge hidden" id="bgDmg">⚠</span><span class="badge hidden" id="bgPit">PIT</span></div>
 </div>
 
 <div id="lights"><i></i><i></i><i></i><i></i><i></i></div>
 <div id="msg"></div>
-<div id="warn">⟲ NOTO‘G‘RI YO‘NALISH</div>
+<div id="warn" data-i18n="wrong">⟲</div>
 
 <div id="controls">
   <div class="tbtn" id="bLeft"><svg viewBox="0 0 24 24"><path d="M15.5 4 6.5 12l9 8z"/></svg></div>
   <div class="tbtn" id="bRight"><svg viewBox="0 0 24 24"><path d="M8.5 4l9 8-9 8z"/></svg></div>
-  <div class="tbtn" id="bBrake"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg><span>TORMOZ</span></div>
-  <div class="tbtn" id="bGas"><svg viewBox="0 0 24 24"><path d="M12 4l7 9h-4v7H9v-7H5z"/></svg><span>GAZ</span></div>
+  <div class="tbtn" id="bBrake"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg><span data-i18n="b_brake">TORMOZ</span></div>
+  <div class="tbtn" id="bGas"><svg viewBox="0 0 24 24"><path d="M12 4l7 9h-4v7H9v-7H5z"/></svg><span data-i18n="b_gas">GAZ</span></div>
   <div class="tbtn" id="bDrs">DRS</div>
+  <div class="tbtn" id="bPit">PIT</div>
 </div>
 
 <div class="overlay" id="menu">
   <div class="panel ui">
-    <div class="phead"><div class="logo">FORMULA <em>1a</em></div><div id="champInfo"></div></div>
-    <div class="tabs" id="tabs"><button data-tab="race" class="on">Poyga</button><button data-tab="garage">Garaj</button><button data-tab="set">Sozlamalar</button></div>
-    <div class="scroll ui">
-      <div class="tab on" id="tab-race">
-        <div class="lbl">Trassa</div><div class="cards" id="trackCards"></div>
-        <div class="lbl">Rejim</div>
-        <div class="seg" data-key="mode"><button data-v="race">Poyga</button><button data-v="tt">Vaqtga qarshi</button><button data-v="champ">Chempionat</button></div>
-        <div class="lbl">Kun vaqti</div>
-        <div class="seg" data-key="tod"><button data-v="day">☀ Kunduz</button><button data-v="sunset">🌇 Kechqurun</button><button data-v="night">🌙 Tun</button></div>
-        <div class="lbl">Ob-havo</div>
-        <div class="seg" data-key="weather"><button data-v="dry">Quruq</button><button data-v="rain">🌧 Yomg‘ir</button></div>
-      </div>
-      <div class="tab" id="tab-garage">
-        <div class="lbl">Livreya</div><div class="livs" id="livs"></div>
-        <div class="lbl">Asosiy rang</div><div class="cols" id="cols"></div>
-        <div class="lbl">Raqam</div>
-        <div class="numrow"><button id="numDn">−</button><b id="numV">7</b><button id="numUp">+</button></div>
-      </div>
-      <div class="tab" id="tab-set">
-        <div class="lbl">Qiyinlik</div>
-        <div class="seg" data-key="diff"><button data-v="0">Oson</button><button data-v="1">O‘rta</button><button data-v="2">Qiyin</button></div>
-        <div class="lbl">Raqiblar soni</div>
-        <div class="seg" data-key="opp"><button data-v="3">3</button><button data-v="5">5</button><button data-v="7">7</button></div>
-        <div class="lbl">Grafika sifati</div>
-        <div class="seg" data-key="quality"><button data-v="low">Past</button><button data-v="med">O‘rta</button><button data-v="high">Yuqori</button></div>
-        <div class="lbl">Tugmalar o‘lchami</div>
-        <div class="seg" data-key="btn"><button data-v="0.85">Kichik</button><button data-v="1">O‘rta</button><button data-v="1.18">Katta</button></div>
-        <div class="lbl">Boshqaruv va yordamchilar</div>
-        <button class="tog" data-key="tilt"><span>Telefonni egib boshqarish<small>Giroskop (rul tugmalari yashiriladi)</small></span><i></i></button>
-        <button class="tog" data-key="tiltInv"><span>Egishni teskari qilish</span><i></i></button>
-        <button class="tog" data-key="autoGas"><span>Avto-gaz<small>Faqat rul va tormoz kerak</small></span><i></i></button>
-        <button class="tog" data-key="brakeAssist"><span>Tormoz yordamchisi<small>Burilishdan oldin o‘zi sekinlashtiradi</small></span><i></i></button>
-        <button class="tog" data-key="line"><span>Poyga chizig‘i<small>Yashil — gaz, sariq — burilish, qizil — tormoz</small></span><i></i></button>
-        <button class="tog" data-key="vib"><span>Vibratsiya</span><i></i></button>
-        <button class="tog" data-key="sound"><span>Ovoz</span><i></i></button>
+    <div class="topbar">
+      <div class="logo">FORMULA <em>1a</em></div>
+      <div class="tbr">
+        <div class="lvl"><b id="lvlN">1</b><div class="xpbar"><i id="xpF"></i></div></div>
+        <div class="coins"><span>🪙</span><b id="coinN">0</b></div>
       </div>
     </div>
-    <div class="pfoot"><button class="big ui" id="btnStart">START</button></div>
+    <div class="tabs" id="tabs">
+      <button data-tab="race" class="on"><span>🏁</span><em data-i18n="tab_race">Poyga</em></button>
+      <button data-tab="garage"><span>🔧</span><em data-i18n="tab_garage">Garaj</em></button>
+      <button data-tab="shop"><span>🛒</span><em data-i18n="tab_shop">Do‘kon</em></button>
+      <button data-tab="pilots"><span>👤</span><em data-i18n="tab_pilots">Pilotlar</em></button>
+      <button data-tab="set"><span>⚙️</span><em data-i18n="tab_set">Sozlamalar</em></button>
+    </div>
+    <div class="scroll ui">
+      <div class="tab on" id="tab-race">
+        <div class="league" id="leagueCard"></div>
+        <div class="modes" id="modes"></div>
+        <div id="champInfo"></div>
+        <div class="lbl" data-i18n="track">Trassa</div><div class="cards" id="trackCards"></div>
+        <div class="lbl" data-i18n="tod">Kun vaqti</div>
+        <div class="seg" data-key="tod"><button data-v="day" data-i18n="day"></button><button data-v="sunset" data-i18n="sunset"></button><button data-v="night" data-i18n="night"></button></div>
+        <div class="lbl" data-i18n="weather">Ob-havo</div>
+        <div class="seg" data-key="weather"><button data-v="dry" data-i18n="dry"></button><button data-v="rain" data-i18n="rain"></button><button data-v="mix" data-i18n="mix"></button></div>
+      </div>
+      <div class="tab" id="tab-garage">
+        <div class="carsel"><button class="arw ui" id="carPrev">‹</button><div class="cn"><b id="carName"></b><small id="carTier"></small></div><button class="arw ui" id="carNext">›</button></div>
+        <div class="stats" id="carStats"></div>
+        <button class="buy ui" id="carBuy"></button>
+        <div class="lbl" data-i18n="upgrades">Kuchaytirish</div><div id="parts"></div>
+        <div class="lbl" data-i18n="livery">Livreya</div><div class="livs" id="livs"></div>
+        <div class="lbl" data-i18n="color">Asosiy rang</div><div class="cols" id="cols"></div>
+        <div class="lbl" data-i18n="number">Raqam</div>
+        <div class="numrow"><button id="numDn">−</button><b id="numV">7</b><button id="numUp">+</button></div>
+      </div>
+      <div class="tab" id="tab-shop"><div id="shopBox"></div></div>
+      <div class="tab" id="tab-pilots"><div id="pilotList"></div></div>
+      <div class="tab" id="tab-set">
+        <div class="lbl" data-i18n="lang">Til</div>
+        <div class="seg" data-key="lang"><button data-v="uz">O‘zbek</button><button data-v="ru">Русский</button><button data-v="en">English</button></div>
+        <div class="lbl" data-i18n="diff">Qiyinlik</div>
+        <div class="seg" data-key="diff"><button data-v="0" data-i18n="easy"></button><button data-v="1" data-i18n="medium"></button><button data-v="2" data-i18n="hard"></button></div>
+        <div class="lbl" data-i18n="opp">Raqiblar soni</div>
+        <div class="seg" data-key="opp"><button data-v="3">3</button><button data-v="5">5</button><button data-v="7">7</button></div>
+        <div class="lbl" data-i18n="quality">Grafika sifati</div>
+        <div class="seg" data-key="quality"><button data-v="low" data-i18n="low"></button><button data-v="med" data-i18n="mid"></button><button data-v="high" data-i18n="high"></button></div>
+        <div class="lbl" data-i18n="btnsize">Tugmalar o‘lchami</div>
+        <div class="seg" data-key="btn"><button data-v="0.85" data-i18n="small"></button><button data-v="1" data-i18n="normal"></button><button data-v="1.18" data-i18n="large"></button></div>
+        <div class="lbl" data-i18n="assists">Boshqaruv va yordamchilar</div>
+        <button class="tog" data-key="tilt"><span><span data-i18n="tilt"></span><small data-i18n="tilt_d"></small></span><i></i></button>
+        <button class="tog" data-key="tiltInv"><span data-i18n="tiltInv"></span><i></i></button>
+        <button class="tog" data-key="autoGas"><span><span data-i18n="autoGas"></span><small data-i18n="autoGas_d"></small></span><i></i></button>
+        <button class="tog" data-key="brakeAssist"><span><span data-i18n="brakeAssist"></span><small data-i18n="brakeAssist_d"></small></span><i></i></button>
+        <button class="tog" data-key="line"><span><span data-i18n="line"></span><small data-i18n="line_d"></small></span><i></i></button>
+        <button class="tog" data-key="vib"><span data-i18n="vib"></span><i></i></button>
+        <button class="tog" data-key="sound"><span data-i18n="sound"></span><i></i></button>
+      </div>
+    </div>
+    <div class="pfoot"><button class="big ui" id="btnStart" data-i18n="start">START</button></div>
   </div>
 </div>
 
+<div class="overlay dim ui hidden" id="prerace">
+  <div class="card ui">
+    <div class="logo sm" data-i18n="pre_title">Poyga oldidan</div>
+    <div class="preinfo" id="preInfo"></div>
+    <div class="lbl" data-i18n="choose_tyre">Shina tanlang</div>
+    <div class="tyres" id="tyres"></div>
+    <div class="row"><button class="sec ui" id="btnPreBack" data-i18n="back">Orqaga</button><button class="big ui" id="btnGo" data-i18n="go">BOSHLASH</button></div>
+  </div>
+</div>
+<div class="overlay dim ui hidden" id="crate">
+  <div class="card ui">
+    <div class="crateic" id="crateIc">📦</div>
+    <div class="logo sm" data-i18n="crate_title">Sandiq ochildi!</div>
+    <div class="ritems" id="crateItems"></div>
+    <div class="row"><button class="big ui" id="btnCrateOk">OK</button></div>
+  </div>
+</div>
+<div class="overlay ui hidden" id="adov">
+  <div class="card ui adcard"><div class="adtag" data-i18n="ad_test">REKLAMA</div><div class="adbox">📺</div><small data-i18n="ad_note"></small><div class="adtxt" id="adTxt"></div></div>
+</div>
+<div id="toast"></div>
 <div class="overlay dim ui hidden" id="pause">
   <div class="card ui">
-    <div class="logo">PAUZA</div>
+    <div class="logo" data-i18n="pause">PAUZA</div>
     <div class="row" style="flex-direction:column;align-items:center;margin-top:18px">
-      <button class="big ui" id="btnResume">DAVOM ETISH</button>
-      <div class="row"><button class="sec ui" id="btnRestart">Qayta boshlash</button><button class="sec ui" id="btnMenu">Bosh menyu</button></div>
+      <button class="big ui" id="btnResume" data-i18n="resume">DAVOM ETISH</button>
+      <div class="row"><button class="sec ui" id="btnRestart" data-i18n="restart"></button><button class="sec ui" id="btnMenu" data-i18n="main_menu"></button></div>
       <div class="row"><button class="sec ui" id="btnSnd2">Ovoz: yoqilgan</button></div>
     </div>
   </div>
@@ -257,7 +373,7 @@ body.inmenu #hud,body.inmenu #mini,body.inmenu #tools,body.inmenu #speedo,body.i
     <div class="logo" id="finTitle">FINISH</div>
     <div id="finBody"></div>
     <div class="row"><button class="big ui" id="btnNext">QAYTA</button></div>
-    <div class="row"><button class="sec ui" id="btnFinMenu">Bosh menyu</button></div>
+    <div class="row"><button class="sec ui" id="btnFinMenu" data-i18n="main_menu"></button></div>
   </div>
 </div>
 <script type="module">
@@ -334,6 +450,7 @@ class Car{
     this.throttle=0;this.brake=0;this.long=0;this.latA=0;this.idx=idx;this.pidx=idx;this.lat=0;this.vLong=0;
     this.onGrass=false;this.slipF=0;this.slipR=0;this.spin=false;this.wheelRot=0;this.stuck=0;
     this.dragMul=1;this.dfMul=1;this.gripF=1;this.drs=false;this.drsAvail=false;this.slip=0;this.dmg=0;this.brakeT=0;
+    this.wear=0;this.limiter=0;if(this.powMul==null){this.powMul=1;this.aeroMul=1;this.gripMul=1;this.brkMul=1;this.tyreGrip=1;this.wearRate=0;}
   }
   get speed(){return Math.hypot(this.vx,this.vz);}
   step(dt){
@@ -343,15 +460,16 @@ class Car{
     const maxSt=0.42/(1+sp*0.045);
     this.steer+=(this.steerIn*maxSt-this.steer)*Math.min(1,dt*12);
     const d=this.steer,cd=Math.cos(d),sd=Math.sin(d);
-    const surf=this.onGrass?0.55:1, mu=P.mu*surf*GRIP_ENV;
-    const df=P.kdf*sp*sp*this.dfMul;
+    const surf=this.onGrass?0.55:1, mu=P.mu*surf*GRIP_ENV*this.gripMul*this.tyreGrip*(1-0.13*Math.pow(this.wear,1.5));
+    const df=P.kdf*sp*sp*this.dfMul*this.aeroMul;
     const wt=P.m*this.long*P.h/WB;
     const Nf=Math.max(300,P.m*G*P.b/WB+df*0.45-wt), Nr=Math.max(300,P.m*G*P.a/WB+df*0.55+wt);
     const vxa=Math.max(Math.abs(vL),3), dir=vL>=0?1:-1;
     const af=Math.atan2(vT+this.r*P.a,vxa)-d*dir, ar=Math.atan2(vT-this.r*P.b,vxa);
     let Fdrive=0,Fbrk=0;
-    if(this.throttle>0&&vL>-1)Fdrive=this.throttle*Math.min(P.fmax,P.power/Math.max(sp,1));
-    if(this.brake>0){ if(vL>1)Fbrk=this.brake*mu*(Nf+Nr)*0.92; else if(vL>-11)Fdrive-=this.brake*4000; }
+    if(this.throttle>0&&vL>-1)Fdrive=this.throttle*Math.min(P.fmax,P.power*this.powMul/Math.max(sp,1));
+    if(this.limiter>0&&sp>this.limiter){Fdrive=0;this.brake=Math.max(this.brake,clamp((sp-this.limiter)*0.15,0,0.6));}
+    if(this.brake>0){ if(vL>1)Fbrk=this.brake*mu*(Nf+Nr)*Math.min(1.02,0.9*this.brkMul); else if(vL>-11)Fdrive-=this.brake*4000; }
     if(this.throttle>0&&vL<-1)Fbrk=this.throttle*mu*(Nf+Nr)*0.5;
     const cap=mu*Nr; this.spin=Math.abs(Fdrive)>cap*0.9;
     const tc=cap*0.97*clamp(1-Math.abs(ar)/0.34,0.4,1);
@@ -364,7 +482,7 @@ class Car{
     let tq=P.a*(Fyf*cd+Fxf*sd)-P.b*Fyr;
     const esc=clamp((Math.abs(ar)-0.09)/0.12,0,1);
     if(esc>0&&vL>3)tq-=(this.r-vL*Math.tan(d)/WB)*P.I*3.5*esc;
-    const res=P.kdrag*this.dragMul*sp*sp+P.crr*P.m*G*Math.min(1,sp)+(this.onGrass?1100*Math.min(1,sp/4):0);
+    const res=P.kdrag*this.dragMul*(1-(this.aeroMul-1)*0.3)*sp*sp+P.crr*P.m*G*Math.min(1,sp)+(this.onGrass?1100*Math.min(1,sp/4):0);
     const rx=sp>1e-3?-res*this.vx/sp:0, rz=sp>1e-3?-res*this.vz/sp:0;
     this.vx+=(FL*s+FT*c+rx)/P.m*dt; this.vz+=(FL*c-FT*s+rz)/P.m*dt;
     this.r+=tq/P.I*dt;
@@ -379,6 +497,7 @@ class Car{
     this.long+=((FL+rx*s+rz*c)/P.m-this.long)*Math.min(1,dt*8);
     this.latA+=(FT/P.m-this.latA)*Math.min(1,dt*8);
     this.slipF=af;this.slipR=ar;this.vLong=vL;this.wheelRot+=vL/0.36*dt;
+    if(this.wearRate>0)this.wear=Math.min(1,this.wear+this.wearRate*sp*dt/1000*(1+Math.min(2,(Math.abs(ar)+Math.abs(af))*4)));
     // tormoz disk harorati (vizual)
     this.brakeT+=((Fbrk>4000&&sp>15?1:0)-this.brakeT)*Math.min(1,dt*(Fbrk>4000?1.5:0.6));
   }
@@ -486,7 +605,7 @@ if(isTouch){document.body.classList.add('touch');$('#controls').style.display='b
 
 // ---------- sozlamalar va saqlash ----------
 const store={get(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d;}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
-const DEF={track:0,mode:'race',tod:'day',weather:'dry',diff:1,opp:3,quality:isTouch?'med':'high',livery:0,color:null,num:7,
+const DEF={lang:'uz',track:0,mode:'race',tod:'day',weather:'dry',diff:1,opp:3,quality:isTouch?'med':'high',livery:0,color:null,num:7,
   tilt:false,tiltInv:false,autoGas:false,brakeAssist:false,line:false,vib:true,sound:true,btn:1};
 const S=Object.assign({},DEF,store.get('f1a_set',{}));
 const saveS=()=>store.set('f1a_set',S);
@@ -1309,7 +1428,7 @@ function initAudio(){
   ao.connect(af);af.connect(ag);ag.connect(master);ao.start();
   snd={master,nb,ef,eg,o1,o2,o3,ao,ag,sg:loopNoise('bandpass',1700,3),cg:loopNoise('lowpass',700,0.7),rg:loopNoise('highpass',2600,0.5)};
 }
-function setSound(on){S.sound=on;saveS();if(snd.master)snd.master.gain.value=on?0.5:0;$('#btnSnd2').textContent='Ovoz: '+(on?'yoqilgan':'o‘chirilgan');}
+function setSound(on){S.sound=on;saveS();if(snd.master)snd.master.gain.value=on?0.5:0;$('#btnSnd2').textContent=t(on?'snd_on':'snd_off');}
 function beep(f,dur=0.18,vol=0.25){if(!actx)return;const o=actx.createOscillator(),g=actx.createGain();o.type='square';o.frequency.value=f;
   g.gain.setValueAtTime(vol,actx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+dur);o.connect(g);g.connect(snd.master);o.start();o.stop(actx.currentTime+dur);}
 function thump(str){if(!actx||str<=0)return;const s=actx.createBufferSource();s.buffer=snd.nb;const f=actx.createBiquadFilter();f.type='lowpass';f.frequency.value=500+str*60;
@@ -1324,7 +1443,7 @@ const keys={};let drsPressed=false;
 addEventListener('keydown',e=>{
   if(!keys[e.code]){
     if(e.code==='KeyC')cycleCam();if(e.code==='KeyR')manualReset();if(e.code==='KeyM')setSound(!S.sound);
-    if(e.code==='KeyE'||e.code==='ShiftLeft')drsPressed=true;
+    if(e.code==='KeyE'||e.code==='ShiftLeft')drsPressed=true;if(e.code==='KeyQ')togglePit();
     if(e.code==='Escape'||e.code==='KeyP')togglePause();}
   keys[e.code]=true;
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();
@@ -1383,6 +1502,9 @@ $('#btnPause').addEventListener('click',togglePause);
 
 // ======================= POYGA =======================
 let cars=[],player=null,ghostMesh=null,ghostData=null,ghostRec=[],ghostAcc=0,ghostPtr=0;
+let runRain=false,rainEventAt=0,lastPos=null,posT=0;
+function isRain(){return state==='menu'?S.weather==='rain':runRain;}
+function raceLaps(){return S.mode==='tt'?1e9:S.mode==='duel'?2:LAPS;}
 let state='menu',prevState='race',raceTime=0,cdT=0,goDelay=1,litPrev=0,steerRamp=0,shake=0,msgT=0,finT=-1,champ=null,finAwarded=false,envScale=1;
 
 function playerLiv(){const L=LIVERIES[S.livery];return {p:S.color!=null?S.color:L.p,s:L.s,a:L.a};}
@@ -1390,10 +1512,13 @@ function buildCars(){
   for(const c of cars){scene.remove(c.mesh.g);disposeObj(c.mesh.g);}
   if(ghostMesh){scene.remove(ghostMesh.g);disposeObj(ghostMesh.g);ghostMesh=null;}
   cars=[];
-  const opp=S.mode==='tt'?0:S.opp,others=LIVERIES.map((l,i)=>i).filter(i=>i!==S.livery);
-  for(let i=0;i<opp;i++){const c=new Car(AI_NAMES[i],false);c.liv=LIVERIES[others[i%others.length]];c.num=AI_NUMS[i];
-    c.skill=DIFF_SK[S.diff]-i*0.008+Math.random()*0.01;c.aiLine=[1.5,-1.5,0.6,-0.8,1,-1.2,0.2][i];cars.push(c);}
-  player=new Car('Siz',true);player.liv=playerLiv();player.num=S.num;player.skill=0.92;player.aiLine=0;cars.push(player);
+  const lg=leagueIdx(),L=LEAGUES[lg],dOff=[-0.04,0,0.025][S.diff]||0;
+  const opp=S.mode==='tt'?0:S.mode==='duel'?1:S.opp,others=LIVERIES.map((l,i)=>i).filter(i=>i!==S.livery);
+  for(let i=0;i<opp;i++){const c=new Car(AI_NAMES[i],false);c.key=AI_NAMES[i];c.liv=LIVERIES[others[i%others.length]];c.num=AI_NUMS[i];
+    c.skill=clamp(L.ai+dOff+(S.mode==='duel'?0.02:0)-i*0.008+Math.random()*0.01,0.78,1);c.aiLine=[1.5,-1.5,0.6,-0.8,1,-1.2,0.2][i];
+    Object.assign(c,{powMul:0.94+lg*0.035,aeroMul:0.96+lg*0.03,gripMul:0.97+lg*0.02,brkMul:0.97+lg*0.025,rainB:1,wearMul:1,tyre:isRain()?'W':'M'});cars.push(c);}
+  player=new Car(t('you'),true);player.key='__me';player.liv=playerLiv();player.num=S.num;player.skill=0.92;player.aiLine=0;
+  const st=playerStats();Object.assign(player,{powMul:st.pow,aeroMul:st.aero,gripMul:st.grip,brkMul:st.brk,rainB:st.rain,wearMul:st.wear,tyre:chosenTyre});cars.push(player);
   for(const c of cars){c.mesh=makeCarMesh(c.liv,c.num,false);c.skillEff=c.skill;scene.add(c.mesh.g);}
   if(S.mode==='tt'){ghostMesh=makeCarMesh(player.liv,S.num,true);ghostMesh.g.visible=false;scene.add(ghostMesh.g);}
   applyEnvMaterials();
@@ -1404,12 +1529,12 @@ function refreshPlayerMesh(){
 }
 function placeGrid(){
   const init=(car,idx,lat,k)=>{car.reset(PX[idx]+LX[idx]*lat,PZ[idx]+LZ[idx]*lat,headAt(idx),idx);
-    Object.assign(car,{prog:-k,lapDone:-1,laps:[],finished:false,finishTime:0,lapStart:0,best:Infinity,aiOff:lat,skidL:null,skidR:null,gripF:1,dmg:0});};
+    Object.assign(car,{prog:-k,lapDone:-1,laps:[],finished:false,finishTime:0,lapStart:0,best:Infinity,aiOff:lat,skidL:null,skidR:null,gripF:1,dmg:0,pitReq:false,pitT:0,cleanRace:true,overtakes:0,warnW:false});};
   if(S.mode==='tt'){const k=Math.round(40/DS);init(player,(N-k)%N,0,k);return;}
   cars.forEach((car,slot)=>{const k=Math.round((10+slot*9)/DS);init(car,(N-k)%N,slot%2?-3:3,k);});
 }
 function loadTrackAndWorld(i){
-  GRIP_ENV=S.weather==='rain'?0.78:1;
+  GRIP_ENV=isRain()?0.78:1;
   loadTrack(TRACKS[i]);buildWorld();clearSkids();clearParticles();clearDebris();applyEnv();
   if(cars.length)placeGrid();
 }
@@ -1421,21 +1546,23 @@ function startRace(){
   const ti=curTrackIdx();
   if(TRACK_DEF!==TRACKS[ti])loadTrackAndWorld(ti);
   buildCars();placeGrid();resetCones();clearSkids();clearParticles();clearDebris();
+  runRain=S.weather==='rain';rainEventAt=(S.weather==='mix'&&raceLaps()<1e6&&Math.random()<0.65)?N*(0.35+Math.random()*(raceLaps()-0.9)):0;applyEnv();
+  for(const c of cars)c.tyre=c===player?chosenTyre:(runRain?'W':'M');lastPos=null;posT=0;lastReward=null;
   raceTime=0;cdT=0;litPrev=0;goDelay=0.6+Math.random()*0.9;steerRamp=0;finT=-1;finAwarded=false;
   ghostData=S.mode==='tt'?store.get('f1a_ghost_'+ti,null):null;ghostRec=[];ghostAcc=0;ghostPtr=0;
   state='countdown';document.body.classList.remove('inmenu');
-  ['#menu','#finish','#pause'].forEach(s=>$(s).classList.add('hidden'));
+  ['#menu','#finish','#pause','#prerace'].forEach(s=>$(s).classList.add('hidden'));
   $('#lights').style.display='flex';
   $('#pDelta').classList.toggle('hidden',S.mode!=='tt');$('#pPos').classList.toggle('hidden',S.mode==='tt');
-  if(S.weather==='rain')setTimeout(()=>radio('Trassa ho‘l — tormozni ertaroq bosing!'),600);
-  else if(S.mode==='champ')setTimeout(()=>radio(`Chempionat: ${champ.round+1}-bosqich · ${TRACKS[ti].name}`),600);
-  else if(S.mode==='tt'&&ghostData)setTimeout(()=>radio('Arvoh mashina: eng yaxshi aylanangiz bilan poyga'),600);
+  if(runRain)setTimeout(()=>radio(t('r_wet')),600);
+  else if(S.mode==='champ')setTimeout(()=>radio(t('r_champ',{a:champ.round+1,b:TRACKS[ti].name})),600);
+  else if(S.mode==='tt'&&ghostData)setTimeout(()=>radio(t('r_ghost')),600);
 }
 function goMenu(){
-  state='menu';document.body.classList.add('inmenu');['#finish','#pause'].forEach(s=>$(s).classList.add('hidden'));$('#menu').classList.remove('hidden');
+  runRain=S.weather==='rain';state='menu';document.body.classList.add('inmenu');['#finish','#pause'].forEach(s=>$(s).classList.add('hidden'));$('#menu').classList.remove('hidden');
   $('#lights').style.display='none';
   if(TRACK_DEF!==TRACKS[curTrackIdx()])loadTrackAndWorld(curTrackIdx());
-  buildCars();placeGrid();refreshUI();
+  applyEnv();buildCars();placeGrid();refreshUI();
 }
 function togglePause(){
   if(state==='paused'){state=prevState;$('#pause').classList.add('hidden');last=performance.now();return;}
@@ -1448,17 +1575,23 @@ $('#btnFinMenu').addEventListener('click',()=>{if(S.mode==='champ'&&champ&&champ
 $('#btnSnd2').addEventListener('click',()=>{initAudio();setSound(!S.sound);});
 $('#btnNext').addEventListener('click',()=>{
   if(S.mode==='champ'&&champ){if(champ.done)champ=null;else champ.round++;}
-  startRace();
+  $('#finish').classList.add('hidden');
+  if(PR.races>0&&PR.races%3===0)Ads.interstitial().then(showPrerace);else showPrerace();
 });
-$('#btnStart').addEventListener('click',startRace);
+$('#btnStart').addEventListener('click',()=>{initAudio();showPrerace();});
+$('#btnGo').addEventListener('click',()=>{$('#prerace').classList.add('hidden');startRace();});
+$('#btnPreBack').addEventListener('click',()=>{$('#prerace').classList.add('hidden');if(state!=='menu')goMenu();});
+$('#btnCrateOk').addEventListener('click',()=>{$('#crate').classList.add('hidden');renderMeta();});
+function togglePit(){if(state!=='race'||!player||player.finished||S.mode==='tt'&&false)return;if(player.pitT>0)return;
+  player.pitReq=!player.pitReq;radio(t(player.pitReq?'r_pit_req':'r_pit_cancel'));vibrate(20);}
 
 function radio(txt){$('#radioTxt').textContent=txt;const r=$('#radio');r.classList.add('show');clearTimeout(radio.t);radio.t=setTimeout(()=>r.classList.remove('show'),3200);
   if(actx){beep(1400,0.06,0.12);setTimeout(()=>beep(1000,0.08,0.12),90);}}
-function showMsg(t,dur=1.2){const m=$('#msg');m.textContent=t;m.style.opacity=1;msgT=dur;}
+function showMsg(tx,dur=1.2){const m=$('#msg');m.textContent=tx;m.style.opacity=1;msgT=dur;}
 
 function onImpact(car,imp,kind,other){
   const near=Math.hypot(car.x-player.x,car.z-player.z);
-  if(car===player||other===player){shake=Math.max(shake,Math.min(1,imp/14));vibrate(Math.min(150,imp*9)|0);}
+  if(car===player||other===player){shake=Math.max(shake,Math.min(1,imp/14));vibrate(Math.min(150,imp*9)|0);if(imp>5)player.cleanRace=false;}
   if(near<60)thump(imp*(1-near/60));
   if(imp>3){let sx=car.x,sz=car.z,nx=0,nz=0;
     if(kind==='wall'){const i=car.idx,sg=Math.sign(car.lat);sx+=LX[i]*sg*1.05;sz+=LZ[i]*sg*1.05;nx=-LX[i]*sg;nz=-LZ[i]*sg;}
@@ -1469,7 +1602,7 @@ function onImpact(car,imp,kind,other){
       for(let k=0;k<Math.min(8,imp/2);k++)emit(sx,0.4,sz,car.vx*0.2+(Math.random()-0.5)*3,0.8+Math.random(),car.vz*0.2+(Math.random()-0.5)*3,0.55,0.55,0.58,1.2,4,1.4,0.35);
       if(imp>9)spawnShards(car,sx,sz,nx,nz,Math.min(10,imp/2)|0);}}
   const victim=(other===player)?player:car;
-  if(victim===player&&imp>15&&!player.dmg){player.dmg=1;player.gripF=0.84;detachWing(player);radio('Old qanot uchib ketdi! Mashina sekinroq buriladi.');}
+  if(victim===player&&imp>15&&!player.dmg){player.dmg=1;player.gripF=0.84;detachWing(player);radio(t('r_wing'));}
 }
 function detachWing(car){
   const fw=car.mesh.fwing;fw.updateWorldMatrix(true,true);
@@ -1482,8 +1615,12 @@ function simStep(h){
   const racing=state==='race'||state==='finished';
   if(racing)raceTime+=h;
   const inp=getInput();
-  const drsMode=S.mode==='tt'?'always':racing;
+  const drsMode=S.mode==='tt'?'always':racing,rn=isRain();
   for(const car of cars){
+    const ty=TYRES[car.tyre||'M'];
+    car.tyreGrip=ty.grip*(rn?(car.tyre==='W'?1.14:0.86)*(car.rainB||1):(car.tyre==='W'?0.92:1));
+    car.wearRate=S.mode==='tt'?0:ty.wear*(car.wearMul||1)*(rn&&car.tyre!=='W'?0.7:1)*(!rn&&car.tyre==='W'?2.2:1);
+    if(car.pitT>0){car.pitT-=h;if(car.pitT<=0){car.limiter=0;car.wear=0;car.tyre=car.pitTyre;if(car===player){radio(t('r_pit_done',{t:t(TYRES[car.tyre].k)}));vibrate(40);}}}
     updateAero(car,cars,drsMode);
     if(!racing){car.throttle=0;car.brake=0;car.steerIn=0;continue;}
     if(car===player&&!car.finished){
@@ -1506,22 +1643,27 @@ function simStep(h){
         if(d<1.4&&d>1e-4&&cn.y<0.6){const sp=car.speed;cn.vx=car.vx*1.1+dx/d*(2+sp*0.15);cn.vz=car.vz*1.1+dz/d*(2+sp*0.15);
           cn.vy=2+sp*0.12;cn.wr=(Math.random()-0.5)*14;cn.hit=true;car.vx*=0.992;car.vz*=0.992;if(car===player){thump(3);vibrate(20);}}}}
   }
-  const laps=S.mode==='tt'?1e9:LAPS;
+  const laps=raceLaps();
+  if(racing&&rainEventAt>0&&Math.max(...cars.map(c=>c.prog))>rainEventAt){rainEventAt=0;runRain=true;applyEnv();radio(t('r_rain_start'));vibrate([40,40,40]);}
+  if(racing&&player.wear>0.72&&!player.warnW){player.warnW=true;radio(t('r_tyre_low'));}
+  if(racing&&player.lapDone>=0){posT+=h;if(posT>0.5){posT=0;const ps=standings().indexOf(player);if(lastPos!=null&&ps<lastPos)player.overtakes+=lastPos-ps;lastPos=ps;}}
   for(const car of cars){
     updateProgress(car);
     const lapNow=Math.floor(car.prog/N);
     if(lapNow>car.lapDone){
       if(car.lapDone>=0){const lt=raceTime-car.lapStart;car.laps.push(lt);
         if(car===player){const ti=curTrackIdx(),rec=store.get('f1a_best_'+ti,null);
-          if(rec==null||lt<rec){store.set('f1a_best_'+ti,lt);if(car.laps.length>0)radio(`Yangi rekord! ${fmt(lt)}`);}
-          else if(lt<car.best)radio(`Eng tez aylanangiz: ${fmt(lt)}`);
+          if(rec==null||lt<rec){store.set('f1a_best_'+ti,lt);if(car.laps.length>0)radio(t('r_record',{t:fmt(lt)}));}
+          else if(lt<car.best)radio(t('r_fast',{t:fmt(lt)}));
           if(S.mode==='tt'){if(!ghostData||lt<ghostData.t){ghostData={t:lt,d:ghostRec};store.set('f1a_ghost_'+ti,ghostData);}}
-          else if(lapNow<laps)showMsg(lapNow===laps-1?'OXIRGI AYLANA':`${lapNow+1}-AYLANA`,1.4);}
+          else if(lapNow<laps)showMsg(lapNow===laps-1?t('last_lap'):t('lap_n',{n:lapNow+1}),1.4);}
         car.best=Math.min(car.best,lt);}
       car.lapStart=raceTime;car.lapDone=lapNow;
+      if(car!==player&&lapNow>=1&&lapNow<laps&&!car.pitT&&((rn&&car.tyre!=='W')||(!rn&&car.tyre==='W'&&Math.random()<0.7)||car.wear>0.8))car.pitReq=true;
+      if(car.pitReq&&lapNow>=1&&lapNow<laps){car.pitReq=false;car.pitT=6.5;car.limiter=22;car.pitTyre=rn?'W':(car.tyre==='W'?'M':(laps-lapNow<=1?'S':'M'));if(car===player)radio(t('r_pit_in'));}
       if(car===player){ghostRec=[];ghostAcc=0;ghostPtr=0;}
       if(lapNow>=laps&&!car.finished){car.finished=true;car.finishTime=raceTime;
-        if(car===player){state='finished';finT=0;showMsg('FINISH!',2);vibrate([100,60,100]);}}
+        if(car===player){state='finished';finT=0;car.limiter=0;showMsg(t('fin_msg'),2);vibrate([100,60,100]);}}
     }
     if(racing&&car!==player&&car.speed<1.5){car.stuck+=h;if(car.stuck>2.5)respawn(car,car.aiLine);}else car.stuck=0;
   }
@@ -1533,20 +1675,29 @@ function standings(){return cars.slice().sort((a,b)=>{if(a.finished&&b.finished)
 const fmt=t=>{if(t==null||!isFinite(t))return '—';const m=Math.floor(t/60),s=t-m*60;return `${m}:${s<10?'0':''}${s.toFixed(3)}`;};
 function renderFinish(){
   const st=standings(),pos=st.indexOf(player)+1;
-  let html=`<table class="res"><tr><th>#</th><th>PILOT</th><th style="text-align:right">VAQT</th></tr>`+st.map((c,i)=>`<tr class="${c===player?'me':''}"><td>${i+1}</td><td><span class="dot" style="background:${hex(c.liv.p)}"></span>${c.name}</td><td class="r">${c.finished?fmt(c.finishTime):'trassada'}</td></tr>`).join('')
-    +`<tr><td></td><td style="opacity:.6">Eng yaxshi aylanangiz</td><td class="r" style="opacity:.6">${fmt(player.best)}</td></tr></table>`;
-  let title=pos===1?'G‘ALABA! 🏆':`FINISH · ${pos}-O‘RIN`;
+  if(!finAwarded){finAwarded=true;lastReward=computeRewards(pos,cars.length);
+    if(S.mode==='champ'&&champ){st.forEach((c,i)=>{champ.pts[c.key]=(champ.pts[c.key]||0)+(POINTS[i]||0);});champ.last={};st.forEach((c,i)=>champ.last[c.key]=POINTS[i]||0);
+      if(champ.round>=CHAMP_ORDER.length-1)champ.done=true;}}
+  const nm=k=>k==='__me'?t('you'):k;
+  let html=rewardsHTML(lastReward)+`<div id="finTbl">`+finTable()+`</div>`;
+  let title=pos===1?t('win'):t('pos_n',{n:pos});
   if(S.mode==='champ'&&champ){
-    if(!finAwarded){st.forEach((c,i)=>{champ.pts[c.name]=(champ.pts[c.name]||0)+(POINTS[i]||0);});champ.last={};st.forEach((c,i)=>champ.last[c.name]=POINTS[i]||0);
-      finAwarded=true;if(champ.round>=CHAMP_ORDER.length-1)champ.done=true;}
     const tab=Object.keys(champ.pts).sort((a,b)=>champ.pts[b]-champ.pts[a]);
-    html+=`<div class="h2">CHEMPIONAT · ${champ.round+1}/${CHAMP_ORDER.length}</div><table class="res"><tr><th>#</th><th>PILOT</th><th style="text-align:right">+</th><th style="text-align:right">JAMI</th></tr>`
-      +tab.map((n,i)=>`<tr class="${n==='Siz'?'me':''}"><td>${i+1}</td><td>${n}</td><td class="r">+${champ.last[n]||0}</td><td class="r">${champ.pts[n]}</td></tr>`).join('')+`</table>`;
-    if(champ.done){title=tab[0]==='Siz'?'CHEMPION! 🏆':`Chempion: ${tab[0]}`;$('#btnNext').textContent='YANGI CHEMPIONAT';}
-    else $('#btnNext').textContent='KEYINGI POYGA ▶';
-  }else $('#btnNext').textContent='QAYTA';
+    html+=`<div><div class="h2">${t('champ_stage',{a:champ.round+1,b:CHAMP_ORDER.length})}</div><table class="res"><tr><th>#</th><th>${t('pilot')}</th><th style="text-align:right">+</th><th style="text-align:right">${t('pts')}</th></tr>`
+      +tab.map((n,i)=>`<tr class="${n==='__me'?'me':''}"><td>${i+1}</td><td>${nm(n)}</td><td class="r">+${champ.last[n]||0}</td><td class="r">${champ.pts[n]}</td></tr>`).join('')+`</table></div>`;
+    if(champ.done){title=tab[0]==='__me'?t('champion'):t('champ_is',{n:nm(tab[0])});$('#btnNext').textContent=t('new_champ');}
+    else $('#btnNext').textContent=t('next_race');
+  }else $('#btnNext').textContent=t('again');
   $('#finTitle').innerHTML=title;$('#finBody').innerHTML=html;
+  const bx=$('#bX2');if(bx){if(lastReward.x2){bx.textContent=t('x2_done');bx.classList.add('done');}
+    bx.onclick=()=>{if(lastReward.x2)return;Ads.rewarded().then(()=>{lastReward.x2=true;addCoins(lastReward.coins);toast('+'+lastReward.coins+' 🪙');bx.textContent=t('x2_done');bx.classList.add('done');});};}
 }
+function finTable(){
+  const st=standings(),nm=k=>k==='__me'?t('you'):k;
+  return `<table class="res"><tr><th>#</th><th>${t('pilot')}</th><th style="text-align:right">${t('time')}</th></tr>`+st.map((c,i)=>`<tr class="${c===player?'me':''}"><td>${i+1}</td><td><span class="dot" style="background:${hex(c.liv.p)}"></span>${nm(c.key)}</td><td class="r">${c.finished?fmt(c.finishTime):t('on_track')}</td></tr>`).join('')
+    +`<tr><td></td><td style="opacity:.6">${t('best_you')}</td><td class="r" style="opacity:.6">${fmt(player.best)}</td></tr></table>`;
+}
+function updateFinTable(){const e=$('#finTbl');if(e)e.innerHTML=finTable();}
 
 // ======================= MUHIT: KUN VAQTI, OB-HAVO =======================
 const ENVS={
@@ -1555,7 +1706,7 @@ const ENVS={
   night:{top:0x02040c,bot:0x0e1526,sun:[-40,90,-80],sunC:0xa8bcff,sunI:0.45,hemi:0.3,hs:0x7088c0,hg:0x14181f,exp:1.25,fogN:160,fogF:1400,lamps:1,bloom:0.8,env:0.35},
 };
 function applyEnv(){
-  const e=ENVS[S.tod],rain=S.weather==='rain';
+  const e=ENVS[S.tod],rain=isRain();
   const top=new THREE.Color(e.top),bot=new THREE.Color(e.bot);
   if(rain){const gr=new THREE.Color(S.tod==='night'?0x0b0e14:0x8a929c);top.lerp(gr,0.75);bot.lerp(gr,0.6);}
   skyU.top.value.copy(top);skyU.bottom.value.copy(bot);SUN_DIR.set(...e.sun).normalize();skyU.sunCol.value.set(e.sunC);
@@ -1591,20 +1742,26 @@ function drawTrackPreview(cv,def){
 function buildMenu(){
   const tc=$('#trackCards');tc.innerHTML='';
   TRACKS.forEach((t,i)=>{const d=document.createElement('button');d.className='tcard ui';d.dataset.i=i;
-    d.innerHTML=`<canvas width="200" height="140"></canvas><b>${t.name}</b><small>${t.sub}</small><small class="rec" id="rec${i}"></small>`;
+    d.innerHTML=`<canvas width="200" height="140"></canvas><b>${t.name}</b><small id="tsub${i}"></small><small class="rec" id="rec${i}"></small>`;
     tc.appendChild(d);drawTrackPreview(d.querySelector('canvas'),t);
-    d.addEventListener('click',()=>{S.track=i;saveS();if(S.mode==='champ'){S.mode='race';saveS();buildCars();}loadTrackAndWorld(i);refreshUI();});});
+    d.addEventListener('click',()=>{S.track=i;saveS();if(S.mode==='champ'){S.mode='race';saveS();champ=null;buildCars();}loadTrackAndWorld(i);refreshUI();});});
   const lv=$('#livs');lv.innerHTML='';
   LIVERIES.forEach((l,i)=>{const d=document.createElement('button');d.className='liv ui';d.dataset.i=i;
-    d.innerHTML=`<div class="sw"><i style="background:${hex(l.p)}"></i><i style="background:${hex(l.s)}"></i><i style="background:${hex(l.a)}"></i></div>${l.name}`;
-    lv.appendChild(d);d.addEventListener('click',()=>{S.livery=i;S.color=null;saveS();refreshPlayerMesh();buildCarsIfAIClash();refreshUI();});});
+    d.innerHTML=`<div class="sw"><i style="background:${hex(l.p)}"></i><i style="background:${hex(l.s)}"></i><i style="background:${hex(l.a)}"></i></div>${l.name}<span class="lp"></span>`;
+    lv.appendChild(d);d.addEventListener('click',()=>{if(!PR.livs[i]){if(!spend(LIV_PRICE[i]))return;PR.livs[i]=1;saveP();toast(t('bought'));}S.livery=i;S.color=null;saveS();refreshPlayerMesh();buildCarsIfAIClash();refreshUI();});});
   const cl=$('#cols');cl.innerHTML='';
   COLORS.forEach(c=>{const d=document.createElement('button');d.className='col ui';d.dataset.c=c;d.style.background=hex(c);cl.appendChild(d);
     d.addEventListener('click',()=>{S.color=c;saveS();refreshPlayerMesh();refreshUI();});});
   $('#numDn').addEventListener('click',()=>{S.num=S.num<=1?99:S.num-1;saveS();refreshPlayerMesh();refreshUI();});
   $('#numUp').addEventListener('click',()=>{S.num=S.num>=99?1:S.num+1;saveS();refreshPlayerMesh();refreshUI();});
   $$('#tabs button').forEach(b=>b.addEventListener('click',()=>{$$('#tabs button').forEach(x=>x.classList.toggle('on',x===b));
-    $$('.tab').forEach(t=>t.classList.toggle('on',t.id==='tab-'+b.dataset.tab));menuTab=b.dataset.tab;}));
+    $$('.tab').forEach(t=>t.classList.toggle('on',t.id==='tab-'+b.dataset.tab));menuTab=b.dataset.tab;$('.scroll').scrollTop=0;renderMeta();}));
+  $('#carPrev').addEventListener('click',()=>{const i=CARS.findIndex(c=>c.id===(garageCar||PR.car));garageCar=CARS[(i-1+CARS.length)%CARS.length].id;renderGarage();});
+  $('#carNext').addEventListener('click',()=>{const i=CARS.findIndex(c=>c.id===(garageCar||PR.car));garageCar=CARS[(i+1)%CARS.length].id;renderGarage();});
+  $('#carBuy').addEventListener('click',()=>{const c=carDef(garageCar);if(!PR.cars[c.id]){if(!spend(c.price))return;PR.cars[c.id]=1;toast(t('bought'));vibrate(40);}
+    PR.car=c.id;saveP();renderGarage();renderLeague();});
+  $('#bPit').addEventListener('touchstart',e=>{e.preventDefault();e.stopPropagation();togglePit();},{passive:false});
+  $('#bPit').addEventListener('click',togglePit);
   $$('.seg').forEach(sg=>sg.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
     const k=sg.dataset.key,raw=b.dataset.v,v=isNaN(+raw)?raw:+raw;if(S[k]===v)return;S[k]=v;saveS();onSet(k);refreshUI();})));
   $$('.tog').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.key;S[k]=!S[k];saveS();onSet(k);refreshUI();}));
@@ -1620,18 +1777,20 @@ function onSet(k){
   else if(k==='tilt'){document.body.classList.toggle('tilt',S.tilt);if(S.tilt)enableTilt();}
   else if(k==='line'){if(racingLine)racingLine.visible=S.line;}
   else if(k==='sound'){initAudio();setSound(S.sound);}
+  else if(k==='lang'){applyLang();if(player)player.name=t('you');}
 }
 function refreshUI(){
   $$('.tcard').forEach(d=>{const i=+d.dataset.i;d.classList.toggle('on',S.mode!=='champ'&&i===S.track);
-    const r=store.get('f1a_best_'+i,null);$('#rec'+i).textContent=r?'Rekord: '+fmt(r):'';});
+    const r=store.get('f1a_best_'+i,null);$('#rec'+i).textContent=r?t('rec')+': '+fmt(r):'';});
   $$('.seg').forEach(sg=>sg.querySelectorAll('button').forEach(b=>{const raw=b.dataset.v,v=isNaN(+raw)?raw:+raw;b.classList.toggle('on',S[sg.dataset.key]===v);}));
   $$('.tog').forEach(b=>b.classList.toggle('on',!!S[b.dataset.key]));
   $$('.liv').forEach(d=>d.classList.toggle('on',+d.dataset.i===S.livery));
   const pc=S.color!=null?S.color:LIVERIES[S.livery].p;$$('.col').forEach(d=>d.classList.toggle('on',+d.dataset.c===pc));
   $('#numV').textContent=S.num;
-  $('#champInfo').textContent=S.mode==='champ'?`Chempionat: ${champ&&!champ.done?champ.round+1:1}/${CHAMP_ORDER.length} · ${TRACKS[curTrackIdx()].name}`:'';
+  $('#champInfo').textContent=S.mode==='champ'?`${t('champ_stage',{a:champ&&!champ.done?champ.round+1:1,b:CHAMP_ORDER.length})} · ${TRACKS[curTrackIdx()].name}`:'';
+  TRACKS.forEach((tr,i)=>{const e=$('#tsub'+i);if(e)e.textContent=t('tsub'+i);});renderMeta();
   document.documentElement.style.setProperty('--btn',S.btn);document.body.classList.toggle('tilt',!!S.tilt);
-  $('#btnSnd2').textContent='Ovoz: '+(S.sound?'yoqilgan':'o‘chirilgan');
+  $('#btnSnd2').textContent=t(S.sound?'snd_on':'snd_off');
 }
 
 // ======================= KAMERA VA VIZUAL =======================
@@ -1667,7 +1826,7 @@ function updateCamera(dt,now){
 let emitT=0;
 function updateCars(dt,now){
   emitT+=dt;const doEmit=emitT>0.03;if(doEmit)emitT=0;
-  const rain=S.weather==='rain',blink=Math.floor(now/250)%2===0;
+  const rain=isRain(),blink=Math.floor(now/250)%2===0;
   for(const car of cars){
     const m=car.mesh;m.g.position.set(car.x,0,car.z);m.g.rotation.y=car.th;
     m.body.rotation.z=clamp(car.latA*0.0028,-0.045,0.045);m.body.rotation.x=clamp(-car.long*0.0025,-0.03,0.03);
@@ -1772,6 +1931,8 @@ function updateHUD(dt){
     const rec=store.get('f1a_best_'+curTrackIdx(),null);
     hud.best.textContent=fmt(isFinite(player.best)?player.best:(S.mode==='tt'?rec:null));
     if(S.mode==='tt'){const d=ghostDelta();if(d==null){hud.delta.textContent='—';hud.delta.className='';}else{hud.delta.textContent=(d>=0?'+':'−')+Math.abs(d).toFixed(2);hud.delta.className=d<0?'neg':'posv';}}
+    $('#hTyre').innerHTML=`<i style="border-color:${TYRES[player.tyre||'M'].col}"></i>${Math.round((1-player.wear)*100)}%`;
+    const pitOn=player.pitReq||player.pitT>0;$('#bgPit').classList.toggle('hidden',!pitOn);$('#bgPit').classList.add('pit');$('#bPit').classList.toggle('act',pitOn);
     const i=player.idx,wrong=state==='race'&&sp>3&&(Math.sin(player.th)*TX[i]+Math.cos(player.th)*TZ[i])<-0.3;
     hud.warn.style.display=wrong?'block':'none';
   }
@@ -1783,11 +1944,11 @@ function updateAudio(){
   snd.o1.frequency.setTargetAtTime(48+gi.rpm*210,t,0.04);snd.o2.frequency.setTargetAtTime(24+gi.rpm*105,t,0.04);snd.o3.frequency.setTargetAtTime(97+gi.rpm*421,t,0.04);
   snd.ef.frequency.setTargetAtTime(500+gi.rpm*2600*(0.5+thr*0.5),t,0.05);
   snd.eg.gain.setTargetAtTime(live?0.06+0.11*thr+0.04*gi.rpm:0,t,0.06);
-  const scr=live&&!player.onGrass&&sp>5&&S.weather!=='rain'?clamp((Math.abs(player.slipR)-0.1)*3+(Math.abs(player.slipF)-0.15)*2,0,1):0;
+  const scr=live&&!player.onGrass&&sp>5&&!isRain()?clamp((Math.abs(player.slipR)-0.1)*3+(Math.abs(player.slipF)-0.15)*2,0,1):0;
   snd.sg.gain.setTargetAtTime(scr*0.12,t,0.05);
   let cg=0;if(live&&standPos){const d=Math.hypot(player.x-standPos.x,player.z-standPos.z);cg=0.07*clamp(1-d/220,0,1);if(state==='finished')cg+=0.08;}
   snd.cg.gain.setTargetAtTime(cg,t,0.2);
-  snd.rg.gain.setTargetAtTime(live&&S.weather==='rain'?0.05:0,t,0.3);
+  snd.rg.gain.setTargetAtTime(live&&isRain()?0.05:0,t,0.3);
   let nd=1e9,nc=null;for(const c of cars){if(c===player)continue;const d=Math.hypot(c.x-player.x,c.z-player.z);if(d<nd){nd=d;nc=c;}}
   if(nc&&live&&nd<70){snd.ao.frequency.setTargetAtTime(45+gearInfo(nc.vLong).rpm*200,t,0.05);snd.ag.gain.setTargetAtTime(0.07*(1-nd/70),t,0.08);}
   else snd.ag.gain.setTargetAtTime(0,t,0.1);
@@ -1796,17 +1957,260 @@ function updateCountdown(dt){
   if(state!=='countdown')return;
   cdT+=dt;const lit=Math.min(5,Math.floor(cdT/0.8));
   if(lit!==litPrev){litPrev=lit;if(lit>0){beep(440);vibrate(25);}}
-  if(cdT>=4+goDelay){state='race';raceTime=0;litPrev=0;$('#lights').style.display='none';showMsg('OLG‘A!',1);beep(880,0.4,0.3);vibrate(70);}
+  if(cdT>=4+goDelay){state='race';raceTime=0;litPrev=0;$('#lights').style.display='none';showMsg(t('go_msg'),1);beep(880,0.4,0.3);vibrate(70);}
   const on=state==='countdown'?lit:0;
   lightEls.forEach((e,i)=>e.classList.toggle('on',i<on));
   startLamps.forEach((m,i)=>{m.emissive.setHex(i<on?0xff1010:0x000000);m.emissiveIntensity=i<on?3:0;});
 }
 
+// ======================= TIL (O'zbek / Русский / English) =======================
+const I18N={
+uz:{tab_race:'Poyga',tab_garage:'Garaj',tab_shop:'Do‘kon',tab_pilots:'Pilotlar',tab_set:'Sozlamalar',
+ track:'Trassa',tod:'Kun vaqti',weather:'Ob-havo',day:'☀ Kunduz',sunset:'🌇 Kechqurun',night:'🌙 Tun',dry:'Quruq',rain:'🌧 Yomg‘ir',mix:'⛅ O‘zgaruvchan',mode:'Rejim',
+ m_race:'Liga poygasi',m_race_d:'Kubok va tanga uchun',m_duel:'Duel 1v1',m_duel_d:'Raqibga qarshi 2 aylana',m_tt:'Vaqtga qarshi',m_tt_d:'Arvoh mashina bilan',m_champ:'Chempionat',m_champ_d:'3 bosqich, ochkolar',
+ start:'START',trophies:'kubok',next_league:'Keyingi liga: {n} kubok',max_league:'Eng yuqori liga!',lg1:'Bronza liga',lg2:'Kumush liga',lg3:'Oltin liga',lg4:'Platina liga',lg5:'Chempionlar ligasi',team_score:'Jamoa reytingi',
+ upgrades:'Kuchaytirish',livery:'Livreya',color:'Asosiy rang',number:'Raqam',car:'Mashina',p_eng:'Dvigatel',p_aero:'Aerodinamika',p_tyre:'Shina',p_brake:'Tormoz',
+ st_speed:'Tezlik',st_acc:'Tezlanish',st_handling:'Boshqaruv',st_brake:'Tormoz',buy:'Sotib olish',owned:'Sizda bor',select:'Tanlash',selected:'Tanlangan',upgrade:'Kuchaytirish',cards:'kartochka',maxed:'MAKS',locked:'Yopiq',lvl:'Daraja',
+ shop_daily:'Kunlik bonus',shop_daily_d:'Har kuni kiring — bonus oshib boradi',claim:'Olish',claimed:'Olindi ✓',shop_free:'Bepul sandiq',shop_free_d:'Qisqa reklama ko‘ring',watch_ad:'▶ Ko‘rish',wait:'Kuting',crates:'Sandiqlar',open:'Ochish',
+ cr1:'Oddiy sandiq',cr2:'Noyob sandiq',cr_odds:'Ehtimollar: kartochka 100% · tanga 100% · yangi pilot {p}%',crate_title:'Sandiq ochildi!',pilot_new:'Yangi pilot',
+ p_speed:'Tezlik',p_corner:'Burilish',p_rain:'Yomg‘ir',p_tyres:'Shina',pilot_bonus:'Bonus: tezlik +{a}% · burilish +{b}% · yomg‘ir +{c}% · eskirish −{d}%',
+ lang:'Til',diff:'Qiyinlik',easy:'Oson',medium:'O‘rta',hard:'Qiyin',opp:'Raqiblar soni',quality:'Grafika sifati',low:'Past',mid:'O‘rta',high:'Yuqori',btnsize:'Tugmalar o‘lchami',small:'Kichik',normal:'O‘rta',large:'Katta',
+ assists:'Boshqaruv va yordamchilar',tilt:'Telefonni egib boshqarish',tilt_d:'Giroskop (rul tugmalari yashiriladi)',tiltInv:'Egishni teskari qilish',autoGas:'Avto-gaz',autoGas_d:'Faqat rul va tormoz kerak',
+ brakeAssist:'Tormoz yordamchisi',brakeAssist_d:'Burilishdan oldin o‘zi sekinlashtiradi',line:'Poyga chizig‘i',line_d:'Yashil — gaz, sariq — burilish, qizil — tormoz',vib:'Vibratsiya',sound:'Ovoz',
+ h_pos:'O‘RIN',h_lap:'AYLANA',h_time:'VAQT',h_best:'ENG YAXSHI',h_delta:'FARQ',h_tyre:'SHINA',kmh:'KM/S',wrong:'⟲ NOTO‘G‘RI YO‘NALISH',b_brake:'TORMOZ',b_gas:'GAZ',
+ pause:'PAUZA',resume:'DAVOM ETISH',restart:'Qayta boshlash',main_menu:'Bosh menyu',snd_on:'Ovoz: yoqilgan',snd_off:'Ovoz: o‘chirilgan',
+ win:'G‘ALABA! 🏆',pos_n:'FINISH · {n}-O‘RIN',pilot:'PILOT',time:'VAQT',on_track:'trassada',best_you:'Eng yaxshi aylanangiz',
+ rewards:'Mukofotlar',r_pos:'Natija uchun',r_clean:'Toza poyga',r_fast:'Eng tez aylana',r_over:'Quvib o‘tish ×{n}',total:'Jami',lvl_up:'YANGI DARAJA: {n}! +300 🪙',x2:'×2 tanga (reklama)',x2_done:'×2 olindi ✓',
+ again:'QAYTA',next_race:'KEYINGI POYGA ▶',new_champ:'YANGI CHEMPIONAT',champion:'CHEMPION! 🏆',champ_is:'Chempion: {n}',champ_stage:'CHEMPIONAT · {a}/{b}',pts:'JAMI',
+ pre_title:'Poyga oldidan',choose_tyre:'Shina tanlang',ty_s:'Yumshoq',ty_m:'O‘rta',ty_h:'Qattiq',ty_w:'Yomg‘ir',ty_s_d:'Eng tez, tez eskiradi',ty_m_d:'Muvozanatli',ty_h_d:'Sekinroq, chidamli',ty_w_d:'Ho‘l trassa uchun',go:'BOSHLASH',back:'Orqaga',laps_n:'{n} aylana',
+ r_rain_start:'Yomg‘ir boshlandi! PIT qilib yomg‘ir shinasini oling.',r_wet:'Trassa ho‘l — tormozni ertaroq bosing!',r_ghost:'Arvoh mashina: eng yaxshi aylanangiz bilan poyga',r_record:'Yangi rekord! {t}',r_fast:'Eng tez aylanangiz: {t}',
+ r_wing:'Old qanot uchib ketdi! Mashina sekinroq buriladi.',r_pit_req:'PIT so‘raldi — start chizig‘ida boksga kirasiz.',r_pit_in:'Boksdasiz: tezlik cheklovi…',r_pit_done:'Yangi shinalar: {t}. Olg‘a!',r_pit_cancel:'PIT bekor qilindi.',
+ r_champ:'Chempionat: {a}-bosqich · {b}',r_tyre_low:'Shinalar eskirdi — PIT haqida o‘ylang.',last_lap:'OXIRGI AYLANA',lap_n:'{n}-AYLANA',go_msg:'OLG‘A!',fin_msg:'FINISH!',radio:'RADIO · MUHANDIS',
+ no_coins:'Tanga yetarli emas',bought:'Sotib olindi!',upgraded:'Kuchaytirildi!',ad_test:'REKLAMA · test rejimi',ad_wait:'Mukofot {n} soniyadan keyin',ad_note:'Bu yerda haqiqiy reklama ko‘rsatiladi',daily_got:'+{n} 🪙 kunlik bonus!',need_cards:'Kartochka yetarli emas',level:'Daraja',duel_rival:'Raqib'},
+ru:{tab_race:'Гонка',tab_garage:'Гараж',tab_shop:'Магазин',tab_pilots:'Пилоты',tab_set:'Настройки',
+ track:'Трасса',tod:'Время суток',weather:'Погода',day:'☀ День',sunset:'🌇 Закат',night:'🌙 Ночь',dry:'Сухо',rain:'🌧 Дождь',mix:'⛅ Переменная',mode:'Режим',
+ m_race:'Гонка лиги',m_race_d:'За кубки и монеты',m_duel:'Дуэль 1v1',m_duel_d:'Против соперника, 2 круга',m_tt:'На время',m_tt_d:'С машиной-призраком',m_champ:'Чемпионат',m_champ_d:'3 этапа, очки',
+ start:'СТАРТ',trophies:'кубков',next_league:'Следующая лига: {n} кубков',max_league:'Высшая лига!',lg1:'Бронзовая лига',lg2:'Серебряная лига',lg3:'Золотая лига',lg4:'Платиновая лига',lg5:'Лига чемпионов',team_score:'Рейтинг команды',
+ upgrades:'Улучшения',livery:'Ливрея',color:'Основной цвет',number:'Номер',car:'Машина',p_eng:'Двигатель',p_aero:'Аэродинамика',p_tyre:'Шины',p_brake:'Тормоза',
+ st_speed:'Скорость',st_acc:'Разгон',st_handling:'Управление',st_brake:'Тормоза',buy:'Купить',owned:'Есть',select:'Выбрать',selected:'Выбрано',upgrade:'Улучшить',cards:'карт',maxed:'МАКС',locked:'Закрыто',lvl:'Уровень',
+ shop_daily:'Ежедневный бонус',shop_daily_d:'Заходите каждый день — бонус растёт',claim:'Забрать',claimed:'Получено ✓',shop_free:'Бесплатный ящик',shop_free_d:'Посмотрите короткую рекламу',watch_ad:'▶ Смотреть',wait:'Ждите',crates:'Ящики',open:'Открыть',
+ cr1:'Обычный ящик',cr2:'Редкий ящик',cr_odds:'Шансы: карты 100% · монеты 100% · новый пилот {p}%',crate_title:'Ящик открыт!',pilot_new:'Новый пилот',
+ p_speed:'Скорость',p_corner:'Повороты',p_rain:'Дождь',p_tyres:'Шины',pilot_bonus:'Бонус: скорость +{a}% · повороты +{b}% · дождь +{c}% · износ −{d}%',
+ lang:'Язык',diff:'Сложность',easy:'Легко',medium:'Средне',hard:'Сложно',opp:'Соперников',quality:'Графика',low:'Низко',mid:'Средне',high:'Высоко',btnsize:'Размер кнопок',small:'Мал.',normal:'Сред.',large:'Бол.',
+ assists:'Управление и помощники',tilt:'Управление наклоном',tilt_d:'Гироскоп (кнопки руля скрыты)',tiltInv:'Инвертировать наклон',autoGas:'Авто-газ',autoGas_d:'Нужны только руль и тормоз',
+ brakeAssist:'Помощь торможения',brakeAssist_d:'Сам замедляет перед поворотом',line:'Гоночная линия',line_d:'Зелёный — газ, жёлтый — поворот, красный — тормоз',vib:'Вибрация',sound:'Звук',
+ h_pos:'МЕСТО',h_lap:'КРУГ',h_time:'ВРЕМЯ',h_best:'ЛУЧШИЙ',h_delta:'РАЗНИЦА',h_tyre:'ШИНЫ',kmh:'КМ/Ч',wrong:'⟲ НЕВЕРНОЕ НАПРАВЛЕНИЕ',b_brake:'ТОРМОЗ',b_gas:'ГАЗ',
+ pause:'ПАУЗА',resume:'ПРОДОЛЖИТЬ',restart:'Заново',main_menu:'Главное меню',snd_on:'Звук: вкл',snd_off:'Звук: выкл',
+ win:'ПОБЕДА! 🏆',pos_n:'ФИНИШ · {n}-Е МЕСТО',pilot:'ПИЛОТ',time:'ВРЕМЯ',on_track:'на трассе',best_you:'Ваш лучший круг',
+ rewards:'Награды',r_pos:'За результат',r_clean:'Чистая гонка',r_fast:'Быстрый круг',r_over:'Обгоны ×{n}',total:'Итого',lvl_up:'НОВЫЙ УРОВЕНЬ: {n}! +300 🪙',x2:'×2 монеты (реклама)',x2_done:'×2 получено ✓',
+ again:'ЕЩЁ РАЗ',next_race:'СЛЕДУЮЩАЯ ГОНКА ▶',new_champ:'НОВЫЙ ЧЕМПИОНАТ',champion:'ЧЕМПИОН! 🏆',champ_is:'Чемпион: {n}',champ_stage:'ЧЕМПИОНАТ · {a}/{b}',pts:'ВСЕГО',
+ pre_title:'Перед гонкой',choose_tyre:'Выберите шины',ty_s:'Мягкие',ty_m:'Средние',ty_h:'Жёсткие',ty_w:'Дождевые',ty_s_d:'Самые быстрые, быстро стираются',ty_m_d:'Баланс',ty_h_d:'Медленнее, но долговечные',ty_w_d:'Для мокрой трассы',go:'ПОЕХАЛИ',back:'Назад',laps_n:'{n} круга',
+ r_rain_start:'Начался дождь! Заезжайте в PIT за дождевыми шинами.',r_wet:'Трасса мокрая — тормозите раньше!',r_ghost:'Призрак: гонка против вашего лучшего круга',r_record:'Новый рекорд! {t}',r_fast:'Ваш лучший круг: {t}',
+ r_wing:'Переднее крыло оторвалось! Машина хуже поворачивает.',r_pit_req:'PIT запрошен — заедете на линии старта.',r_pit_in:'Вы в боксах: ограничитель…',r_pit_done:'Новые шины: {t}. Вперёд!',r_pit_cancel:'PIT отменён.',
+ r_champ:'Чемпионат: этап {a} · {b}',r_tyre_low:'Шины изношены — подумайте о PIT.',last_lap:'ПОСЛЕДНИЙ КРУГ',lap_n:'КРУГ {n}',go_msg:'ВПЕРЁД!',fin_msg:'ФИНИШ!',radio:'РАДИО · ИНЖЕНЕР',
+ no_coins:'Недостаточно монет',bought:'Куплено!',upgraded:'Улучшено!',ad_test:'РЕКЛАМА · тестовый режим',ad_wait:'Награда через {n} с',ad_note:'Здесь будет настоящая реклама',daily_got:'+{n} 🪙 ежедневный бонус!',need_cards:'Недостаточно карт',level:'Уровень',duel_rival:'Соперник'},
+en:{tab_race:'Race',tab_garage:'Garage',tab_shop:'Shop',tab_pilots:'Drivers',tab_set:'Settings',
+ track:'Track',tod:'Time of day',weather:'Weather',day:'☀ Day',sunset:'🌇 Sunset',night:'🌙 Night',dry:'Dry',rain:'🌧 Rain',mix:'⛅ Changing',mode:'Mode',
+ m_race:'League race',m_race_d:'For trophies and coins',m_duel:'Duel 1v1',m_duel_d:'Versus a rival, 2 laps',m_tt:'Time trial',m_tt_d:'Race your ghost',m_champ:'Championship',m_champ_d:'3 rounds, points',
+ start:'START',trophies:'trophies',next_league:'Next league: {n} trophies',max_league:'Top league!',lg1:'Bronze League',lg2:'Silver League',lg3:'Gold League',lg4:'Platinum League',lg5:'Champions League',team_score:'Team rating',
+ upgrades:'Upgrades',livery:'Livery',color:'Main colour',number:'Number',car:'Car',p_eng:'Engine',p_aero:'Aerodynamics',p_tyre:'Tyres',p_brake:'Brakes',
+ st_speed:'Top speed',st_acc:'Acceleration',st_handling:'Handling',st_brake:'Braking',buy:'Buy',owned:'Owned',select:'Select',selected:'Selected',upgrade:'Upgrade',cards:'cards',maxed:'MAX',locked:'Locked',lvl:'Level',
+ shop_daily:'Daily bonus',shop_daily_d:'Come back daily — the bonus grows',claim:'Claim',claimed:'Claimed ✓',shop_free:'Free crate',shop_free_d:'Watch a short ad',watch_ad:'▶ Watch',wait:'Wait',crates:'Crates',open:'Open',
+ cr1:'Common crate',cr2:'Rare crate',cr_odds:'Odds: cards 100% · coins 100% · new driver {p}%',crate_title:'Crate opened!',pilot_new:'New driver',
+ p_speed:'Speed',p_corner:'Cornering',p_rain:'Wet',p_tyres:'Tyres',pilot_bonus:'Bonus: speed +{a}% · cornering +{b}% · wet +{c}% · wear −{d}%',
+ lang:'Language',diff:'Difficulty',easy:'Easy',medium:'Medium',hard:'Hard',opp:'Opponents',quality:'Graphics',low:'Low',mid:'Medium',high:'High',btnsize:'Button size',small:'Small',normal:'Normal',large:'Large',
+ assists:'Controls & assists',tilt:'Tilt steering',tilt_d:'Gyroscope (steer buttons hidden)',tiltInv:'Invert tilt',autoGas:'Auto throttle',autoGas_d:'Only steering and brake needed',
+ brakeAssist:'Brake assist',brakeAssist_d:'Slows down before corners',line:'Racing line',line_d:'Green — throttle, yellow — corner, red — brake',vib:'Vibration',sound:'Sound',
+ h_pos:'POS',h_lap:'LAP',h_time:'TIME',h_best:'BEST',h_delta:'DELTA',h_tyre:'TYRE',kmh:'KM/H',wrong:'⟲ WRONG WAY',b_brake:'BRAKE',b_gas:'GAS',
+ pause:'PAUSED',resume:'RESUME',restart:'Restart',main_menu:'Main menu',snd_on:'Sound: on',snd_off:'Sound: off',
+ win:'VICTORY! 🏆',pos_n:'FINISH · P{n}',pilot:'DRIVER',time:'TIME',on_track:'on track',best_you:'Your best lap',
+ rewards:'Rewards',r_pos:'Result',r_clean:'Clean race',r_fast:'Fastest lap',r_over:'Overtakes ×{n}',total:'Total',lvl_up:'LEVEL UP: {n}! +300 🪙',x2:'×2 coins (ad)',x2_done:'×2 claimed ✓',
+ again:'AGAIN',next_race:'NEXT RACE ▶',new_champ:'NEW CHAMPIONSHIP',champion:'CHAMPION! 🏆',champ_is:'Champion: {n}',champ_stage:'CHAMPIONSHIP · {a}/{b}',pts:'TOTAL',
+ pre_title:'Before the race',choose_tyre:'Choose tyres',ty_s:'Soft',ty_m:'Medium',ty_h:'Hard',ty_w:'Wet',ty_s_d:'Fastest, wears quickly',ty_m_d:'Balanced',ty_h_d:'Slower, durable',ty_w_d:'For a wet track',go:'GO',back:'Back',laps_n:'{n} laps',
+ r_rain_start:'Rain is starting! Box for wet tyres.',r_wet:'Track is wet — brake earlier!',r_ghost:'Ghost car: race your best lap',r_record:'New record! {t}',r_fast:'Your fastest lap: {t}',
+ r_wing:'Front wing gone! The car turns worse.',r_pit_req:'PIT requested — you will box at the start line.',r_pit_in:'In the pits: speed limiter…',r_pit_done:'New tyres: {t}. Go!',r_pit_cancel:'PIT cancelled.',
+ r_champ:'Championship: round {a} · {b}',r_tyre_low:'Tyres are worn — think about a PIT stop.',last_lap:'FINAL LAP',lap_n:'LAP {n}',go_msg:'GO!',fin_msg:'FINISH!',radio:'RADIO · ENGINEER',
+ no_coins:'Not enough coins',bought:'Purchased!',upgraded:'Upgraded!',ad_test:'AD · test mode',ad_wait:'Reward in {n} s',ad_note:'A real ad will be shown here',daily_got:'+{n} 🪙 daily bonus!',need_cards:'Not enough cards',level:'Level',duel_rival:'Rival'}
+};
+Object.assign(I18N.uz,{tsub0:'Klassik trassa · 2.9 km',tsub1:'Tor ko‘chalar, devorlar yaqin',tsub2:'Yuqori tezlik, keng burilishlar',rec:'Rekord',you:'Siz',rw_fast:'Eng tez aylana'});
+Object.assign(I18N.ru,{tsub0:'Классическая трасса · 2.9 км',tsub1:'Узкие улицы, стены рядом',tsub2:'Высокая скорость, быстрые повороты',rec:'Рекорд',you:'Вы',rw_fast:'Быстрейший круг'});
+Object.assign(I18N.en,{tsub0:'Classic circuit · 2.9 km',tsub1:'Narrow streets, close walls',tsub2:'High speed, sweeping corners',rec:'Record',you:'You',rw_fast:'Fastest lap'});
+function t(k,v){let s=(I18N[S.lang]&&I18N[S.lang][k])||I18N.uz[k]||k;if(v)for(const x in v)s=s.split('{'+x+'}').join(v[x]);return s;}
+function applyLang(){$$('[data-i18n]').forEach(e=>{e.textContent=t(e.dataset.i18n);});document.documentElement.lang=S.lang;}
+
+// ======================= PROGRESS VA IQTISOD =======================
+const CARS=[
+  {id:'c1',name:'Rookie R1',price:0,pow:0.92,aero:0.93,grip:0.96,brk:0.95},
+  {id:'c2',name:'Strada S2',price:3000,pow:1.0,aero:0.98,grip:0.99,brk:1.0},
+  {id:'c3',name:'Veloce V3',price:9000,pow:1.06,aero:1.03,grip:1.01,brk:1.03},
+  {id:'c4',name:'Apex X4',price:22000,pow:1.12,aero:1.08,grip:1.04,brk:1.06}];
+const PARTS=[{id:'eng',ic:'⚙️',k:'p_eng'},{id:'aero',ic:'🪽',k:'p_aero'},{id:'tyre',ic:'🛞',k:'p_tyre'},{id:'brake',ic:'🛑',k:'p_brake'}];
+const UP_COST=[300,800,1800,4000,8000],UP_CARDS=[2,5,9,14,22];
+const PILOTS=[
+  {id:'p1',name:'Timur Rashidov',price:0,sp:2,cor:2,rain:1,tyr:1,col:'#2e8bff'},
+  {id:'p2',name:'Lena Vogel',price:2500,sp:2,cor:3,rain:2,tyr:2,col:'#00c2a8'},
+  {id:'p3',name:'Marco Bellini',price:5000,sp:4,cor:2,rain:2,tyr:1,col:'#ff3b3b'},
+  {id:'p4',name:'Aziz Karimov',price:8000,sp:3,cor:3,rain:4,tyr:3,col:'#ffb020'},
+  {id:'p5',name:'Kenji Mori',price:12000,sp:4,cor:4,rain:3,tyr:3,col:'#b06bff'},
+  {id:'p6',name:'Sofia Reyes',price:18000,sp:5,cor:4,rain:4,tyr:4,col:'#ff4fa0'}];
+const LEAGUES=[{k:'lg1',min:0,ai:0.86,rw:1,col:'#cd7f32',ic:'🥉'},{k:'lg2',min:150,ai:0.9,rw:1.3,col:'#c3c9cf',ic:'🥈'},{k:'lg3',min:400,ai:0.935,rw:1.6,col:'#ffd23f',ic:'🥇'},
+  {k:'lg4',min:800,ai:0.962,rw:2,col:'#7fe3ff',ic:'💎'},{k:'lg5',min:1400,ai:0.985,rw:2.6,col:'#ff5ad1',ic:'👑'}];
+const TYRES={S:{k:'ty_s',d:'ty_s_d',col:'#ff3b3b',grip:1.05,wear:0.045},M:{k:'ty_m',d:'ty_m_d',col:'#ffd23f',grip:1,wear:0.028},H:{k:'ty_h',d:'ty_h_d',col:'#f2f2f2',grip:0.955,wear:0.016},W:{k:'ty_w',d:'ty_w_d',col:'#2e8bff',grip:0.93,wear:0.03}};
+const LIV_PRICE=[0,0,1500,2500,2000,2000,3000,4000];
+const CRATES=[{k:'cr1',price:400,cards:[3,5],coins:[80,250],pilot:0,ic:'📦'},{k:'cr2',price:1500,cards:[8,12],coins:[250,700],pilot:0.15,ic:'🎁'}];
+const PDEF={coins:600,xp:0,level:1,trophies:0,car:'c1',cars:{c1:1},parts:{eng:0,aero:0,tyre:0,brake:0},cards:{eng:0,aero:0,tyre:0,brake:0},livs:{0:1,1:1},
+  pilot:'p1',pilots:{p1:1},daily:'',streak:0,freeCrate:0,races:0,wins:0};
+const PR=Object.assign({},PDEF,store.get('f1a_prof',{}));
+for(const k of['cars','parts','cards','livs','pilots'])PR[k]=Object.assign({},PDEF[k],PR[k]||{});
+const saveP=()=>store.set('f1a_prof',PR);
+const rint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function leagueIdx(){let i=0;LEAGUES.forEach((l,k)=>{if(PR.trophies>=l.min)i=k;});return i;}
+function carDef(id=PR.car){return CARS.find(c=>c.id===id)||CARS[0];}
+function pilotDef(id=PR.pilot){return PILOTS.find(p=>p.id===id)||PILOTS[0];}
+function playerStats(){const c=carDef(),p=PR.parts,pl=pilotDef();
+  return {pow:c.pow*(1+0.03*p.eng)*(1+0.005*pl.sp),aero:c.aero*(1+0.03*p.aero),grip:c.grip*(1+0.015*p.tyre)*(1+0.004*pl.cor),brk:c.brk*(1+0.03*p.brake),rain:1+0.02*pl.rain,wear:1-0.06*pl.tyr};}
+function teamScore(){const s=playerStats();return Math.round((s.pow*0.35+s.aero*0.25+s.grip*0.25+s.brk*0.15)*1000);}
+function fmtN(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
+
+// ---------- bildirishnoma ----------
+function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800);}
+function addCoins(n){PR.coins+=n;saveP();updateTopbar();}
+function spend(n){if(PR.coins<n){toast(t('no_coins'));vibrate(40);return false;}PR.coins-=n;saveP();updateTopbar();return true;}
+function addXP(n){PR.xp+=n;let up=false;while(PR.xp>=PR.level*250){PR.xp-=PR.level*250;PR.level++;PR.coins+=300;up=true;}saveP();updateTopbar();return up;}
+function updateTopbar(){$('#coinN').textContent=fmtN(PR.coins);$('#lvlN').textContent=PR.level;$('#xpF').style.width=Math.min(100,PR.xp/(PR.level*250)*100)+'%';}
+
+// ---------- reklama (test o'rinbosar; keyin AdMob / CrazyGames / AdSense SDK ulanadi) ----------
+const Ads={
+  rewarded(){return new Promise(res=>{const ov=$('#adov');ov.classList.remove('hidden');let n=5;const tick=()=>{$('#adTxt').textContent=t('ad_wait',{n});
+      if(n<=0){clearInterval(iv);ov.classList.add('hidden');res(true);}n--;};const iv=setInterval(tick,1000);tick();});},
+  interstitial(){return new Promise(res=>{const ov=$('#adov');ov.classList.remove('hidden');let n=3;const tick=()=>{$('#adTxt').textContent=t('ad_wait',{n});
+      if(n<=0){clearInterval(iv);ov.classList.add('hidden');res();}n--;};const iv=setInterval(tick,1000);tick();});}
+};
+
+// ---------- menyu bo'limlari ----------
+function renderLeague(){
+  const i=leagueIdx(),L=LEAGUES[i],N2=LEAGUES[i+1];
+  const prog=N2?(PR.trophies-L.min)/(N2.min-L.min):1;
+  $('#leagueCard').innerHTML=`<div class="lgic" style="background:${L.col}">${L.ic}</div><div class="lgtx"><b>${t(L.k)}</b>
+    <small>🏆 ${fmtN(PR.trophies)} ${t('trophies')} · ${t('team_score')}: ${teamScore()}</small>
+    <div class="lgbar"><i style="width:${(prog*100).toFixed(0)}%;background:${L.col}"></i></div><small>${N2?t('next_league',{n:N2.min}):t('max_league')}</small></div>`;
+}
+function renderModes(){
+  const M=[['race','🏁','m_race','m_race_d'],['duel','⚔️','m_duel','m_duel_d'],['tt','⏱','m_tt','m_tt_d'],['champ','🏆','m_champ','m_champ_d']];
+  $('#modes').innerHTML=M.map(([id,ic,a,b])=>`<button class="mcard ui ${S.mode===id?'on':''}" data-mode="${id}"><span>${ic}</span><b>${t(a)}</b><small>${t(b)}</small></button>`).join('');
+  $$('#modes .mcard').forEach(b=>b.addEventListener('click',()=>{if(S.mode===b.dataset.mode)return;S.mode=b.dataset.mode;saveS();onSet('mode');refreshUI();}));
+}
+let garageCar=null;
+function statBars(st){
+  const rows=[['st_speed',st.pow,0.85,1.45],['st_acc',st.pow*0.6+st.grip*0.4,0.85,1.35],['st_handling',st.aero*0.5+st.grip*0.5,0.85,1.3],['st_brake',st.brk,0.85,1.35]];
+  return rows.map(([k,v,a,b])=>`<div class="sbar"><span>${t(k)}</span><div><i style="width:${clamp((v-a)/(b-a),0.05,1)*100}%"></i></div></div>`).join('');
+}
+function renderGarage(){
+  if(!garageCar)garageCar=PR.car;
+  const c=carDef(garageCar),own=!!PR.cars[c.id],p=PR.parts;
+  $('#carName').textContent=c.name;$('#carTier').textContent=`${CARS.indexOf(c)+1}/${CARS.length}`;
+  const st={pow:c.pow*(1+0.03*p.eng),aero:c.aero*(1+0.03*p.aero),grip:c.grip*(1+0.015*p.tyre),brk:c.brk*(1+0.03*p.brake)};
+  $('#carStats').innerHTML=statBars(st);
+  const b=$('#carBuy');
+  if(!own){b.innerHTML=`${t('buy')} · 🪙 ${fmtN(c.price)}`;b.className='buy ui';}
+  else if(PR.car===c.id){b.textContent=t('selected');b.className='buy ui done';}
+  else{b.textContent=t('select');b.className='buy ui sel';}
+  $('#parts').innerHTML=PARTS.map(pt=>{const lv=p[pt.id],mx=lv>=5,cost=UP_COST[lv],need=UP_CARDS[lv],have=PR.cards[pt.id];
+    return `<div class="part"><div class="pic">${pt.ic}</div><div class="ptx"><b>${t(pt.k)}</b><div class="pips">${[0,1,2,3,4].map(i=>`<i class="${i<lv?'on':''}"></i>`).join('')}</div>
+      <small>${mx?t('maxed'):`🃏 ${have}/${need} ${t('cards')}`}</small></div>
+      <button class="pbtn ui ${mx?'done':''}" data-part="${pt.id}" ${mx?'disabled':''}>${mx?t('maxed'):`⬆ 🪙 ${fmtN(cost)}`}</button></div>`;}).join('');
+  $$('#parts .pbtn').forEach(bt=>bt.addEventListener('click',()=>{const id=bt.dataset.part,lv=PR.parts[id];if(lv>=5)return;
+    if(PR.cards[id]<UP_CARDS[lv]){toast(t('need_cards'));return;}
+    if(!spend(UP_COST[lv]))return;PR.cards[id]-=UP_CARDS[lv];PR.parts[id]++;saveP();toast(t('upgraded'));vibrate(30);renderGarage();renderLeague();}));
+  $$('.liv').forEach(d=>{const i=+d.dataset.i,own=!!PR.livs[i];d.classList.toggle('lock',!own);d.querySelector('.lp').textContent=own?'':`🪙 ${fmtN(LIV_PRICE[i])}`;});
+}
+function renderShop(){
+  const today=new Date().toDateString(),got=PR.daily===today,amt=150+Math.min(6,PR.streak)*50;
+  const freeLeft=Math.max(0,PR.freeCrate-Date.now());
+  $('#shopBox').innerHTML=`
+   <div class="scard"><div class="sic">🎁</div><div class="stx"><b>${t('shop_daily')}</b><small>${t('shop_daily_d')} · +${got?amt:150+Math.min(6,PR.streak+1)*50} 🪙</small></div>
+     <button class="sbtn ui ${got?'done':''}" id="bDaily">${got?t('claimed'):t('claim')}</button></div>
+   <div class="scard"><div class="sic">📺</div><div class="stx"><b>${t('shop_free')}</b><small>${t('shop_free_d')}</small></div>
+     <button class="sbtn ui ${freeLeft?'done':''}" id="bFree">${freeLeft?`${t('wait')} ${Math.ceil(freeLeft/60000)}m`:t('watch_ad')}</button></div>
+   <div class="lbl">${t('crates')}</div>
+   ${CRATES.map((c,i)=>`<div class="scard crate"><div class="sic sicb">${c.ic}</div><div class="stx"><b>${t(c.k)}</b><small>🃏 ${c.cards[0]}–${c.cards[1]} · 🪙 ${c.coins[0]}–${c.coins[1]}</small>
+     <small class="odds">${t('cr_odds',{p:Math.round(c.pilot*100)})}</small></div><button class="sbtn ui gold" data-crate="${i}">🪙 ${fmtN(c.price)}</button></div>`).join('')}`;
+  $('#bDaily').addEventListener('click',()=>{if(PR.daily===today)return;
+    const y=new Date(Date.now()-864e5).toDateString();PR.streak=PR.daily===y?PR.streak+1:1;PR.daily=today;const n=150+Math.min(6,PR.streak)*50;addCoins(n);toast(t('daily_got',{n}));renderShop();});
+  $('#bFree').addEventListener('click',()=>{if(PR.freeCrate>Date.now())return;Ads.rewarded().then(()=>{PR.freeCrate=Date.now()+4*3600e3;saveP();openCrate(CRATES[0],true);renderShop();});});
+  $$('[data-crate]').forEach(b=>b.addEventListener('click',()=>{const c=CRATES[+b.dataset.crate];if(!spend(c.price))return;openCrate(c);}));
+}
+function openCrate(c){
+  const n=rint(c.cards[0],c.cards[1]),coins=rint(c.coins[0],c.coins[1]),got={};
+  for(let i=0;i<n;i++){const id=PARTS[rint(0,PARTS.length-1)].id;got[id]=(got[id]||0)+1;PR.cards[id]++;}
+  PR.coins+=coins;let pil=null;
+  if(Math.random()<c.pilot){const locked=PILOTS.filter(p=>!PR.pilots[p.id]);if(locked.length){pil=locked[rint(0,locked.length-1)];PR.pilots[pil.id]=1;}}
+  saveP();updateTopbar();
+  const items=[`<div class="ritem"><span>🪙</span><b>+${coins}</b></div>`].concat(Object.keys(got).map(id=>{const pt=PARTS.find(p=>p.id===id);return `<div class="ritem"><span>${pt.ic}</span><b>+${got[id]}</b><small>${t(pt.k)}</small></div>`;}));
+  if(pil)items.push(`<div class="ritem gold"><span>👤</span><b>${pil.name}</b><small>${t('pilot_new')}</small></div>`);
+  $('#crateItems').innerHTML=items.join('');$('#crateIc').textContent=c.ic;
+  const ov=$('#crate');ov.classList.remove('hidden');ov.classList.remove('opened');void ov.offsetWidth;ov.classList.add('opened');
+  $$('#crateItems .ritem').forEach((e,i)=>e.style.animationDelay=(0.5+i*0.18)+'s');
+  vibrate([30,40,60]);if(actx){beep(660,0.1,0.15);setTimeout(()=>beep(990,0.15,0.15),150);}
+}
+function renderPilots(){
+  const star=n=>'★'.repeat(n)+'<i>'+'★'.repeat(5-n)+'</i>';
+  $('#pilotList').innerHTML=PILOTS.map(p=>{const own=!!PR.pilots[p.id],sel=PR.pilot===p.id;
+    return `<div class="pcard ${sel?'on':''}"><div class="pav" style="background:${p.col}">${p.name.split(' ').map(w=>w[0]).join('')}</div>
+      <div class="ptx2"><b>${p.name}</b><div class="pst"><span>${t('p_speed')}</span>${star(p.sp)}</div><div class="pst"><span>${t('p_corner')}</span>${star(p.cor)}</div>
+      <div class="pst"><span>${t('p_rain')}</span>${star(p.rain)}</div><div class="pst"><span>${t('p_tyres')}</span>${star(p.tyr)}</div>
+      <small>${t('pilot_bonus',{a:(p.sp*0.5).toFixed(1),b:(p.cor*0.4).toFixed(1),c:p.rain*2,d:p.tyr*6})}</small></div>
+      <button class="pbtn ui ${sel?'done':own?'sel':''}" data-pilot="${p.id}">${sel?t('selected'):own?t('select'):`🪙 ${fmtN(p.price)}`}</button></div>`;}).join('');
+  $$('[data-pilot]').forEach(b=>b.addEventListener('click',()=>{const p=pilotDef(b.dataset.pilot);
+    if(!PR.pilots[p.id]){if(!spend(p.price))return;PR.pilots[p.id]=1;toast(t('bought'));}
+    PR.pilot=p.id;saveP();renderPilots();renderLeague();}));
+}
+function renderMeta(){updateTopbar();renderLeague();renderModes();renderGarage();renderShop();renderPilots();}
+
+// ---------- poyga oldidan: shina tanlash ----------
+let chosenTyre='M';
+function showPrerace(){
+  const wet=S.weather==='rain';chosenTyre=wet?'W':(chosenTyre==='W'?'M':chosenTyre);
+  const laps=raceLaps();
+  $('#preInfo').textContent=`${TRACKS[curTrackIdx()].name} · ${t('m_'+S.mode)}${laps<1e6?' · '+t('laps_n',{n:laps}):''} · ${t('team_score')}: ${teamScore()}`;
+  $('#tyres').innerHTML=Object.keys(TYRES).map(k=>{const ty=TYRES[k];return `<button class="tybtn ui ${k===chosenTyre?'on':''}" data-ty="${k}"><i style="border-color:${ty.col}">${k}</i><b>${t(ty.k)}</b><small>${t(ty.d)}</small></button>`;}).join('');
+  $$('.tybtn').forEach(b=>b.addEventListener('click',()=>{chosenTyre=b.dataset.ty;$$('.tybtn').forEach(x=>x.classList.toggle('on',x===b));}));
+  $('#prerace').classList.remove('hidden');
+}
+
+// ---------- poyga yakuni: mukofotlar ----------
+let lastReward=null;
+function computeRewards(pos,n){
+  const L=LEAGUES[leagueIdx()],r={items:[],coins:0,troph:0,xp:0,lvlUp:false};
+  if(S.mode==='tt')return r;
+  const f=[1,0.75,0.6,0.45,0.35,0.3,0.25,0.2][pos-1]||0.15,base=Math.round((S.mode==='duel'?120:180)*L.rw*f);
+  r.items.push([t('r_pos'),base]);
+  if(player.cleanRace)r.items.push([t('r_clean'),Math.round(50*L.rw)]);
+  const fl=Math.min(...cars.map(c=>isFinite(c.best)?c.best:1e9));if(isFinite(player.best)&&player.best<=fl)r.items.push([t('rw_fast'),Math.round(50*L.rw)]);
+  if(player.overtakes>0)r.items.push([t('r_over',{n:player.overtakes}),Math.round(player.overtakes*12*L.rw)]);
+  r.coins=r.items.reduce((a,x)=>a+x[1],0);
+  if(S.mode==='race'||S.mode==='champ')r.troph=n<=1?0:[30,20,12,5][pos-1]!=null?[30,20,12,5][pos-1]:-6;
+  if(S.mode==='duel')r.troph=pos===1?25:-12;
+  if(PR.trophies+r.troph<0)r.troph=-PR.trophies;
+  r.xp=40+Math.max(0,(n-pos))*15;
+  PR.trophies+=r.troph;PR.races++;if(pos===1)PR.wins++;PR.coins+=r.coins;saveP();
+  r.lvlUp=addXP(r.xp);
+  return r;
+}
+function rewardsHTML(r){
+  if(!r||S.mode==='tt')return '';
+  return `<div class="rewards"><div class="h2">${t('rewards')}</div>${r.items.map(([a,b])=>`<div class="rrow"><span>${a}</span><b>+${b} 🪙</b></div>`).join('')}
+    <div class="rrow tot"><span>${t('total')}</span><b>+${r.coins} 🪙</b></div>
+    <div class="rrow"><span>🏆 ${t('trophies')}</span><b class="${r.troph<0?'neg':''}">${r.troph>=0?'+':''}${r.troph}</b></div>
+    <div class="rrow"><span>⭐ XP</span><b>+${r.xp}</b></div>${r.lvlUp?`<div class="lvlup">${t('lvl_up',{n:PR.level})}</div>`:''}
+    <button class="sbtn ui gold wide" id="bX2">${t('x2')}</button></div>`;
+}
 // ======================= ISHGA TUSHIRISH =======================
 applyQuality();
 loadTrackAndWorld(S.track);
 buildCars();placeGrid();
-buildMenu();refreshUI();
+for(const k in S)if(k==='livery'&&!PR.livs[S.livery]){PR.livs[S.livery]=1;saveP();}
+applyLang();buildMenu();refreshUI();
 if(S.tilt&&!(typeof DeviceMotionEvent!=='undefined'&&typeof DeviceMotionEvent.requestPermission==='function'))enableTilt();
 let last=performance.now(),acc=0;const STEP=1/120;
 function setPR(pr){renderer.setPixelRatio(pr);renderer.setSize(innerWidth,innerHeight);composer.setPixelRatio(pr);composer.setSize(innerWidth,innerHeight);}
@@ -1821,7 +2225,7 @@ function loop(now){
     updateCountdown(dt);
     if(state!=='menu'){acc+=dt;let n=0;while(acc>=STEP&&n<14){simStep(STEP);acc-=STEP;n++;}if(n>=14)acc=0;}
     if(state==='finished'&&finT>=0){finT+=dt;const f=$('#finish');if(finT>1.8&&f.classList.contains('hidden')){renderFinish();f.classList.remove('hidden');}
-      if(!f.classList.contains('hidden')&&(finT%0.5)<dt)renderFinish();}
+      if(!f.classList.contains('hidden')&&(finT%0.5)<dt)updateFinTable();}
     updateCars(dt,now);updateCones(dt);updateSparks(dt);updateFlash(dt);updateParticles(dt);updateRain(dt);treeU.uTime.value=now/1000;
   }else acc=0;
   updateCamera(dt,now);
