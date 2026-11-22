@@ -206,7 +206,7 @@ function zder(z){const i=zseg(z),a=ZK[i],b=ZK[i+1];return (b[1]-a[1])/(b[0]-a[0]
 let bpTex=null;
 function projMat(liv,ghost){
   if(!bpTex)bpTex=imgTex(ASSET.car_bp);
-  const m=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:0.15,roughness:0.38,clearcoat:0.55,clearcoatRoughness:0.12});
+  const m=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:0.1,roughness:0.5,clearcoat:0.3,clearcoatRoughness:0.2});m.userData.envK=0.3;
   if(ghost){m.transparent=true;m.opacity=0.3;m.depthWrite=false;}
   const pc=new THREE.Color(liv.p),hsl={};pc.getHSL(hsl);
   const swap=(hsl.s>0.3&&(hsl.h<0.03||hsl.h>0.97))?0:1;
@@ -214,12 +214,12 @@ function projMat(liv,ghost){
     sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vLP;varying vec3 vLN;').replace('#include <begin_vertex>','#include <begin_vertex>\nvLP=position;vLN=normal;');
     sh.fragmentShader=sh.fragmentShader.replace('#include <common>',`#include <common>
 varying vec3 vLP;varying vec3 vLN;uniform sampler2D uBP;uniform vec3 uPrim;uniform float uSwap;
-vec3 bp(vec2 px){return texture2D(uBP,vec2(px.x/1536.,1.-px.y/1024.)).rgb;}`)
+vec3 bp(vec2 px){return texture2D(uBP,vec2(px.x/1536.,1.-px.y/1536.)).rgb;}`)
     .replace('#include <map_fragment>',`
 {vec3 n=normalize(vLN);vec3 w=pow(abs(n),vec3(4.))+1e-4;
  vec3 cS=bp(vec2(200.+(2.0-vLP.z)*181.,350.-vLP.y*180.));
  vec3 cT=bp(vec2(205.+(2.0-vLP.z)*167.,642.+vLP.x*180.));
- vec3 cF=n.z>0.?bp(vec2(1300.+vLP.x*211.,372.-vLP.y*211.)):bp(vec2(1305.-vLP.x*211.,780.-vLP.y*211.));
+ vec3 cF=n.z>0.?bp(vec2(1300.+vLP.x*211.,372.-vLP.y*211.)):bp(vec2(384.-vLP.x*330.,1454.-vLP.y*330.));
  vec3 c=(cS*w.x+cT*w.y+cF*w.z)/(w.x+w.y+w.z);
  float red=smoothstep(0.06,0.25,c.r-max(c.g,c.b));
  c=mix(c,uPrim*clamp(c.r/0.62,0.,1.3),red*uSwap);
@@ -1221,7 +1221,7 @@ function applyEnv(){
   rainLines.visible=rain;
   GRIP_ENV=rain?0.78:1;if(N)computeProfile();colorRacingLine();
 }
-function applyEnvMaterials(){for(const c of cars)for(const m of c.mesh.mats)m.envMapIntensity=envScale;if(ghostMesh)for(const m of ghostMesh.mats)m.envMapIntensity=envScale;}
+function applyEnvMaterials(){for(const c of cars)for(const m of c.mesh.mats)m.envMapIntensity=envScale*(m.userData.envK||1);if(ghostMesh)for(const m of ghostMesh.mats)m.envMapIntensity=envScale;}
 
 // ======================= MENYU =======================
 function drawTrackPreview(cv,def){

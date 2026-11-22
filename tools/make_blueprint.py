@@ -29,5 +29,15 @@ for cx,cy in [(205,487),(205,797),(905,487),(905,797)]:
 bg=bg|(np.abs(a-dark).sum(2)<1)&False
 bg=ndimage.binary_dilation(bg|(mn>205)&((mx-mn)<20)&ndimage.binary_dilation(bg,iterations=4),iterations=2)
 for v in views:fill(bg,v)
-Image.fromarray(np.clip(a,0,255).astype(np.uint8)).save(os.path.join(R,'assets','car_bp.webp'),'WEBP',quality=86,method=6)
+sheet=Image.fromarray(np.clip(a,0,255).astype(np.uint8))
+atlas=Image.new('RGB',(1536,1536),(20,20,22));atlas.paste(sheet,(0,0))
+# alohida orqa ko'rinish (ixtiyoriy 2-argument): 768x512 qilib pastki qismga
+if len(sys.argv)>2:
+    r=np.asarray(Image.open(sys.argv[2]).convert('RGB')).astype(np.float32);rh,rw,_=r.shape
+    yy,xx=np.mgrid[0:rh,0:rw]
+    r[((xx<370)|(xx>1165))&(yy>375)]=dark       # g'ildiraklar
+    rmn=r.min(2);rmx=r.max(2);rb=(rmn>232)&((rmx-rmn)<14)
+    _,(iy,ix)=ndimage.distance_transform_edt(rb,return_indices=True);r=r[iy,ix]
+    atlas.paste(Image.fromarray(np.clip(r,0,255).astype(np.uint8)).resize((768,512),Image.LANCZOS),(0,1024))
+atlas.save(os.path.join(R,'assets','car_bp.webp'),'WEBP',quality=86,method=6)
 print('ok')

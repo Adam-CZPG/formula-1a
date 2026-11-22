@@ -1,0 +1,7 @@
+{
+  "appId": "com.adamczpg.formula1a",
+  "appName": "Formula 1a",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "android": { "backgroundColor": "#0b0f17" }
+}

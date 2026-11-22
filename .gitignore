@@ -1,3 +1,6 @@
 node_modules/
 tests/run.mjs
 .DS_Store
+www/
+android/
+*.apk
