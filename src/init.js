@@ -24,7 +24,7 @@ function loop(now){
   showroomTick();updateCamera(dt,now);
   sky.position.copy(camera.position);stars.position.copy(camera.position);
   sun.position.set(player.x+SUN_DIR.x*150,SUN_DIR.y*150,player.z+SUN_DIR.z*150);sun.target.position.set(player.x,0,player.z);sun.target.updateMatrixWorld();
-  updateHUD(dt);drawMini();updateAudio();drawSpeedLines();
+  updateCockpit();updateHUD(dt);drawMini();updateAudio();drawSpeedLines();
   if(QUAL[S.quality].bloom)composer.render();else renderer.render(scene,camera);
 }
 requestAnimationFrame(loop);

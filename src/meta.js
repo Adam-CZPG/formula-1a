@@ -80,7 +80,8 @@ const CARS=[
   {id:'c3',name:'Veloce V3',price:9000,pow:1.06,aero:1.03,grip:1.01,brk:1.03},
   {id:'c4',name:'Apex X4',price:22000,pow:1.12,aero:1.08,grip:1.04,brk:1.06}];
 const PARTS=[{id:'eng',ic:'⚙️',k:'p_eng'},{id:'aero',ic:'🪽',k:'p_aero'},{id:'tyre',ic:'🛞',k:'p_tyre'},{id:'brake',ic:'🛑',k:'p_brake'}];
-const UP_COST=[300,800,1800,4000,8000],UP_CARDS=[2,5,9,14,22];
+const UP_COST=[300,800,1800,4000,8000],UP_CARDS=[2,5,9,14,22],CARD_COIN=60;
+function upPrice(id){const lv=PR.parts[id];if(lv>=5)return 0;const miss=Math.max(0,UP_CARDS[lv]-PR.cards[id]);return UP_COST[lv]+miss*CARD_COIN;}
 const PILOTS=[
   {id:'p1',name:'Timur Rashidov',price:0,sp:2,cor:2,rain:1,tyr:1,col:'#2e8bff'},
   {id:'p2',name:'Lena Vogel',price:2500,sp:2,cor:3,rain:2,tyr:2,col:'#00c2a8'},
@@ -166,11 +167,10 @@ function renderGarage(){
   else{b.textContent=t('select');b.className='buy ui sel';}
   $('#parts').innerHTML=PARTS.map(pt=>{const lv=p[pt.id],mx=lv>=5,cost=UP_COST[lv],need=UP_CARDS[lv],have=PR.cards[pt.id];
     return `<div class="part"><img class="picimg" src="${ASSET['pt_'+pt.id]}" alt=""><div class="ptx"><b>${t(pt.k)}</b><div class="pips">${[0,1,2,3,4].map(i=>`<i class="${i<lv?'on':''}"></i>`).join('')}</div>
-      <small>${mx?t('maxed'):`🃏 ${have}/${need} ${t('cards')}`}</small></div>
-      <button class="pbtn ui ${mx?'done':''}" data-part="${pt.id}" ${mx?'disabled':''}>${mx?t('maxed'):`⬆ 🪙 ${fmtN(cost)}`}</button></div>`;}).join('');
+      <small>${mx?t('maxed'):`🃏 ${have}/${need} ${t('cards')}${have<need?' · +'+(need-have)*CARD_COIN+' 🪙':''}`}</small></div>
+      <button class="pbtn ui ${mx?'done':''}" data-part="${pt.id}" ${mx?'disabled':''}>${mx?t('maxed'):`⬆ 🪙 ${fmtN(upPrice(pt.id))}`}</button></div>`;}).join('');
   $$('#parts .pbtn').forEach(bt=>bt.addEventListener('click',()=>{const id=bt.dataset.part,lv=PR.parts[id];if(lv>=5)return;
-    if(PR.cards[id]<UP_CARDS[lv]){toast(t('need_cards'));return;}
-    if(!spend(UP_COST[lv]))return;PR.cards[id]-=UP_CARDS[lv];PR.parts[id]++;saveP();toast(t('upgraded'));vibrate(30);renderGarage();renderLeague();}));
+    if(!spend(upPrice(id)))return;PR.cards[id]=Math.max(0,PR.cards[id]-UP_CARDS[lv]);PR.parts[id]++;saveP();toast(t('upgraded'));vibrate(30);renderGarage();renderLeague();}));
   $$('.liv').forEach(d=>{const i=+d.dataset.i,own=!!PR.livs[i];d.classList.toggle('lock',!own);d.querySelector('.lp').textContent=own?'':`🪙 ${fmtN(LIV_PRICE[i])}`;});
 }
 function renderShop(){

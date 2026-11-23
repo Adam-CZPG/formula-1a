@@ -244,6 +244,25 @@ function bakeCar(g,drs,pivots,liv,ghost,mats){
   drs.position.z=zmap(drs.position.z);
   for(const p of pivots)p.position.z=zmap(p.position.z);
 }
+// orqa ko'rinish maketi bo'yicha 3D detallar (yangi koordinatalarda): LED chiroq, egzoz, diffuzor qanotchalari
+let _rlt=null;
+function rainLightTex(){if(_rlt)return _rlt;return _rlt=ctex(64,96,(g)=>{g.fillStyle='#000';g.fillRect(0,0,64,96);g.fillStyle='#fff';
+  for(let y=0;y<6;y++)for(let x=0;x<4;x++){g.beginPath();g.arc(10+x*14.6,10+y*15.2,5,0,7);g.fill();}});}
+function rearDetails(body,M,carbon,black,metal,brakeMat,cast){
+  const add=(geo,mat,x,y,z,rx=0)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.rotation.x=rx;m.castShadow=cast;body.add(m);return m;};
+  // markaziy blok va LED stop-chiroq
+  add(new THREE.BoxGeometry(0.2,0.26,0.2),carbon,0,0.36,-2.6);
+  add(new THREE.BoxGeometry(0.13,0.18,0.02),brakeMat,0,0.35,-2.705);
+  // egzoz trubasi
+  const ex=add(new THREE.CylinderGeometry(0.06,0.065,0.24,18,1,true),metal,0,0.55,-2.64,Math.PI/2);ex.material.side=THREE.DoubleSide;
+  add(new THREE.CircleGeometry(0.052,16),black,0,0.55,-2.6).rotation.y=Math.PI;
+  // diffuzor qanotchalari (vertikal plitalar)
+  for(const x of[-0.42,-0.3,-0.18,0.18,0.3,0.42])add(new THREE.BoxGeometry(0.012,0.16,0.45),carbon,x,0.17,-2.55,-0.32);
+  for(const sx of[-1,1])add(new THREE.BoxGeometry(0.02,0.2,0.45),carbon,sx*0.5,0.19,-2.55,-0.32);
+  // pastki "beam wing" va tirgaklar
+  add(new THREE.BoxGeometry(0.95,0.035,0.16),carbon,0,0.6,-2.62,0.25);
+  for(const sx of[-1,1]){const r=add(new THREE.BoxGeometry(0.03,0.5,0.04),carbon,sx*0.12,0.75,-2.6);r.rotation.z=sx*0.12;}
+}
 function numTex(n){if(numTexCache[n])return numTexCache[n];return numTexCache[n]=ctex(128,128,(g)=>{g.fillStyle='#fff';g.beginPath();g.arc(64,64,58,0,7);g.fill();
   g.fillStyle='#111';g.font='italic 900 70px system-ui,Arial';g.textAlign='center';g.textBaseline='middle';g.fillText(String(n),64,70);});}
 const STD=o=>new THREE.MeshStandardMaterial(o);
@@ -744,8 +763,7 @@ function makeCarMesh(liv,num,ghost){
   const fl=mk(foilGeo(0.25,0.03,1.02,0.05),paint,drs);fl.position.set(0,0,-0.125);drs.rotation.x=0.5;
   for(const [y,z] of[[0.43,-2.1],[0.5,-2.0]]){const bw=mk(foilGeo(0.16,0.018,0.84,0.05),carbon);bw.position.set(0,y,z);bw.rotation.x=0.3;}
   mk(plateGeo([[-1.88,0.5],[-1.97,0.95],[-2.05,0.95],[-2.03,0.5]],0.028),carbon);
-  const brakeMat=M({color:0x220000,emissive:0xff0000,emissiveIntensity:0.3});
-  const rl=mk(new THREE.BoxGeometry(0.13,0.06,0.03),brakeMat);rl.position.set(0,0.45,-2.225);
+  const brakeMat=M({color:0x150000,emissive:0xff1a1a,emissiveMap:rainLightTex(),emissiveIntensity:0.3});
   // osma (richaglar, pushrod/pullrod)
   for(const sg of[-1,1]){
     const F=(a,b)=>rod(g,a,b,0.015,carbon,cast);
@@ -779,6 +797,7 @@ function makeCarMesh(liv,num,ghost){
   if(!ghost){const blob=new THREE.Mesh(new THREE.PlaneGeometry(2.5,5.6).rotateX(-Math.PI/2),new THREE.MeshBasicMaterial({map:shadowTex,transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-5}));
     blob.position.y=0.045;g.add(blob);}
   bakeCar(g,drs,wheels.map(w=>w.pivot),liv,ghost,mats);
+  rearDetails(body,M,carbon,black,metal,brakeMat,cast);
   return {g,body,wheels,fwing,drs,brakeMat,discMat,mats};
 }
 
@@ -962,7 +981,7 @@ let tiltRaw=0,tiltListening=false;
 function onMotion(e){const a=e.accelerationIncludingGravity;if(!a||a.x==null)return;
   const ang=(screen.orientation&&screen.orientation.angle)!=null?screen.orientation.angle:(window.orientation||0);
   let v;if(ang===90)v=-a.y;else if(ang===-90||ang===270)v=a.y;else if(ang===180)v=-a.x;else v=a.x;
-  if(isIOS)v=-v;tiltRaw=v;}
+  if(!isIOS)v=-v;tiltRaw=v;}
 function enableTilt(){
   if(tiltListening)return;
   const go=()=>{addEventListener('devicemotion',onMotion);tiltListening=true;};
@@ -1311,7 +1330,7 @@ function updateCamera(dt,now){
     camera.position.set(c.x-ox*R*Math.cos(el),Math.max(0.35,R*Math.sin(el)),c.z-oz*R*Math.cos(el));
     const ahead=5*Math.max(0,Math.cos(dragYaw));tmpV.set(c.x+fx*ahead,M.l,c.z+fz*ahead);}
   else{const s=Math.sin(c.th),co=Math.cos(c.th),ls=Math.sin(c.th+dragYaw),lc=Math.cos(c.th+dragYaw);
-    camera.position.set(c.x-s*0.3,1.42,c.z-co*0.3);tmpV.set(camera.position.x+ls*14,0.85-dragPitch*8,camera.position.z+lc*14);}
+    camera.position.set(c.x-s*0.05,1.02,c.z-co*0.05);tmpV.set(camera.position.x+ls*14,-2.6-dragPitch*8,camera.position.z+lc*14);}
   if(shake>0){const k=shake*0.35;camera.position.x+=(Math.random()-0.5)*k;camera.position.y+=(Math.random()-0.5)*k;camera.position.z+=(Math.random()-0.5)*k;shake=Math.max(0,shake-dt*2.5);}
   camera.lookAt(tmpV);
   const fov=62+Math.min(26,sp*0.28);
@@ -1326,7 +1345,7 @@ function updateCars(dt,now){
     m.body.rotation.z=clamp(car.latA*0.0028,-0.045,0.045);m.body.rotation.x=clamp(-car.long*0.0025,-0.03,0.03);
     for(const w of m.wheels){if(w.front)w.pivot.rotation.y=car.steer;w.spin.rotation.x=car.wheelRot;}
     m.drs.rotation.x+=((car.drs?0.02:0.5)-m.drs.rotation.x)*Math.min(1,dt*10);
-    m.brakeMat.emissiveIntensity=car.brake>0.05?5:(rain?(blink?4:0.3):(S.tod==='night'?1.2:0.3));
+    m.brakeMat.emissiveIntensity=car.brake>0.05?6:(rain?(blink?5:0.6):(S.tod==='night'?1.8:1.0));
     m.discMat.emissiveIntensity=car.brakeT*3;
     {const sn=Math.sin(car.th),cs=Math.cos(car.th),spd=car.speed,near=Math.hypot(car.x-camera.position.x,car.z-camera.position.z)<110;
      if(car.scrapeT>0){car.scrapeT-=dt;if(near){const i=car.idx,sg=Math.sign(car.lat),px=car.x+LX[i]*sg*0.95-sn*0.8,pz=car.z+LZ[i]*sg*0.95-cs*0.8;
@@ -1407,6 +1426,20 @@ function ghostDelta(){
   while(ghostPtr*4+3<d.length&&d[ghostPtr*4+3]<p)ghostPtr++;
   if(ghostPtr*4+3>=d.length)return null;return (raceTime-player.lapStart)-ghostPtr*0.05;
 }
+// ---------- kokpit qatlami (ChatGPT kokpit rasmi) ----------
+const ck={el:$('#cockpit'),wheel:$('#ckWheel'),gear:$('#ckGear'),spd:$('#ckSpd'),leds:$('#ckLeds'),on:null,lk:''};
+function updateCockpit(){
+  const on=camMode===2&&(state==='race'||state==='countdown'||state==='finished')&&!!player;
+  if(on!==ck.on){ck.on=on;ck.el.classList.toggle('hidden',!on);if(player)player.mesh.g.visible=!on;if(on)sizeCockpit();}
+  if(!on)return;
+  ck.wheel.style.transform=`rotate(${(-player.steer/0.42*60).toFixed(1)}deg)`;
+  const gi=gearInfo(player.vLong),sp=Math.round(player.speed*3.6);
+  ck.gear.textContent=player.vLong<-0.5?'R':(player.speed<0.5&&state!=='race'?'N':gi.g);ck.spd.textContent=sp;
+  const n=Math.round(clamp((gi.rpm-0.3)/0.7,0,1)*15),k=n+(gi.rpm>0.97&&Math.floor(performance.now()/90)%2?'b':'');
+  if(k!==ck.lk){ck.lk=k;ck.leds.innerHTML=Array.from({length:15},(_,i)=>`<i class="${i<n?(i<5?'g':i<10?'r':'b'):''}${k.endsWith('b')&&i<n?' fl':''}"></i>`).join('');}
+}
+function sizeCockpit(){const w=Math.max(innerWidth,innerHeight*1.15*1672/941);ck.el.style.width=w+'px';ck.el.style.fontSize=(w/1672*100)+'px';}
+addEventListener('resize',()=>{if(ck.on)sizeCockpit();});
 function updateHUD(dt){
   const sp=player.speed,gi=gearInfo(player.vLong);
   hud.spd.textContent=Math.round(sp*3.6);

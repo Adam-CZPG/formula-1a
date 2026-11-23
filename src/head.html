@@ -248,6 +248,18 @@ img.pav{width:58px;height:58px;border-radius:14px;object-fit:cover;box-shadow:0 
 .tthumb canvas{position:absolute;right:3px;bottom:3px;width:42%!important;aspect-ratio:1.4;background:rgba(0,0,0,.45)!important;border-radius:6px}
 .tthumb::before{content:"";display:block;padding-top:62%}
 @media (max-height:440px){.mdimg{width:30px;height:30px}.tyimg{width:42px;height:42px}}
+#cockpit{position:fixed;left:50%;bottom:0;transform:translate(-50%,13%);aspect-ratio:1672/941;pointer-events:none;z-index:1}
+#cockpit>img{position:absolute;inset:0;width:100%;height:100%}
+#ckWheel{position:absolute;left:29.25%;top:46.0%;width:41.39%;height:39.1%;transform-origin:50% 50%;will-change:transform}
+#ckWheel img{position:absolute;inset:0;width:100%;height:100%}
+#ckDash{position:absolute;left:31.0%;top:17.4%;width:37.4%;height:34.2%;color:#fff;font-family:system-ui,Arial;text-align:center}
+#ckLeds{position:absolute;top:4%;left:4%;right:4%;display:flex;justify-content:space-between}
+#ckLeds i{width:.09em;height:.09em;border-radius:50%;background:#222}
+#ckLeds i.g{background:#2ee66b;box-shadow:0 0 .05em #2ee66b}#ckLeds i.r{background:#ff2d2d;box-shadow:0 0 .05em #ff2d2d}#ckLeds i.b{background:#3d8bff;box-shadow:0 0 .05em #3d8bff}
+#ckLeds i.fl{background:#fff}
+#ckGear{position:absolute;left:0;right:0;top:18%;font-size:.62em;font-weight:900;line-height:1}
+#ckSpd{position:absolute;left:6%;bottom:6%;font-size:.24em;font-weight:900;font-variant-numeric:tabular-nums}
+#ckDash small{position:absolute;left:6%;bottom:-1%;font-size:.1em;opacity:.7;font-weight:800}
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
@@ -279,6 +291,10 @@ img.pav{width:58px;height:58px;border-radius:14px;object-fit:cover;box-shadow:0 
   <div id="badges"><span class="badge" id="bgDrs">DRS</span><span class="badge hidden" id="bgSlip">SLIPSTREAM</span><span class="badge hidden" id="bgDmg">⚠</span><span class="badge hidden" id="bgPit">PIT</span></div>
 </div>
 
+<div id="cockpit" class="hidden">
+  <img data-a="ck_base" alt="">
+  <div id="ckWheel"><img data-a="ck_wheel" alt=""><div id="ckDash"><div id="ckLeds"></div><b id="ckGear">N</b><span id="ckSpd">0</span><small>KM/H</small></div></div>
+</div>
 <div id="lights"><i></i><i></i><i></i><i></i><i></i></div>
 <div id="msg"></div>
 <div id="warn" data-i18n="wrong">⟲</div>
