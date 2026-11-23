@@ -266,15 +266,17 @@ function rearDetails(body,M,carbon,black,metal,brakeMat,cast,eng=0){
   return exMat;
 }
 // orqa ko'rinish: ChatGPT rasmi aynan o'zi (kamera orqada bo'lganda 3D ustiga chiqadi)
-function rearImpostor(liv){
+function rearImpostor(liv,front){
   const pc=new THREE.Color(liv.p),hsl={};pc.getHSL(hsl);const swap=(hsl.s>0.3&&(hsl.h<0.03||hsl.h>0.97))?0:1;
-  const m=new THREE.MeshBasicMaterial({map:imgTex(ASSET.car_rear),transparent:true,opacity:0,alphaTest:0.25,depthWrite:false,toneMapped:true});
+  const m=new THREE.MeshBasicMaterial({map:imgTex(front?ASSET.car_front:ASSET.car_rear),transparent:true,opacity:0,alphaTest:0.25,depthWrite:false,toneMapped:true});
   m.onBeforeCompile=sh=>{sh.uniforms.uPrim={value:pc};sh.uniforms.uSwap={value:swap};
     sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform vec3 uPrim;uniform float uSwap;')
      .replace('#include <map_fragment>',`#include <map_fragment>
 {vec3 c=diffuseColor.rgb;float red=smoothstep(0.06,0.25,c.r-max(c.g,c.b))*step(c.r,0.97);diffuseColor.rgb=mix(c,uPrim*clamp(c.r/0.62,0.,1.3),red*uSwap);}`);};
   m.customProgramCacheKey=()=>'rear1';
-  const p=new THREE.Mesh(new THREE.PlaneGeometry(2.24,1.49),m);p.position.set(0,0.5,-2.76);p.rotation.y=Math.PI;p.renderOrder=5;p.visible=false;return p;
+  const p=front?new THREE.Mesh(new THREE.PlaneGeometry(2.2,1.153).translate(0,0.576,0),m):new THREE.Mesh(new THREE.PlaneGeometry(2.24,1.49).translate(0,0.745,0),m);
+  const piv=new THREE.Group();piv.position.set(0,front?-0.01:-0.245,front?3.25:-2.76);piv.add(p);p.position.y=0;piv.userData.base=front?0:Math.PI;piv.rotation.y=piv.userData.base;
+  piv.renderOrder=5;p.renderOrder=5;piv.visible=false;piv.material=m;return piv;
 }
 function numTex(n){if(numTexCache[n])return numTexCache[n];return numTexCache[n]=ctex(128,128,(g)=>{g.fillStyle='#fff';g.beginPath();g.arc(64,64,58,0,7);g.fill();
   g.fillStyle='#111';g.font='italic 900 70px system-ui,Arial';g.textAlign='center';g.textBaseline='middle';g.fillText(String(n),64,70);});}
@@ -814,8 +816,8 @@ function makeCarMesh(liv,num,ghost,opt){
     blob.position.y=0.045;g.add(blob);}
   bakeCar(g,drs,wheels.map(w=>w.pivot),liv,ghost,mats);
   const exMat=rearDetails(body,M,carbon,black,metal,brakeMat,cast,pa.eng);
-  let rear=null;if(!ghost){rear=rearImpostor(liv);g.add(rear);}
-  return {g,body,wheels,fwing,drs,brakeMat,discMat,mats,rear,exMat,engLv:pa.eng};
+  let rear=null,front=null;if(!ghost){rear=rearImpostor(liv,false);g.add(rear);front=rearImpostor(liv,true);g.add(front);}
+  return {g,body,wheels,fwing,drs,brakeMat,discMat,mats,rear,front,exMat,engLv:pa.eng};
 }
 
 // ======================= EFFEKTLAR =======================
@@ -1366,10 +1368,17 @@ function updateCars(dt,now){
     m.brakeMat.emissiveIntensity=car.brake>0.05?6:(rain?(blink?5:0.6):(S.tod==='night'?1.8:1.0));
     m.discMat.emissiveIntensity=car.brakeT*3;
     if(m.exMat)m.exMat.emissiveIntensity=car.throttle>0.5?0.6+m.engLv*0.5:0.15;
-    if(m.rear){let op=0;if(camMode!==2&&!(ck&&ck.on)){const dx=camera.position.x-car.x,dz=camera.position.z-car.z,l=Math.hypot(dx,dz)||1;
-        const back=-(dx*Math.sin(car.th)+dz*Math.cos(car.th))/l,el=camera.position.y/l;op=clamp((back-0.94)/0.04,0,1)*clamp((0.55-el)/0.2,0,1);}
-      m.rear.visible=op>0.01;m.rear.material.opacity=op;m.rear.material.depthWrite=op>0.98;
-      m.rear.material.color.setScalar(S.tod==='night'?0.5:S.tod==='sunset'?0.8:(isRain()?0.75:1));}
+    if(m.rear){const dx=camera.position.x-car.x,dz=camera.position.z-car.z,l=Math.hypot(dx,dz)||1,cam=camMode!==2&&!(ck&&ck.on);
+      const fw=(dx*Math.sin(car.th)+dz*Math.cos(car.th))/l,el=camera.position.y/Math.hypot(l,camera.position.y),lit=S.tod==='night'?0.5:S.tod==='sunset'?0.8:(isRain()?0.75:1);
+      const relYaw=wrapA(Math.atan2(dx,dz)-car.th);
+      for(const [imp,dir] of [[m.rear,-1],[m.front,1]]){if(!imp)continue;
+        const k=cam?clamp((dir*fw-0.76)/0.1,0,1)*clamp((0.62-el)/0.2,0,1):0;
+        imp.visible=k>0.01;if(!imp.visible)continue;
+        const want=dir<0?wrapA(relYaw-Math.PI):relYaw;imp.rotation.y=imp.userData.base+clamp(want,-0.55,0.55);
+        imp.material.opacity=k;imp.material.depthWrite=k>0.98;imp.material.color.setScalar(lit);}}
+    // osma: ozgina balandlik va titrash (yerga yopishib qolmasin)
+    {const curb=Math.abs(car.lat)>HALF_W-0.3&&Math.abs(car.lat)<HALF_W+CURB_W+0.3,sp2=Math.min(1,car.speed/50);
+     m.g.position.y=0.025+Math.sin(now*0.047+car.x)*0.006*sp2+(curb&&car.speed>8?(Math.random()-0.5)*0.035:0);}
     {const sn=Math.sin(car.th),cs=Math.cos(car.th),spd=car.speed,near=Math.hypot(car.x-camera.position.x,car.z-camera.position.z)<110;
      if(car.scrapeT>0){car.scrapeT-=dt;if(near){const i=car.idx,sg=Math.sign(car.lat),px=car.x+LX[i]*sg*0.95-sn*0.8,pz=car.z+LZ[i]*sg*0.95-cs*0.8;
        spawnSparks(px,0.3,pz,3,car.vx*0.9,car.vz*0.9,-LX[i]*sg,-LZ[i]*sg,0.7);}}
