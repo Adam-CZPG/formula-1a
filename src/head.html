@@ -252,6 +252,7 @@ img.pav{width:58px;height:58px;border-radius:14px;object-fit:cover;box-shadow:0 
 #cockpit>img{position:absolute;inset:0;width:100%;height:100%}
 #ckWheel{position:absolute;left:29.25%;top:46.0%;width:41.39%;height:39.1%;transform-origin:50% 50%;will-change:transform}
 #ckWheel img{position:absolute;inset:0;width:100%;height:100%}
+#ckWheel img.ckh{right:auto;bottom:auto;left:-70.66%;top:-117.66%;width:241.6%;height:255.7%;z-index:2}
 #ckDash{position:absolute;left:31.0%;top:17.4%;width:37.4%;height:34.2%;color:#fff;font-family:system-ui,Arial;text-align:center}
 #ckLeds{position:absolute;top:4%;left:4%;right:4%;display:flex;justify-content:space-between}
 #ckLeds i{width:.09em;height:.09em;border-radius:50%;background:#222}
@@ -293,7 +294,7 @@ img.pav{width:58px;height:58px;border-radius:14px;object-fit:cover;box-shadow:0 
 
 <div id="cockpit" class="hidden">
   <img data-a="ck_base" alt="">
-  <div id="ckWheel"><img data-a="ck_wheel" alt=""><div id="ckDash"><div id="ckLeds"></div><b id="ckGear">N</b><span id="ckSpd">0</span><small>KM/H</small></div></div>
+  <div id="ckWheel"><img data-a="ck_wheel" alt=""><img class="ckh" data-a="ck_hands" alt=""><div id="ckDash"><div id="ckLeds"></div><b id="ckGear">N</b><span id="ckSpd">0</span><small>KM/H</small></div></div>
 </div>
 <div id="lights"><i></i><i></i><i></i><i></i><i></i></div>
 <div id="msg"></div>
