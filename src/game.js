@@ -106,9 +106,15 @@ const [asphaltTex,asphaltNorm]=(function makeAsphalt(){
     const nx=(l-r)/255*2.2,ny=(u-dn)/255*2.2,L=Math.hypot(nx,ny,1);o[i]=(nx/L*0.5+0.5)*255;o[i+1]=(ny/L*0.5+0.5)*255;o[i+2]=(1/L*0.5+0.5)*255;o[i+3]=255;}
   ng.putImageData(out,0,0);const nt=new THREE.CanvasTexture(nc);nt.wrapS=nt.wrapT=THREE.RepeatWrapping;nt.anisotropy=maxAniso;
   return [tex,nt];})();
-const grassTex=ctex(512,512,(g,w,h)=>{g.fillStyle='#4a7a2e';g.fillRect(0,0,w,h);noise(g,w,h,22000,['#43702a','#558536','#3e6826','#5d8f3b','#4a7a2c','#62963f'],2.2);
+// ---------- ChatGPT teksturalari (assets/tx_*.webp) ----------
+function photoTex(key,extra,rep){const cv=document.createElement('canvas');cv.width=cv.height=8;const g=cv.getContext('2d');g.fillStyle='#555';g.fillRect(0,0,8,8);
+  const t=new THREE.CanvasTexture(cv);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=maxAniso;if(rep)t.repeat.set(rep,rep);
+  const im=new Image();im.onload=()=>{cv.width=im.width;cv.height=im.height;g.drawImage(im,0,0);if(extra)extra(g,im.width,im.height);t.image=cv;t.needsUpdate=true;};im.src=ASSET[key];return t;}
+const roadLines=(g,w,h)=>{g.fillStyle='#ececec';g.fillRect(w*0.03,0,w*0.022,h);g.fillRect(w*0.948,0,w*0.022,h);};
+const dryRoadTex=photoTex('tx_asph',roadLines),wetRoadTex=photoTex('tx_wet',(g,w,h)=>{g.globalAlpha=0.8;roadLines(g,w,h);g.globalAlpha=1;});
+const grassTex_old=ctex(512,512,(g,w,h)=>{g.fillStyle='#4a7a2e';g.fillRect(0,0,w,h);noise(g,w,h,22000,['#43702a','#558536','#3e6826','#5d8f3b','#4a7a2c','#62963f'],2.2);
   for(let i=0;i<10000;i++){const x=Math.random()*w,y=Math.random()*h;g.strokeStyle=['#3b6623','#5a8e38','#6ea247','#4b7b2d'][i%4];g.lineWidth=1;g.beginPath();g.moveTo(x,y);g.lineTo(x+(Math.random()-0.5)*3,y-3-Math.random()*5);g.stroke();}});
-grassTex.repeat.set(700,700);
+const grassTex=photoTex('tx_grass',null,700);
 const tuftTex=ctex(128,128,(g,w,h)=>{g.clearRect(0,0,w,h);for(let i=0;i<46;i++){const x=12+Math.random()*104,hh=45+Math.random()*78;
   g.strokeStyle=['#3a6626','#56883a','#6c9c45','#4a7a30','#7fa852'][i%5];g.lineWidth=2+Math.random()*2.5;g.lineCap='round';g.beginPath();g.moveTo(x,h);
   g.quadraticCurveTo(x+(Math.random()-0.5)*16,h-hh*0.6,x+(Math.random()-0.5)*34,h-hh);g.stroke();}});
@@ -116,7 +122,7 @@ tuftTex.wrapS=tuftTex.wrapT=THREE.ClampToEdgeWrapping;
 const fenceTex=ctex(256,256,(g,w,h)=>{g.clearRect(0,0,w,h);g.strokeStyle='rgba(200,205,210,1)';g.lineWidth=2.4;
   for(let i=-h;i<w;i+=16){g.beginPath();g.moveTo(i,0);g.lineTo(i+h,h);g.stroke();g.beginPath();g.moveTo(i+h,0);g.lineTo(i,h);g.stroke();}
   g.fillStyle='#5f656d';g.fillRect(0,0,12,h);g.fillRect(0,0,w,7);g.fillRect(0,h*0.5,w,4);g.fillRect(0,h-7,w,7);});
-const paveTex=ctex(256,256,(g,w,h)=>{g.fillStyle='#a7a9ab';g.fillRect(0,0,w,h);noise(g,w,h,6000,['#9da0a3','#b2b4b6','#989a9d'],2);
+const paveTex=photoTex('tx_walk'),paveTex_old=ctex(256,256,(g,w,h)=>{g.fillStyle='#a7a9ab';g.fillRect(0,0,w,h);noise(g,w,h,6000,['#9da0a3','#b2b4b6','#989a9d'],2);
   g.strokeStyle='rgba(60,60,64,.45)';g.lineWidth=2;for(let i=0;i<=w;i+=32){g.beginPath();g.moveTo(i,0);g.lineTo(i,h);g.stroke();g.beginPath();g.moveTo(0,i);g.lineTo(w,i);g.stroke();}
   g.fillStyle='#d7d8da';g.fillRect(0,0,22,h);});
 const flashTex=ctex(128,128,(g,w,h)=>{const gr=g.createRadialGradient(64,64,0,64,64,64);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(0.15,'rgba(255,230,160,.95)');
@@ -153,11 +159,11 @@ ${stripes?'diffuseColor.rgb*=mod(floor(vWP.x/9.),2.)<1.?1.04:0.93;':''}}`);
   };
   mat.customProgramCacheKey=()=>'gnd'+amp+stripes;
 }
-const runoffTex=ctex(256,256,(g,w,h)=>{g.fillStyle='#5b9238';g.fillRect(0,0,w,h);noise(g,w,h,8000,['#548a33','#64a03f','#4f8230','#6aa543'],2);});
-const concTex=ctex(256,256,(g,w,h)=>{g.fillStyle='#8d9096';g.fillRect(0,0,w,h);noise(g,w,h,9000,['#83868c','#979aa0','#7c7f85','#a0a3a8'],2);});
-const cityGroundTex=ctex(256,256,(g,w,h)=>{g.fillStyle='#5a5d62';g.fillRect(0,0,w,h);noise(g,w,h,9000,['#54575c','#62656a','#4d5055'],2.5);g.strokeStyle='rgba(0,0,0,.25)';g.lineWidth=3;g.strokeRect(0,0,w,h);});
-cityGroundTex.repeat.set(300,300);
-const curbTex=ctex(64,128,(g,w,h)=>{g.fillStyle='#d8261f';g.fillRect(0,0,w,h/2);g.fillStyle='#f2f2f2';g.fillRect(0,h/2,w,h/2);});
+const runoffTex=photoTex('tx_grass'),gravelTex=photoTex('tx_gravel'),runoffTex_old=ctex(256,256,(g,w,h)=>{g.fillStyle='#5b9238';g.fillRect(0,0,w,h);noise(g,w,h,8000,['#548a33','#64a03f','#4f8230','#6aa543'],2);});
+const concTex=photoTex('tx_conc'),concTex_old=ctex(256,256,(g,w,h)=>{g.fillStyle='#8d9096';g.fillRect(0,0,w,h);noise(g,w,h,9000,['#83868c','#979aa0','#7c7f85','#a0a3a8'],2);});
+const cityGroundTex=photoTex('tx_city',null,300),cityGroundTex_old=ctex(256,256,(g,w,h)=>{g.fillStyle='#5a5d62';g.fillRect(0,0,w,h);noise(g,w,h,9000,['#54575c','#62656a','#4d5055'],2.5);g.strokeStyle='rgba(0,0,0,.25)';g.lineWidth=3;g.strokeRect(0,0,w,h);});
+
+const curbTex=photoTex('tx_kerb'),curbTex_old=ctex(64,128,(g,w,h)=>{g.fillStyle='#d8261f';g.fillRect(0,0,w,h/2);g.fillStyle='#f2f2f2';g.fillRect(0,h/2,w,h/2);});
 const wallTex=ctex(256,64,(g,w,h)=>{for(let i=0;i<4;i++){g.fillStyle=i%2?'#f3f3f3':'#d92b2b';g.fillRect(i*w/4,0,w/4,h);}
   g.fillStyle='rgba(0,0,0,.28)';g.fillRect(0,h-7,w,7);g.fillStyle='rgba(255,255,255,.3)';g.fillRect(0,0,w,3);});
 const cityWallTex=ctex(256,64,(g,w,h)=>{g.fillStyle='#b9bcc2';g.fillRect(0,0,w,h);noise(g,w,h,1500,['#aeb1b7','#c4c7cc'],2);
@@ -312,14 +318,14 @@ function buildWorld(){
   const gm=STD({map:type==='city'?cityGroundTex:grassTex,roughness:1,envMapIntensity:0.25});patchGround(gm,type==='city'?0.18:0.3,type==='gp');
   const ground=new THREE.Mesh(new THREE.PlaneGeometry(7000,7000).rotateX(-Math.PI/2),gm);
   ground.position.set(CX,0,CZ);ground.receiveShadow=true;world.add(ground);
-  const runTex=type==='city'?concTex:runoffTex;
+  const runTex=type==='city'?concTex:type==='fast'?gravelTex:runoffTex;
   ribbon(HALF_W+CURB_W,WALL_D+0.6,0.01,12,STD(flat({map:runTex})));
   ribbon(-HALF_W-CURB_W,-WALL_D-0.6,0.01,12,STD(flat({map:runTex})));
-  roadMat=STD(flat({map:asphaltTex,normalMap:asphaltNorm,normalScale:new THREE.Vector2(0.8,0.8),roughness:0.88,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));patchGround(roadMat,0.14,false);
+  roadMat=STD(flat({map:dryRoadTex,normalMap:asphaltNorm,normalScale:new THREE.Vector2(0.8,0.8),roughness:0.88,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));patchGround(roadMat,0.14,false);
   ribbon(HALF_W,-HALF_W,0.02,24,roadMat);
   const curbMat=STD(flat({map:curbTex,roughness:0.6,polygonOffsetFactor:-3,polygonOffsetUnits:-3}));
   const curbF=i=>Math.abs(KAP[i])>0.0045;
-  ribbon(HALF_W,HALF_W+CURB_W,0.03,3,curbMat,curbF);ribbon(-HALF_W,-HALF_W-CURB_W,0.03,3,curbMat,curbF);
+  ribbon(HALF_W,HALF_W+CURB_W,0.03,12,curbMat,curbF);ribbon(-HALF_W,-HALF_W-CURB_W,0.03,12,curbMat,curbF);
   // devorlar
   const wm=STD({map:type==='city'?cityWallTex:wallTex,roughness:0.6,side:THREE.DoubleSide,envMapIntensity:0.5});
   for(const off of[WALL_D+0.3,-WALL_D-0.3]){
@@ -1255,7 +1261,7 @@ function applyEnv(){
   billMats.forEach(m=>m.emissiveIntensity=S.tod==='night'?0.55:0);
   headlight.intensity=S.tod==='night'?220:S.tod==='sunset'?40:0;
   bloom.strength=e.bloom+(rain?0.1:0);
-  if(roadMat){roadMat.roughness=rain?0.3:0.9;roadMat.color.setScalar(rain?0.6:1);roadMat.envMapIntensity=rain?1.2:0.3;roadMat.metalness=rain?0.15:0;}
+  if(roadMat){roadMat.map=rain?wetRoadTex:dryRoadTex;roadMat.needsUpdate=true;roadMat.roughness=rain?0.28:0.9;roadMat.color.setScalar(rain?0.85:1);roadMat.envMapIntensity=rain?1.2:0.3;roadMat.metalness=rain?0.15:0;}
   envScale=e.env*(rain?0.75:1);applyEnvMaterials();
   rainLines.visible=rain;
   GRIP_ENV=rain?0.78:1;if(N)computeProfile();colorRacingLine();
@@ -1372,10 +1378,14 @@ function updateCars(dt,now){
       const fw=(dx*Math.sin(car.th)+dz*Math.cos(car.th))/l,el=camera.position.y/Math.hypot(l,camera.position.y),lit=S.tod==='night'?0.5:S.tod==='sunset'?0.8:(isRain()?0.75:1);
       const relYaw=wrapA(Math.atan2(dx,dz)-car.th);
       for(const [imp,dir] of [[m.rear,-1],[m.front,1]]){if(!imp)continue;
-        const k=cam?clamp((dir*fw-0.76)/0.1,0,1)*clamp((0.62-el)/0.2,0,1):0;
-        imp.visible=k>0.01;if(!imp.visible)continue;
-        const want=dir<0?wrapA(relYaw-Math.PI):relYaw;imp.rotation.y=imp.userData.base+clamp(want,-0.55,0.55);
-        imp.material.opacity=k;imp.material.depthWrite=k>0.98;imp.material.color.setScalar(lit);}}
+        const k=cam&&state!=='menu'?clamp((dir*fw-0.93)/0.02,0,1)*clamp((0.5-el)/0.12,0,1):0;
+        imp.material.userData.k=k;imp.visible=k>0.01;if(!imp.visible)continue;
+        const want=dir<0?wrapA(relYaw-Math.PI):relYaw;imp.rotation.y=imp.userData.base+clamp(want,-0.3,0.3);
+        imp.material.opacity=1;imp.material.depthWrite=true;imp.material.color.setScalar(lit);}
+      // rasm ko'rinsa 3D modelni yashiramiz — ikki mashina ustma-ust chiqmasin
+      const imgOn=(m.rear&&m.rear.visible&&m.rear.material.userData.k>0.5)||(m.front&&m.front.visible&&m.front.material.userData.k>0.5);
+      for(const ch of m.g.children)if(ch!==m.rear&&ch!==m.front)ch.visible=!imgOn;
+      if(m.rear)m.rear.visible=m.rear.visible&&m.rear.material.userData.k>0.5;if(m.front)m.front.visible=m.front.visible&&m.front.material.userData.k>0.5;}
     // osma: ozgina balandlik va titrash (yerga yopishib qolmasin)
     {const curb=Math.abs(car.lat)>HALF_W-0.3&&Math.abs(car.lat)<HALF_W+CURB_W+0.3,sp2=Math.min(1,car.speed/50);
      m.g.position.y=0.025+Math.sin(now*0.047+car.x)*0.006*sp2+(curb&&car.speed>8?(Math.random()-0.5)*0.035:0);}
