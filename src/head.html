@@ -261,6 +261,11 @@ img.pav{width:58px;height:58px;border-radius:14px;object-fit:cover;box-shadow:0 
 #ckGear{position:absolute;left:0;right:0;top:18%;font-size:.62em;font-weight:900;line-height:1}
 #ckSpd{position:absolute;left:6%;bottom:6%;font-size:.24em;font-weight:900;font-variant-numeric:tabular-nums}
 #ckDash small{position:absolute;left:6%;bottom:-1%;font-size:.1em;opacity:.7;font-weight:800}
+
+/* joystik / Android TV: tanlangan tugma faqat pult bilan boshqarilganda ko'rinadi */
+body.padnav #controls{display:none!important}
+body.padnav .padfocus{box-shadow:0 0 0 3px #ffd23f,0 0 22px rgba(255,210,63,.55)!important;transform:scale(1.04);z-index:2;position:relative;transition:transform .12s,box-shadow .12s}
+.padhelp{white-space:pre-line;font-size:13px;line-height:1.55;opacity:.85;background:rgba(255,255,255,.05);border-radius:12px;padding:10px 12px;margin-top:6px}
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
@@ -367,6 +372,9 @@ img.pav{width:58px;height:58px;border-radius:14px;object-fit:cover;box-shadow:0 
         <button class="tog" data-key="line"><span><span data-i18n="line"></span><small data-i18n="line_d"></small></span><i></i></button>
         <button class="tog" data-key="vib"><span data-i18n="vib"></span><i></i></button>
         <button class="tog" data-key="sound"><span data-i18n="sound"></span><i></i></button>
+        <div class="lbl" data-i18n="pad">Joystik</div>
+        <div class="seg" data-key="padSens"><button data-v="0.8" data-i18n="small"></button><button data-v="1" data-i18n="normal"></button><button data-v="1.25" data-i18n="large"></button></div>
+        <div class="padhelp" data-i18n="pad_help"></div>
       </div>
     </div>
     <div class="pfoot"><button class="big ui" id="btnStart" data-i18n="start">START</button></div>

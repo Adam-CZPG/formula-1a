@@ -261,6 +261,11 @@ img.pav{width:58px;height:58px;border-radius:14px;object-fit:cover;box-shadow:0 
 #ckGear{position:absolute;left:0;right:0;top:18%;font-size:.62em;font-weight:900;line-height:1}
 #ckSpd{position:absolute;left:6%;bottom:6%;font-size:.24em;font-weight:900;font-variant-numeric:tabular-nums}
 #ckDash small{position:absolute;left:6%;bottom:-1%;font-size:.1em;opacity:.7;font-weight:800}
+
+/* joystik / Android TV: tanlangan tugma faqat pult bilan boshqarilganda ko'rinadi */
+body.padnav #controls{display:none!important}
+body.padnav .padfocus{box-shadow:0 0 0 3px #ffd23f,0 0 22px rgba(255,210,63,.55)!important;transform:scale(1.04);z-index:2;position:relative;transition:transform .12s,box-shadow .12s}
+.padhelp{white-space:pre-line;font-size:13px;line-height:1.55;opacity:.85;background:rgba(255,255,255,.05);border-radius:12px;padding:10px 12px;margin-top:6px}
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
@@ -367,6 +372,9 @@ img.pav{width:58px;height:58px;border-radius:14px;object-fit:cover;box-shadow:0 
         <button class="tog" data-key="line"><span><span data-i18n="line"></span><small data-i18n="line_d"></small></span><i></i></button>
         <button class="tog" data-key="vib"><span data-i18n="vib"></span><i></i></button>
         <button class="tog" data-key="sound"><span data-i18n="sound"></span><i></i></button>
+        <div class="lbl" data-i18n="pad">Joystik</div>
+        <div class="seg" data-key="padSens"><button data-v="0.8" data-i18n="small"></button><button data-v="1" data-i18n="normal"></button><button data-v="1.25" data-i18n="large"></button></div>
+        <div class="padhelp" data-i18n="pad_help"></div>
       </div>
     </div>
     <div class="pfoot"><button class="big ui" id="btnStart" data-i18n="start">START</button></div>
@@ -704,7 +712,7 @@ if(isTouch){document.body.classList.add('touch');$('#controls').style.display='b
 // ---------- sozlamalar va saqlash ----------
 const store={get(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d;}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
 const DEF={lang:'uz',track:0,mode:'race',tod:'day',weather:'dry',diff:1,opp:3,quality:isTouch?'med':'high',livery:0,color:null,num:7,
-  tilt:false,tiltInv:false,autoGas:false,brakeAssist:false,line:false,vib:true,sound:true,btn:1};
+  tilt:false,tiltInv:false,autoGas:false,brakeAssist:false,line:false,vib:true,sound:true,btn:1,padSens:1};
 const S=Object.assign({},DEF,store.get('f1a_set',{}));
 const saveS=()=>store.set('f1a_set',S);
 
@@ -1657,7 +1665,8 @@ function thump(str){if(!actx||str<=0)return;const s=actx.createBufferSource();s.
   s.connect(f);f.connect(g);g.connect(snd.master);s.start(t,Math.random()*1.5,0.4);}
 const GEARS=[0,27,38,47,56,64,72,81,99];
 function gearInfo(v){v=Math.abs(v);let g=1;while(g<8&&v>=GEARS[g])g++;const lo=GEARS[g-1],hi=GEARS[g];return {g,rpm:clamp(0.28+0.72*(v-lo)/(hi-lo),0.28,1)};}
-function vibrate(p){if(S.vib&&navigator.vibrate)try{navigator.vibrate(p);}catch(e){}}
+function vibrate(p){if(typeof padRumble==='function'&&PAD.active){const ms=Array.isArray(p)?p.filter((x,i)=>i%2===0).reduce((a,b)=>a+b,0):p;if(ms>=20)padRumble(ms,Math.min(1,0.35+ms/200));}
+  if(S.vib&&navigator.vibrate)try{navigator.vibrate(p);}catch(e){}}
 
 // ======================= BOSHQARUV =======================
 const keys={};let drsPressed=false;
@@ -1674,7 +1683,7 @@ const tbtns={left:$('#bLeft'),right:$('#bRight'),brake:$('#bBrake'),gas:$('#bGas
 const touchIn={left:false,right:false,gas:false,brake:false,drs:false};
 // --- 360° kamera: ekranni tortib aylantirish ---
 let dragYaw=0,dragPitch=0,dragActive=false,dragIdle=9,dragId=null,dragLX=0,dragLY=0,menuA=0;
-function dragStart(x,y,id){dragId=id;dragLX=x;dragLY=y;dragActive=true;dragIdle=0;}
+function dragStart(x,y,id){if(state!=='menu')return;dragId=id;dragLX=x;dragLY=y;dragActive=true;dragIdle=0;}
 function dragMove(x,y){const dx=x-dragLX,dy=y-dragLY;dragLX=x;dragLY=y;dragYaw-=dx*0.009;dragPitch=clamp(dragPitch+dy*0.005,-0.3,1.0);dragIdle=0;}
 function dragEnd(){dragActive=false;dragId=null;dragIdle=0;}
 renderer.domElement.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;dragStart(e.clientX,e.clientY,'m');});
@@ -1698,7 +1707,7 @@ function handleTouches(e){
 for(const ev of['touchstart','touchmove','touchend','touchcancel'])document.addEventListener(ev,handleTouches,{passive:false});
 for(const ev of['contextmenu','selectstart','dragstart','gesturestart','dblclick'])document.addEventListener(ev,e=>e.preventDefault());
 function getInput(){return{left:keys.ArrowLeft||keys.KeyA||touchIn.left,right:keys.ArrowRight||keys.KeyD||touchIn.right,
-  gas:keys.ArrowUp||keys.KeyW||touchIn.gas,brake:keys.ArrowDown||keys.KeyS||keys.Space||touchIn.brake};}
+  gas:keys.ArrowUp||keys.KeyW||touchIn.gas,brake:keys.ArrowDown||keys.KeyS||keys.Space||touchIn.brake||PAD.brakeBtn};}
 // giroskop
 let tiltRaw=0,tiltListening=false;
 function onMotion(e){const a=e.accelerationIncludingGravity;if(!a||a.x==null)return;
@@ -1861,11 +1870,13 @@ function simStep(h){
     updateAero(car,cars,drsMode);
     if(!racing){car.throttle=0;car.brake=0;car.steerIn=0;continue;}
     if(car===player&&!car.finished){
-      const tgt=(S.tilt&&tiltListening)?tiltSteer():(inp.left?1:0)-(inp.right?1:0);
-      const rate=(Math.abs(tgt)<Math.abs(steerRamp)||Math.sign(tgt)!==Math.sign(steerRamp))?7:3.4;
+      const dig=(inp.left?1:0)-(inp.right?1:0),usePad=!dig&&padRecent();
+      const tgt=usePad?PAD.steer:(S.tilt&&tiltListening)?tiltSteer():dig;
+      // joystik: analog rul — tez, lekin silliq; tugmalar: eski rampa
+      const rate=usePad?16:(Math.abs(tgt)<Math.abs(steerRamp)||Math.sign(tgt)!==Math.sign(steerRamp))?7:3.4;
       steerRamp+=clamp(tgt-steerRamp,-rate*h,rate*h);
-      let thr=inp.gas?1:0,br=inp.brake?1:0;
-      if(S.autoGas&&!br)thr=1;
+      let thr=Math.max(inp.gas?1:0,PAD.active?PAD.rt:0),br=Math.max(inp.brake?1:0,PAD.active?PAD.lt:0);
+      if(S.autoGas&&br<0.05)thr=1;
       if(S.brakeAssist){const vt=assistTarget(car),sp=car.speed;if(sp>vt+0.5){thr=0;br=Math.max(br,clamp((sp-vt)*0.3,0.25,1));}}
       car.steerIn=steerRamp;car.throttle=thr;car.brake=br;
       if(drsPressed){if(car.drs)car.drs=false;else if(car.drsAvail&&DRSZ[car.idx])car.drs=true;}
@@ -2045,16 +2056,18 @@ function updateCamera(dt,now){
     if(W>H)camera.setViewOffset(W,H,-W*0.21,-H*(showroomOn?0.16:0),W,H);else camera.setViewOffset(W,H,0,H*0.24,W,H);
     camYaw=c.th;camera.fov=55;camera.updateProjectionMatrix();return;}
   if(camera.view&&camera.view.enabled)camera.clearViewOffset();
-  let target=c.th;
-  if(sp>3&&c.vLong>0){const vh=Math.atan2(c.vx,c.vz);target=c.th+wrapA(vh-c.th)*0.35;}
-  camYaw+=wrapA(target-camYaw)*(1-Math.exp(-dt*6));
-  const fx=Math.sin(camYaw),fz=Math.cos(camYaw),yaw=camYaw+dragYaw,ox=Math.sin(yaw),oz=Math.cos(yaw);
-  if(camMode<2){const M=camMode===0?{d:6.6,h:1.95,l:0.95}:{d:10.5,h:3.5,l:1.15};const d=M.d+sp*0.012,R=Math.hypot(d,M.h);
-    const el=clamp(Math.atan2(M.h,d)+dragPitch,0.03,1.35);
-    camera.position.set(c.x-ox*R*Math.cos(el),Math.max(0.35,R*Math.sin(el)),c.z-oz*R*Math.cos(el));
-    const ahead=5*Math.max(0,Math.cos(dragYaw));tmpV.set(c.x+fx*ahead,M.l,c.z+fz*ahead);}
-  else{const s=Math.sin(c.th),co=Math.cos(c.th),ls=Math.sin(c.th+dragYaw),lc=Math.cos(c.th+dragYaw);
-    camera.position.set(c.x-s*0.05,1.02,c.z-co*0.05);tmpV.set(camera.position.x+ls*14,-2.6-dragPitch*8,camera.position.z+lc*14);}
+  // F1 o'yinlaridagidek: kamera mashina orqasiga qattiq bog'langan, sirpanishda ham burilib ketmaydi.
+  // Faqat juda kichik kechikish (maks ~5°) — harakat sezilishi uchun.
+  dragYaw=0;dragPitch=0;
+  const lag=wrapA(c.th-camYaw);camYaw+=lag*(1-Math.exp(-dt*14));
+  {const MAXL=0.09,l2=wrapA(c.th-camYaw);if(l2>MAXL)camYaw=c.th-MAXL;else if(l2<-MAXL)camYaw=c.th+MAXL;}
+  const back=!!(PAD.lookBack||keys.KeyB);
+  const yaw=camYaw+(back?Math.PI:0),fx=Math.sin(yaw),fz=Math.cos(yaw);
+  if(camMode<2){const M=camMode===0?{d:6.6,h:1.95,l:0.95}:{d:10.5,h:3.5,l:1.15};const d=M.d+sp*0.012;
+    camera.position.set(c.x-fx*d,M.h,c.z-fz*d);
+    tmpV.set(c.x+fx*5,M.l,c.z+fz*5);}
+  else{const s=Math.sin(c.th),co=Math.cos(c.th),ls=Math.sin(c.th+(back?Math.PI:0)),lc=Math.cos(c.th+(back?Math.PI:0));
+    camera.position.set(c.x-s*0.05,1.02,c.z-co*0.05);tmpV.set(camera.position.x+ls*14,-2.6,camera.position.z+lc*14);}
   if(shake>0){const k=shake*0.35;camera.position.x+=(Math.random()-0.5)*k;camera.position.y+=(Math.random()-0.5)*k;camera.position.z+=(Math.random()-0.5)*k;shake=Math.max(0,shake-dt*2.5);}
   camera.lookAt(tmpV);
   const fov=62+Math.min(26,sp*0.28);
@@ -2244,7 +2257,7 @@ uz:{tab_race:'Poyga',tab_garage:'Garaj',tab_shop:'Do‘kon',tab_pilots:'Pilotlar
  p_speed:'Tezlik',p_corner:'Burilish',p_rain:'Yomg‘ir',p_tyres:'Shina',pilot_bonus:'Bonus: tezlik +{a}% · burilish +{b}% · yomg‘ir +{c}% · eskirish −{d}%',
  lang:'Til',diff:'Qiyinlik',easy:'Oson',medium:'O‘rta',hard:'Qiyin',opp:'Raqiblar soni',quality:'Grafika sifati',low:'Past',mid:'O‘rta',high:'Yuqori',btnsize:'Tugmalar o‘lchami',small:'Kichik',normal:'O‘rta',large:'Katta',
  assists:'Boshqaruv va yordamchilar',tilt:'Telefonni egib boshqarish',tilt_d:'Giroskop (rul tugmalari yashiriladi)',tiltInv:'Egishni teskari qilish',autoGas:'Avto-gaz',autoGas_d:'Faqat rul va tormoz kerak',
- brakeAssist:'Tormoz yordamchisi',brakeAssist_d:'Burilishdan oldin o‘zi sekinlashtiradi',line:'Poyga chizig‘i',line_d:'Yashil — gaz, sariq — burilish, qizil — tormoz',vib:'Vibratsiya',sound:'Ovoz',
+ pad:'Joystik: rul sezgirligi',pad_help:'Chap stik / D-pad — rul\nRT — gaz, LT — tormoz (X ham tormoz)\nA — DRS, RB — PIT, Y — kamera\nB (ushlab turing) — orqaga qarash\nLB — trassaga qaytish, Start — pauza\nMenyuda: D-pad — tanlash, A — OK, B — orqaga, LB/RB — bo‘limlar',brakeAssist:'Tormoz yordamchisi',brakeAssist_d:'Burilishdan oldin o‘zi sekinlashtiradi',line:'Poyga chizig‘i',line_d:'Yashil — gaz, sariq — burilish, qizil — tormoz',vib:'Vibratsiya',sound:'Ovoz',
  h_pos:'O‘RIN',h_lap:'AYLANA',h_time:'VAQT',h_best:'ENG YAXSHI',h_delta:'FARQ',h_tyre:'SHINA',kmh:'KM/S',wrong:'⟲ NOTO‘G‘RI YO‘NALISH',b_brake:'TORMOZ',b_gas:'GAZ',
  pause:'PAUZA',resume:'DAVOM ETISH',restart:'Qayta boshlash',main_menu:'Bosh menyu',snd_on:'Ovoz: yoqilgan',snd_off:'Ovoz: o‘chirilgan',
  win:'G‘ALABA! 🏆',pos_n:'FINISH · {n}-O‘RIN',pilot:'PILOT',time:'VAQT',on_track:'trassada',best_you:'Eng yaxshi aylanangiz',
@@ -2266,7 +2279,7 @@ ru:{tab_race:'Гонка',tab_garage:'Гараж',tab_shop:'Магазин',tab_
  p_speed:'Скорость',p_corner:'Повороты',p_rain:'Дождь',p_tyres:'Шины',pilot_bonus:'Бонус: скорость +{a}% · повороты +{b}% · дождь +{c}% · износ −{d}%',
  lang:'Язык',diff:'Сложность',easy:'Легко',medium:'Средне',hard:'Сложно',opp:'Соперников',quality:'Графика',low:'Низко',mid:'Средне',high:'Высоко',btnsize:'Размер кнопок',small:'Мал.',normal:'Сред.',large:'Бол.',
  assists:'Управление и помощники',tilt:'Управление наклоном',tilt_d:'Гироскоп (кнопки руля скрыты)',tiltInv:'Инвертировать наклон',autoGas:'Авто-газ',autoGas_d:'Нужны только руль и тормоз',
- brakeAssist:'Помощь торможения',brakeAssist_d:'Сам замедляет перед поворотом',line:'Гоночная линия',line_d:'Зелёный — газ, жёлтый — поворот, красный — тормоз',vib:'Вибрация',sound:'Звук',
+ pad:'Геймпад: чувствительность руля',pad_help:'Левый стик / D-pad — руль\nRT — газ, LT — тормоз (X тоже тормоз)\nA — DRS, RB — PIT, Y — камера\nB (удерживать) — взгляд назад\nLB — вернуть на трассу, Start — пауза\nВ меню: D-pad — выбор, A — OK, B — назад, LB/RB — вкладки',brakeAssist:'Помощь торможения',brakeAssist_d:'Сам замедляет перед поворотом',line:'Гоночная линия',line_d:'Зелёный — газ, жёлтый — поворот, красный — тормоз',vib:'Вибрация',sound:'Звук',
  h_pos:'МЕСТО',h_lap:'КРУГ',h_time:'ВРЕМЯ',h_best:'ЛУЧШИЙ',h_delta:'РАЗНИЦА',h_tyre:'ШИНЫ',kmh:'КМ/Ч',wrong:'⟲ НЕВЕРНОЕ НАПРАВЛЕНИЕ',b_brake:'ТОРМОЗ',b_gas:'ГАЗ',
  pause:'ПАУЗА',resume:'ПРОДОЛЖИТЬ',restart:'Заново',main_menu:'Главное меню',snd_on:'Звук: вкл',snd_off:'Звук: выкл',
  win:'ПОБЕДА! 🏆',pos_n:'ФИНИШ · {n}-Е МЕСТО',pilot:'ПИЛОТ',time:'ВРЕМЯ',on_track:'на трассе',best_you:'Ваш лучший круг',
@@ -2288,7 +2301,7 @@ en:{tab_race:'Race',tab_garage:'Garage',tab_shop:'Shop',tab_pilots:'Drivers',tab
  p_speed:'Speed',p_corner:'Cornering',p_rain:'Wet',p_tyres:'Tyres',pilot_bonus:'Bonus: speed +{a}% · cornering +{b}% · wet +{c}% · wear −{d}%',
  lang:'Language',diff:'Difficulty',easy:'Easy',medium:'Medium',hard:'Hard',opp:'Opponents',quality:'Graphics',low:'Low',mid:'Medium',high:'High',btnsize:'Button size',small:'Small',normal:'Normal',large:'Large',
  assists:'Controls & assists',tilt:'Tilt steering',tilt_d:'Gyroscope (steer buttons hidden)',tiltInv:'Invert tilt',autoGas:'Auto throttle',autoGas_d:'Only steering and brake needed',
- brakeAssist:'Brake assist',brakeAssist_d:'Slows down before corners',line:'Racing line',line_d:'Green — throttle, yellow — corner, red — brake',vib:'Vibration',sound:'Sound',
+ pad:'Gamepad: steering sensitivity',pad_help:'Left stick / D-pad — steer\nRT — throttle, LT — brake (X also brakes)\nA — DRS, RB — PIT, Y — camera\nB (hold) — look back\nLB — reset to track, Start — pause\nIn menus: D-pad — move, A — OK, B — back, LB/RB — tabs',brakeAssist:'Brake assist',brakeAssist_d:'Slows down before corners',line:'Racing line',line_d:'Green — throttle, yellow — corner, red — brake',vib:'Vibration',sound:'Sound',
  h_pos:'POS',h_lap:'LAP',h_time:'TIME',h_best:'BEST',h_delta:'DELTA',h_tyre:'TYRE',kmh:'KM/H',wrong:'⟲ WRONG WAY',b_brake:'BRAKE',b_gas:'GAS',
  pause:'PAUSED',resume:'RESUME',restart:'Restart',main_menu:'Main menu',snd_on:'Sound: on',snd_off:'Sound: off',
  win:'VICTORY! 🏆',pos_n:'FINISH · P{n}',pilot:'DRIVER',time:'TIME',on_track:'on track',best_you:'Your best lap',
@@ -2487,6 +2500,132 @@ function rewardsHTML(r){
     <div class="rrow"><span>⭐ XP</span><b>+${r.xp}</b></div>${r.lvlUp?`<div class="lvlup">${t('lvl_up',{n:PR.level})}</div>`:''}
     <button class="sbtn ui gold wide" id="bX2">${t('x2')}</button></div>`;
 }
+
+// ======================= JOYSTIK (GAMEPAD) VA ANDROID TV =======================
+// Manbalar: brauzer Gamepad API + APK ichida MainActivity yuboradigan native holat (F1aPad.native).
+// Standart (Xbox) tartib: 0 A,1 B,2 X,3 Y,4 LB,5 RB,6 LT,7 RT,8 Back,9 Start,10 LS,11 RS,12-15 D-pad, 16 Home
+const PAD={nb:{},nax:{lx:0,ly:0,lt:0,rt:0,hx:0,hy:0},b:new Array(17).fill(0),pb:new Array(17).fill(0),
+  lx:0,ly:0,lt:0,rt:0,steer:0,active:false,lastUse:-1e9,focus:null,repT:0,repDir:null,lookBack:false,brakeBtn:false,gas:false};
+const NB_IDX={A:0,B:1,X:2,Y:3,LB:4,RB:5,LT:6,RT:7,BACK:8,START:9,LS:10,RS:11,UP:12,DOWN:13,LEFT:14,RIGHT:15,HOME:16};
+window.F1aPad={
+  native(d){if(!d)return;
+    if(d.t==='axes'){for(const k in d)if(k!=='t')PAD.nax[k]=+d[k]||0;}
+    else if(d.t==='key'&&NB_IDX[d.b]!=null){PAD.nb[NB_IDX[d.b]]=d.down?1:0;}
+    else if(d.t==='reset'){PAD.nb={};for(const k in PAD.nax)PAD.nax[k]=0;}
+  },
+  back(){try{return padBack();}catch(e){return false;}}
+};
+const big=(a,b)=>Math.abs(b)>Math.abs(a)?b:a;
+function readPad(){
+  const b=PAD.b;PAD.pb.splice(0,17,...b);b.fill(0);let lx=0,ly=0;
+  const gps=navigator.getGamepads?navigator.getGamepads():[];
+  for(const g of gps){if(!g||!g.connected)continue;
+    const n=g.mapping==='standard'?17:12;
+    for(let i=0;i<Math.min(n,g.buttons.length);i++){const x=g.buttons[i];b[i]=Math.max(b[i],typeof x==='object'?(x.value||(x.pressed?1:0)):+x);}
+    lx=big(lx,g.axes[0]||0);ly=big(ly,g.axes[1]||0);
+    if(g.mapping!=='standard'&&g.axes.length>=10){const h=g.axes[9];if(h>-1.1&&h<1.1&&Math.abs(h)<=1){/* ba'zi pultlarda hat 9-o'qda */
+      const k=Math.round((h+1)/2*7);if(h<-0.9)b[12]=1;else if(k===1)b[15]=1;else if(k===3)b[13]=1;else if(k===5)b[14]=1;}}}
+  for(const i in PAD.nb)b[i]=Math.max(b[i],PAD.nb[i]);
+  const N=PAD.nax;lx=big(lx,N.lx);ly=big(ly,N.ly);
+  if(N.hx<-0.5)b[14]=1;if(N.hx>0.5)b[15]=1;if(N.hy<-0.5)b[12]=1;if(N.hy>0.5)b[13]=1;
+  b[6]=Math.max(b[6],N.lt);b[7]=Math.max(b[7],N.rt);
+  // radial o'lik zona + chiziqli qayta masshtab
+  const m=Math.hypot(lx,ly),DZ=0.12;
+  if(m<DZ){lx=0;ly=0;}else{const k=(Math.min(1,m)-DZ)/(1-DZ)/m;lx*=k;ly*=k;}
+  PAD.lx=lx;PAD.ly=ly;
+  const tz=v=>v<0.04?0:Math.min(1,(v-0.04)/0.94);PAD.lt=tz(b[6]);PAD.rt=tz(b[7]);
+  let used=Math.abs(lx)>0.2||Math.abs(ly)>0.2||PAD.lt>0.1||PAD.rt>0.1;for(let i=0;i<17;i++)if(b[i]>0.5&&i!==6&&i!==7)used=true;
+  if(used){PAD.lastUse=performance.now();if(!PAD.active){PAD.active=true;document.body.classList.add('padnav');}}
+}
+const padHit=i=>PAD.b[i]>0.5&&PAD.pb[i]<=0.5;
+// ---------- menyuda yo'nalish bo'yicha harakat (spatial navigation) ----------
+function navRoot(){
+  for(const s of['#adov','#crate','#finish','#pause','#prerace']){const e=$(s);if(e&&!e.classList.contains('hidden'))return e;}
+  return state==='menu'?$('#menu'):null;
+}
+function navItems(root){return [...root.querySelectorAll('button')].filter(b=>{if(b.disabled||!b.offsetParent)return false;
+  const r=b.getBoundingClientRect();return r.width>4&&r.height>4&&getComputedStyle(b).visibility!=='hidden';});}
+function setFocus(el){if(PAD.focus)PAD.focus.classList.remove('padfocus');PAD.focus=el;
+  if(el){el.classList.add('padfocus');try{el.scrollIntoView({block:'nearest',inline:'nearest'});}catch(e){}}}
+function ensureFocus(root){const it=navItems(root);if(PAD.focus&&it.includes(PAD.focus))return it;
+  const pref=root.querySelector('#btnGo,#btnResume,#btnNext,#btnCrateOk,#btnStart');
+  setFocus(pref&&it.includes(pref)?pref:it[0]||null);return it;}
+function navMove(dx,dy){
+  const root=navRoot();if(!root)return;const it=ensureFocus(root);if(!PAD.focus)return;
+  const a=PAD.focus.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2;let best=null,bs=1e9;
+  for(const el of it){if(el===PAD.focus)continue;const r=el.getBoundingClientRect();
+    // eng yaqin chekka nuqtasiga masofa (keng tugmalar uchun to'g'riroq)
+    const cx=r.left+r.width/2,cy=r.top+r.height/2;
+    const px=dx?(cx-ax)*dx:(cy-ay)*dy;if(px<=2)continue;
+    const ortho=dx?Math.max(0,Math.max(r.top-a.bottom,a.top-r.bottom)):Math.max(0,Math.max(r.left-a.right,a.left-r.right));
+    const s=px+ortho*3+(dx?Math.abs(cy-ay)*0.3:Math.abs(cx-ax)*0.3);if(s<bs){bs=s;best=el;}}
+  if(best){setFocus(best);vibrate(8);}
+}
+function navActivate(){const root=navRoot();if(!root)return;ensureFocus(root);if(PAD.focus){initAudio();PAD.focus.click();vibrate(15);
+  setTimeout(()=>{const r=navRoot();if(r)ensureFocus(r);},60);}}
+function navTab(d){if(state!=='menu'||navRoot()!==$('#menu'))return;const bs=$$('#tabs button'),i=bs.findIndex(b=>b.classList.contains('on'));
+  const n=bs[(i+d+bs.length)%bs.length];n.click();setFocus(n);}
+function padBack(){
+  if(state==='race'||state==='countdown'){togglePause();return true;}
+  const vis=s=>{const e=$(s);return e&&!e.classList.contains('hidden');};
+  if(vis('#adov'))return true;
+  if(vis('#crate')){$('#btnCrateOk').click();return true;}
+  if(vis('#pause')){togglePause();return true;}
+  if(vis('#finish')){$('#btnFinMenu').click();return true;}
+  if(vis('#prerace')){$('#btnPreBack').click();return true;}
+  if(state==='finished'){goMenu();return true;}
+  if(state==='menu'&&menuTab!=='race'){const b=$('#tabs button[data-tab="race"]');b.click();setFocus(b);return true;}
+  return false;
+}
+// klaviatura / TV pult (D-pad + OK + Orqaga) menyularda
+addEventListener('keydown',e=>{
+  const root=navRoot();if(!root)return;
+  const d={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]}[e.code]||({38:[0,-1],40:[0,1],37:[-1,0],39:[1,0]})[e.keyCode];
+  if(d){e.preventDefault();e.stopImmediatePropagation();if(!PAD.active){PAD.active=true;document.body.classList.add('padnav');}
+    if(!PAD.focus||!navItems(root).includes(PAD.focus))ensureFocus(root);else navMove(d[0],d[1]);return;}
+  if(e.code==='Enter'||e.code==='NumpadEnter'||e.keyCode===13||e.keyCode===23){e.preventDefault();navActivate();return;}
+  if(e.code==='Backspace'||e.code==='BrowserBack'||e.code==='Escape'){e.preventDefault();e.stopImmediatePropagation();padBack();}
+},true);
+addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'&&PAD.active&&performance.now()-PAD.lastUse>1500){PAD.active=false;document.body.classList.remove('padnav');setFocus(null);}},true);
+let padRumbleLeft=0;
+function padRumble(ms,strong=0.7){if(!PAD.active||!S.vib)return;ms=Math.min(400,ms);
+  for(const g of(navigator.getGamepads?navigator.getGamepads():[])){if(!g)continue;const a=g.vibrationActuator;
+    if(a&&a.playEffect)try{a.playEffect('dual-rumble',{duration:ms,strongMagnitude:strong,weakMagnitude:Math.min(1,strong+0.2)});}catch(e){}}
+  try{const P=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.F1aNative;if(P)P.rumble({ms:ms|0,strong}).catch(()=>{});}catch(e){}}
+
+function padTick(dt){
+  readPad();
+  if(!PAD.active)return;
+  const b=PAD.b,root=navRoot(),driving=!root&&(state==='race'||state==='countdown'||state==='finished');
+  if(!driving){
+    PAD.lookBack=false;PAD.steer=0;
+    if(!root)return;
+    let dir=null;
+    if(b[12]>0.5||PAD.ly<-0.6)dir=[0,-1];else if(b[13]>0.5||PAD.ly>0.6)dir=[0,1];else if(b[14]>0.5||PAD.lx<-0.6)dir=[-1,0];else if(b[15]>0.5||PAD.lx>0.6)dir=[1,0];
+    const key=dir?dir.join():null;
+    if(key!==PAD.repDir){PAD.repDir=key;PAD.repT=0.38;if(dir)navMove(dir[0],dir[1]);}
+    else if(dir){PAD.repT-=dt;if(PAD.repT<=0){PAD.repT=0.12;navMove(dir[0],dir[1]);}}
+    if(!PAD.focus||!PAD.focus.isConnected||!PAD.focus.offsetParent)ensureFocus(root);
+    if(padHit(0))navActivate();
+    if(padHit(1)||padHit(8))padBack();
+    if(padHit(9)){const p=root.querySelector('#btnGo,#btnResume,#btnNext,#btnCrateOk,#btnStart');if(p&&p.offsetParent){initAudio();p.click();}}
+    if(padHit(4))navTab(-1);if(padHit(5))navTab(1);
+    return;
+  }
+  if(PAD.focus)setFocus(null);PAD.repDir='x';
+  // poyga: F1 uslubidagi tartib
+  let st=-PAD.lx;if(b[14]>0.5)st=1;else if(b[15]>0.5)st=-1;
+  const sens=S.padSens||1,lin=S.padLin!=null?S.padLin:1.4;
+  PAD.steer=clamp(Math.sign(st)*Math.pow(Math.abs(st),lin)*sens,-1,1);
+  PAD.brakeBtn=b[2]>0.5;PAD.lookBack=b[1]>0.5;
+  if(padHit(3))cycleCam();
+  if(padHit(0))drsPressed=true;
+  if(padHit(5))togglePit();
+  if(padHit(4))manualReset();
+  if(padHit(9)||padHit(8))togglePause();
+}
+function padRecent(){return PAD.active&&performance.now()-PAD.lastUse<4000;}
+window.F1aDbg=()=>({focus:PAD.focus&&(PAD.focus.id||PAD.focus.className),state,menuTab,sp:player&&player.speed,steer:player&&player.steerIn,thr:player&&player.throttle,camErr:player?wrapA(player.th-camYaw):0});
 // ======================= ISHGA TUSHIRISH =======================
 applyQuality();
 loadTrackAndWorld(S.track);
@@ -2503,6 +2642,7 @@ function loop(now){
   fpsEMA=fpsEMA*0.95+Math.min(120,1/raw)*0.05;adaptT+=dt;
   if(adaptT>2&&(state==='race'||state==='countdown')){adaptT=0;const maxPR=Math.min(devicePixelRatio,QUAL[S.quality].pr);if(dynPR==null)dynPR=renderer.getPixelRatio();
     if(fpsEMA<32&&dynPR>0.7){dynPR=Math.max(0.7,dynPR-0.15);setPR(dynPR);}else if(fpsEMA>54&&dynPR<maxPR-0.01){dynPR=Math.min(maxPR,dynPR+0.1);setPR(dynPR);}}
+  padTick(dt);
   if(state!=='paused'){
     updateCountdown(dt);
     if(state!=='menu'){acc+=dt;let n=0;while(acc>=STEP&&n<14){simStep(STEP);acc-=STEP;n++;}if(n>=14)acc=0;}

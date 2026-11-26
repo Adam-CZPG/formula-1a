@@ -7,7 +7,7 @@ if(isTouch){document.body.classList.add('touch');$('#controls').style.display='b
 // ---------- sozlamalar va saqlash ----------
 const store={get(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d;}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
 const DEF={lang:'uz',track:0,mode:'race',tod:'day',weather:'dry',diff:1,opp:3,quality:isTouch?'med':'high',livery:0,color:null,num:7,
-  tilt:false,tiltInv:false,autoGas:false,brakeAssist:false,line:false,vib:true,sound:true,btn:1};
+  tilt:false,tiltInv:false,autoGas:false,brakeAssist:false,line:false,vib:true,sound:true,btn:1,padSens:1};
 const S=Object.assign({},DEF,store.get('f1a_set',{}));
 const saveS=()=>store.set('f1a_set',S);
 
@@ -960,7 +960,8 @@ function thump(str){if(!actx||str<=0)return;const s=actx.createBufferSource();s.
   s.connect(f);f.connect(g);g.connect(snd.master);s.start(t,Math.random()*1.5,0.4);}
 const GEARS=[0,27,38,47,56,64,72,81,99];
 function gearInfo(v){v=Math.abs(v);let g=1;while(g<8&&v>=GEARS[g])g++;const lo=GEARS[g-1],hi=GEARS[g];return {g,rpm:clamp(0.28+0.72*(v-lo)/(hi-lo),0.28,1)};}
-function vibrate(p){if(S.vib&&navigator.vibrate)try{navigator.vibrate(p);}catch(e){}}
+function vibrate(p){if(typeof padRumble==='function'&&PAD.active){const ms=Array.isArray(p)?p.filter((x,i)=>i%2===0).reduce((a,b)=>a+b,0):p;if(ms>=20)padRumble(ms,Math.min(1,0.35+ms/200));}
+  if(S.vib&&navigator.vibrate)try{navigator.vibrate(p);}catch(e){}}
 
 // ======================= BOSHQARUV =======================
 const keys={};let drsPressed=false;
@@ -977,7 +978,7 @@ const tbtns={left:$('#bLeft'),right:$('#bRight'),brake:$('#bBrake'),gas:$('#bGas
 const touchIn={left:false,right:false,gas:false,brake:false,drs:false};
 // --- 360° kamera: ekranni tortib aylantirish ---
 let dragYaw=0,dragPitch=0,dragActive=false,dragIdle=9,dragId=null,dragLX=0,dragLY=0,menuA=0;
-function dragStart(x,y,id){dragId=id;dragLX=x;dragLY=y;dragActive=true;dragIdle=0;}
+function dragStart(x,y,id){if(state!=='menu')return;dragId=id;dragLX=x;dragLY=y;dragActive=true;dragIdle=0;}
 function dragMove(x,y){const dx=x-dragLX,dy=y-dragLY;dragLX=x;dragLY=y;dragYaw-=dx*0.009;dragPitch=clamp(dragPitch+dy*0.005,-0.3,1.0);dragIdle=0;}
 function dragEnd(){dragActive=false;dragId=null;dragIdle=0;}
 renderer.domElement.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;dragStart(e.clientX,e.clientY,'m');});
@@ -1001,7 +1002,7 @@ function handleTouches(e){
 for(const ev of['touchstart','touchmove','touchend','touchcancel'])document.addEventListener(ev,handleTouches,{passive:false});
 for(const ev of['contextmenu','selectstart','dragstart','gesturestart','dblclick'])document.addEventListener(ev,e=>e.preventDefault());
 function getInput(){return{left:keys.ArrowLeft||keys.KeyA||touchIn.left,right:keys.ArrowRight||keys.KeyD||touchIn.right,
-  gas:keys.ArrowUp||keys.KeyW||touchIn.gas,brake:keys.ArrowDown||keys.KeyS||keys.Space||touchIn.brake};}
+  gas:keys.ArrowUp||keys.KeyW||touchIn.gas,brake:keys.ArrowDown||keys.KeyS||keys.Space||touchIn.brake||PAD.brakeBtn};}
 // giroskop
 let tiltRaw=0,tiltListening=false;
 function onMotion(e){const a=e.accelerationIncludingGravity;if(!a||a.x==null)return;
@@ -1164,11 +1165,13 @@ function simStep(h){
     updateAero(car,cars,drsMode);
     if(!racing){car.throttle=0;car.brake=0;car.steerIn=0;continue;}
     if(car===player&&!car.finished){
-      const tgt=(S.tilt&&tiltListening)?tiltSteer():(inp.left?1:0)-(inp.right?1:0);
-      const rate=(Math.abs(tgt)<Math.abs(steerRamp)||Math.sign(tgt)!==Math.sign(steerRamp))?7:3.4;
+      const dig=(inp.left?1:0)-(inp.right?1:0),usePad=!dig&&padRecent();
+      const tgt=usePad?PAD.steer:(S.tilt&&tiltListening)?tiltSteer():dig;
+      // joystik: analog rul — tez, lekin silliq; tugmalar: eski rampa
+      const rate=usePad?16:(Math.abs(tgt)<Math.abs(steerRamp)||Math.sign(tgt)!==Math.sign(steerRamp))?7:3.4;
       steerRamp+=clamp(tgt-steerRamp,-rate*h,rate*h);
-      let thr=inp.gas?1:0,br=inp.brake?1:0;
-      if(S.autoGas&&!br)thr=1;
+      let thr=Math.max(inp.gas?1:0,PAD.active?PAD.rt:0),br=Math.max(inp.brake?1:0,PAD.active?PAD.lt:0);
+      if(S.autoGas&&br<0.05)thr=1;
       if(S.brakeAssist){const vt=assistTarget(car),sp=car.speed;if(sp>vt+0.5){thr=0;br=Math.max(br,clamp((sp-vt)*0.3,0.25,1));}}
       car.steerIn=steerRamp;car.throttle=thr;car.brake=br;
       if(drsPressed){if(car.drs)car.drs=false;else if(car.drsAvail&&DRSZ[car.idx])car.drs=true;}
@@ -1348,16 +1351,18 @@ function updateCamera(dt,now){
     if(W>H)camera.setViewOffset(W,H,-W*0.21,-H*(showroomOn?0.16:0),W,H);else camera.setViewOffset(W,H,0,H*0.24,W,H);
     camYaw=c.th;camera.fov=55;camera.updateProjectionMatrix();return;}
   if(camera.view&&camera.view.enabled)camera.clearViewOffset();
-  let target=c.th;
-  if(sp>3&&c.vLong>0){const vh=Math.atan2(c.vx,c.vz);target=c.th+wrapA(vh-c.th)*0.35;}
-  camYaw+=wrapA(target-camYaw)*(1-Math.exp(-dt*6));
-  const fx=Math.sin(camYaw),fz=Math.cos(camYaw),yaw=camYaw+dragYaw,ox=Math.sin(yaw),oz=Math.cos(yaw);
-  if(camMode<2){const M=camMode===0?{d:6.6,h:1.95,l:0.95}:{d:10.5,h:3.5,l:1.15};const d=M.d+sp*0.012,R=Math.hypot(d,M.h);
-    const el=clamp(Math.atan2(M.h,d)+dragPitch,0.03,1.35);
-    camera.position.set(c.x-ox*R*Math.cos(el),Math.max(0.35,R*Math.sin(el)),c.z-oz*R*Math.cos(el));
-    const ahead=5*Math.max(0,Math.cos(dragYaw));tmpV.set(c.x+fx*ahead,M.l,c.z+fz*ahead);}
-  else{const s=Math.sin(c.th),co=Math.cos(c.th),ls=Math.sin(c.th+dragYaw),lc=Math.cos(c.th+dragYaw);
-    camera.position.set(c.x-s*0.05,1.02,c.z-co*0.05);tmpV.set(camera.position.x+ls*14,-2.6-dragPitch*8,camera.position.z+lc*14);}
+  // F1 o'yinlaridagidek: kamera mashina orqasiga qattiq bog'langan, sirpanishda ham burilib ketmaydi.
+  // Faqat juda kichik kechikish (maks ~5°) — harakat sezilishi uchun.
+  dragYaw=0;dragPitch=0;
+  const lag=wrapA(c.th-camYaw);camYaw+=lag*(1-Math.exp(-dt*14));
+  {const MAXL=0.09,l2=wrapA(c.th-camYaw);if(l2>MAXL)camYaw=c.th-MAXL;else if(l2<-MAXL)camYaw=c.th+MAXL;}
+  const back=!!(PAD.lookBack||keys.KeyB);
+  const yaw=camYaw+(back?Math.PI:0),fx=Math.sin(yaw),fz=Math.cos(yaw);
+  if(camMode<2){const M=camMode===0?{d:6.6,h:1.95,l:0.95}:{d:10.5,h:3.5,l:1.15};const d=M.d+sp*0.012;
+    camera.position.set(c.x-fx*d,M.h,c.z-fz*d);
+    tmpV.set(c.x+fx*5,M.l,c.z+fz*5);}
+  else{const s=Math.sin(c.th),co=Math.cos(c.th),ls=Math.sin(c.th+(back?Math.PI:0)),lc=Math.cos(c.th+(back?Math.PI:0));
+    camera.position.set(c.x-s*0.05,1.02,c.z-co*0.05);tmpV.set(camera.position.x+ls*14,-2.6,camera.position.z+lc*14);}
   if(shake>0){const k=shake*0.35;camera.position.x+=(Math.random()-0.5)*k;camera.position.y+=(Math.random()-0.5)*k;camera.position.z+=(Math.random()-0.5)*k;shake=Math.max(0,shake-dt*2.5);}
   camera.lookAt(tmpV);
   const fov=62+Math.min(26,sp*0.28);

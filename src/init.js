@@ -14,6 +14,7 @@ function loop(now){
   fpsEMA=fpsEMA*0.95+Math.min(120,1/raw)*0.05;adaptT+=dt;
   if(adaptT>2&&(state==='race'||state==='countdown')){adaptT=0;const maxPR=Math.min(devicePixelRatio,QUAL[S.quality].pr);if(dynPR==null)dynPR=renderer.getPixelRatio();
     if(fpsEMA<32&&dynPR>0.7){dynPR=Math.max(0.7,dynPR-0.15);setPR(dynPR);}else if(fpsEMA>54&&dynPR<maxPR-0.01){dynPR=Math.min(maxPR,dynPR+0.1);setPR(dynPR);}}
+  padTick(dt);
   if(state!=='paused'){
     updateCountdown(dt);
     if(state!=='menu'){acc+=dt;let n=0;while(acc>=STEP&&n<14){simStep(STEP);acc-=STEP;n++;}if(n>=14)acc=0;}

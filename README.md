@@ -11,7 +11,8 @@ Brauzerda (telefon va kompyuter) ishlaydigan 3D Formula‑1 poyga o‘yini. Thre
 - Realistik fizika: shina modeli, prijim kuchi, DRS, slipstream, traction control
 - Kun vaqti (kunduz / kechqurun / tun) va yomg‘ir
 - Garaj: 8 livreya, ranglar, raqam
-- 360° kamera (ekranni tortib aylantirish), 3 kamera rejimi
+- F1 uslubidagi kamera: poyga paytida mashina orqasiga qattiq bog'langan (sirpanishda burilib ketmaydi), 3 kamera rejimi, orqaga qarash (B)
+- Joystik (gamepad) va Android TV: analog rul, gaz/tormoz triggerlari, vibratsiya, menyularni pult bilan boshqarish
 - Telefon boshqaruvi: tugmalar yoki giroskop, avto‑gaz, tormoz yordamchisi
 - Uchqunlar, tutun, shina izlari, shikastlanish
 
@@ -37,6 +38,22 @@ Brauzerda (telefon va kompyuter) ishlaydigan 3D Formula‑1 poyga o‘yini. Thre
 | R | Trassaga qaytish |
 | P / Esc | Pauza |
 
+## Boshqaruv (joystik / Android TV)
+| Tugma | Vazifa |
+|---|---|
+| Chap stik / D-pad | Rul (analog) |
+| RT / LT | Gaz / tormoz (analog) |
+| X | Tormoz (triggersiz pultlar uchun) |
+| A | DRS |
+| RB | PIT so‘rash |
+| Y | Kamera |
+| B (ushlab turish) | Orqaga qarash |
+| LB | Trassaga qaytish |
+| Start / Back | Pauza |
+| Menyuda | D-pad — tanlash, A — OK, B — orqaga, LB/RB — bo‘limlar |
+
+TV pulti: strelkalar — tanlash, OK — bosish, Orqaga — pauza / orqaga (bosh menyuda 2 marta — chiqish).
+
 ## Tuzilma
 ```
 index.html        — tayyor o‘yin (build natijasi)
@@ -44,6 +61,7 @@ src/head.html     — HTML + CSS + interfeys
 src/sim.js        — trassalar va fizika (brauzersiz test qilinadi)
 src/game.js       — grafika, mashina, menyu, ovoz, rejimlar
 src/meta.js       — tillar, progress, do‘kon, pilotlar, reklama moduli
+src/pad.js        — joystik, TV pulti, menyu navigatsiyasi
 src/init.js       — ishga tushirish va asosiy sikl
 build.sh          — src/ dan index.html yig‘adi
 tests/            — fizika va ИИ simulyatsiya testi

@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
   echo "import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';"
   echo "import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';"
   echo "import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';"
-  cat src/assets.js src/sim.js src/game.js src/meta.js src/init.js
+  cat src/assets.js src/sim.js src/game.js src/meta.js src/pad.js src/init.js
   echo '</script>'
   echo '</body>'
   echo '</html>'
